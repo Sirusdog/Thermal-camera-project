@@ -87,7 +87,7 @@ mainMenu = {
         dependsOn = ("edgeDectionMode", "Manual")
     ),
 
-    "digitalZoom": MenuItem("Digital zoom", "digitalZoom", "float", 1, 4)
+    "digitalZoom": MenuItem("Digital zoom", "digitalZoom", "float", 1, 4),
 
     "contrast": MenuItem("Contrast", "contrast", "int", 0, 100)
         "imageEnhancement": MenuItem("Image Enhancement", "imageEnhancement", 
