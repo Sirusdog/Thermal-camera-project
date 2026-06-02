@@ -15,7 +15,7 @@ class MenuItem:
     Class for each individual menu item.
     """
     def __init__(self, displayText: str, name: str,
-                itemType: str, data: list, numSteps = 20, dependsOn = None: tuple):
+                itemType: str, data: list, numSteps = 20, dependsOn = None):
         
         self.displayText = displayText
         self.defaultDisplayText = displayText
