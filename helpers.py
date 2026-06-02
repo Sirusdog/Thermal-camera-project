@@ -15,13 +15,14 @@ class MenuItem:
     Class for each individual menu item.
     """
     def __init__(self, displayText: str, name: str,
-                itemType: str, data: list, numSteps = 20, dependsOn = None):
+                itemType: str, data: list, numSteps = 20, dependsOn = None: tuple):
         
         self.displayText = displayText
         self.defaultDisplayText = displayText
         self.name = name
         self.type = itemType
         self.currentVal = data[0]
+        self.dependency = dependsOn
 
         match self.type:
             case "text":
@@ -38,6 +39,9 @@ class MenuItem:
                 self.stepSize = (self.maximum - self.minimum) / numSteps
 
             case "toggle":
+                pass
+
+            case "exit":
                 pass
 
             case _:
@@ -62,7 +66,6 @@ class MenuItem:
         return self.currentVal
     def setCurrentVal(self, val):
         self.currentVal = val
-
 
     match type:
         case "text":
@@ -104,11 +107,20 @@ class MenuItem:
             def decrementCurrentVal(self):
                 self.currentVal = not self.currentVal
                 self.updateDisplayText(self.currentVal)
+        
+        case "exit":
+            def incrementCurrentVal():
+                pass
+            def decrementCurrentVal():
+                pass
 
 #---------------------------------------------------------------------------
 #SERIAL COMMUNICATION
 
 class UARTController:
+    """
+    Helper class for handling the sending and interpretation? of commands.
+    """
     uartStart = b"\xF0"
     uartEnd = b"\xFF"
     deviceAddress = b"\x36"
