@@ -170,7 +170,7 @@ class UARTController:
     deviceAddress = b"\x36"
     
     commands = {
-        "READModel": Command(b"\x74", b"\x02", b"\x01", "\x00"),
+        "READModel": Command(b"\x74", b"\x02", b"\x01", b"\x00"),
         "SETBrightness": Command(b"\x78", b"\x02", b"\x00", ""),
         "SETContrast": Command(b"\x78", b"\x03", b"\x00", ""),
         "SETImageEnhancement": Command(b"\x78", b"\x10", b"\x00", ""),
