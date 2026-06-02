@@ -153,7 +153,7 @@ class Command():
                                 + int.from_bytes(self.flag, byteorder = "big")
         for i in data:
             chkInt += int.from_bytes(i, byteorder = "big")
-        self.chk = bytes([int(bin(chkInt)[-8:], 2)])
+        self.chk = bytes([int((bin(chkInt)[1:])[-8:], 2)])
         
     def buildPayload():
         return b"\xF0" + self.size + b"\x36" \
