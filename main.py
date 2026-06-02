@@ -89,9 +89,7 @@ mainMenu = {
 
     "digitalZoom": MenuItem("Digital zoom", "digitalZoom", "float", 1, 4),
 
-    "contrast": MenuItem("Contrast", "contrast", "int", 0, 100)
-        "imageEnhancement": MenuItem("Image Enhancement", "imageEnhancement", 
-        "int"
+    "contrast": MenuItem("Image Enhancement", "imageEnhancement", "int", 0, 100
     ),
 
     "staticDenoise": MenuItem("Static Denoising", "staticDenoise", "int", 
