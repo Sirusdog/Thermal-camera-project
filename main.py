@@ -1,4 +1,4 @@
-import pySerial as ser
+#import pySerial as ser
 import helpers as h
 import numpy as np 
 import cv2
@@ -9,7 +9,7 @@ import asyncio
 
 
 # Variable definitions --------------------------------------------------
-cameraControl = ser.serial.Serial(port = "/dev/ttyS0", baudrate = 115200)
+#cameraControl = ser.serial.Serial(port = "/dev/ttyS0", baudrate = 115200)
 
 usbCam = False
 mainLoop = True
