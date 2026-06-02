@@ -149,7 +149,7 @@ while mainLoop:
     displaysurf.blit(surf, (0, 0))
 
     for event in pygame.event.get():
-        if event.type == pygame.QUIT
+        if event.type == pygame.QUIT:
             mainLoop = False 
         if event.type == pygame.KEYDOWN:
             if pygame.key.get_pressed()[pygame.K_ESCAPE]:
