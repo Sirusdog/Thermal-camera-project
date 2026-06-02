@@ -117,32 +117,6 @@ class MenuItem:
 #---------------------------------------------------------------------------
 #SERIAL COMMUNICATION
 
-class UARTController:
-    """
-    Helper class for handling the sending and interpretation? of commands.
-    """
-    uartStart = b"\xF0"
-    uartEnd = b"\xFF"
-    deviceAddress = b"\x36"
-    
-    commands = {
-        "READModel": Command(b"\x74", b"\x02", b"\x01", "\x00"),
-        "SETBrightness": Command(b"\x78", b"\x02", b"\x00", ""),
-        "SETContrast": Command(b"\x78", b"\x03", b"\x00", ""),
-        "SETImageEnhancement": Command(b"\x78", b"\x10", b"\x00", ""),
-        "SETStaticDenoise": Command(b"\x78", b"\x15", b"\x00", ""),
-        "SETDynamicDenoise": Command(b"\x78", b"\x16", b"\x00", ""),
-        "SETPallette": Command(b"\x78", b"\x20", b"\x00", "")
-    }
-
-    def sendCommand(self, signalOBJ, commandName, *modifyData):
-        curCommand = commands[commandName]
-        if len(modifyData) != 0:
-            commands.changeData()
-        payload = uartStart + curCommand.buildPayload
-
-#Checksum = Add device, class, subclass, retirn flag and data, take lower 8 bits
-
 class Command():
     """
     Class to represent a single command.
@@ -186,4 +160,30 @@ class Command():
                + self.classAddress + self.subclassAddress \
                + self.flag + self.data\
                + self.chk + b"\xFF"
+
+class UARTController:
+    """
+    Helper class for handling the sending and interpretation? of commands.
+    """
+    uartStart = b"\xF0"
+    uartEnd = b"\xFF"
+    deviceAddress = b"\x36"
+    
+    commands = {
+        "READModel": Command(b"\x74", b"\x02", b"\x01", "\x00"),
+        "SETBrightness": Command(b"\x78", b"\x02", b"\x00", ""),
+        "SETContrast": Command(b"\x78", b"\x03", b"\x00", ""),
+        "SETImageEnhancement": Command(b"\x78", b"\x10", b"\x00", ""),
+        "SETStaticDenoise": Command(b"\x78", b"\x15", b"\x00", ""),
+        "SETDynamicDenoise": Command(b"\x78", b"\x16", b"\x00", ""),
+        "SETPallette": Command(b"\x78", b"\x20", b"\x00", "")
+    }
+
+    def sendCommand(self, signalOBJ, commandName, *modifyData):
+        curCommand = commands[commandName]
+        if len(modifyData) != 0:
+            commands.changeData()
+        payload = uartStart + curCommand.buildPayload
+
+#Checksum = Add device, class, subclass, retirn flag and data, take lower 8 bits
 
