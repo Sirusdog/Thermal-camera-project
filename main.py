@@ -1,5 +1,5 @@
 #import pySerial as ser
-import helpers as h
+from helpers import *
 import numpy as np 
 import cv2
 import pygame
