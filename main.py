@@ -34,7 +34,7 @@ interpolationMode = cv2.INTER_AREA if coveredX < thermalCameraResX else cv2.INTE
 
 display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 pygame.mouse.set_visible(False)
-font = pygame.font.SysFont("Arial", 30)
+font = pygame.font.SysFont(None, 30)
 
 buttonFlag = False
 incrementFlag = False
