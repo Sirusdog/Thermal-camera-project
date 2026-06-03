@@ -185,10 +185,13 @@ while mainLoop:
 
     if buttonFlag and showMenu == False:
         showMenu = True
+        buttonFlag = False
     elif buttonFlag and itemSelected:
         itemSelected = False 
+        buttonFlag = False
     elif buttonFlag:
         itemSelected = True
+        buttonFlag = False
 
     if showMenu:
         mainItem = mainMenu["display"].possibleValues[mainMenu["display"].getDisplayText()]
