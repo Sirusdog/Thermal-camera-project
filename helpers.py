@@ -83,6 +83,10 @@ class MenuItem:
                     self.currentVal = len(self.possibleValues) - 1
                 self.updateDisplayText(self.possibleValues[self.currentVal])
 
+            def getCurrentVal(self): 
+                # scuffed but it's the only case where it needs to work
+                return self.possibleValues[self.vurrentVal]
+
         case "int":
             def incrementCurrentVal(self):
                 if self.currentVal != self.maximum:
@@ -190,4 +194,3 @@ class UARTController:
         payload = curCommand.buildPayload() 
 
 #Checksum = Add device, class, subclass, retirn flag and data, take lower 8 bits
-

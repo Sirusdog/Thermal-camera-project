@@ -119,7 +119,7 @@ mainMenu = {
     "exit": MenuItem("Exit menu", "exit", "exit", None)
 }
 
-curMenuItem = 0
+curMenuIndex = 0
 
 if usbCam:
     cam = cv2.VideoCapture(0)
@@ -138,7 +138,7 @@ while mainLoop:
 
     mainMenu["display"].setCurrentVal(2)
 
-    match mainMenu["display"].possibleValues[mainMenu["display"].getCurrentVal()]:
+    match mainMenu["display"].getCurrentVal():
         case "Edges":
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             
@@ -196,11 +196,37 @@ while mainLoop:
         buttonFlag = False
 
     if showMenu:
-        mainItem = mainMenu["display"].getDisplayText()
+        if incrementFlag == True:
+            curMenuIndex += 1
+            incrementFlag = False
+        elif decrementFlag == True:
+            curMenuIndex -= 1
+            decrementFlag = False
+            
+        if curMenuIndex < 0:
+            curMenuIndex = len(mainMenu)
+        elif curMenuIndex > len(mainMenu):
+            curMenuIndex = 0
+        valid = False
+        count = 0
+        while not valid and not count > len(mainMenu):
+            curMenuItem = mainMenu.items()[curMenuIndex]
+            dependencies = curMainItem.dependency
+            if mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
+                valid = True
+            else:
+                curMenuItem += 1
+                count += 1
+                if curMenuItem > len(mainMenu):
+                    curMenuIndex = 0
+
+        curMenuKey = mainMenu.keys()[curMenuIndex] 
+
+        mainItem = mainMenu.items()[curMenuIndex].getDisplayText()
         displayX, displayY = display.size()
         textBoxSurf = textBox(mainItem, False)
         textBoxX, textBoxY = textBoxSurf.size()
-        display.blit(, (displayX/2 - textBoxX/2, displayY/2 - textBoxY/2))
+        display.blit(textBoxSurf, (displayX/2 - textBoxX/2, displayY/2 - textBoxY/2))
 
     pygame.display.update()
 
