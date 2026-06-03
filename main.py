@@ -227,7 +227,7 @@ while mainLoop:
         mainItem = list(mainMenu.items())[curMenuIndex][1].getDisplayText()
         displayX, displayY = surf.get_width(), surf.get_height()
         textBoxSurf = textBox(mainItem, False)
-        textBoxX, textBoxY = textBoxSurf.size()
+        textBoxX, textBoxY = textBoxSurf.get_width(), textBoxSurf.get_height()
         display.blit(textBoxSurf, (displayX/2 - textBoxX/2, displayY/2 - textBoxY/2))
 
     pygame.display.update()
