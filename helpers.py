@@ -27,7 +27,7 @@ class MenuItem:
 
         match self.type:
             case "text":
-                self.possibleValues = data[0:]
+                self.possibleValues = data
 
             case "int":
                 self.maximum = data[1]
@@ -67,6 +67,7 @@ class MenuItem:
         return self.currentVal
     def setCurrentVal(self, val):
         self.currentVal = val
+
 
     match type:
         case "text":

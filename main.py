@@ -123,8 +123,8 @@ while mainLoop:
         frame = cam.capture_array()
         frame = np.rot90(frame)
         frame = cv2.flip(frame, 1)
-    
-    match mainMenu["display"].getCurrentVal():
+
+    match mainMenu["display"].data[mainMenu["display"].getCurrentVal()]:
         case "Edges":
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             
@@ -145,6 +145,9 @@ while mainLoop:
             img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
         case "Full Image":
+            img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+        case _:
             img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         
     img = cv2.resize(img, (coveredX, coveredY), interpolation = interpolationMode)
