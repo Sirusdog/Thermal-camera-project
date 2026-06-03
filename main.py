@@ -63,9 +63,9 @@ def textBox(textIn, selected):
     color = (255, 0, 0) if selected else (255, 255, 255)
     coords = pygame.Rect(0, 0, width + 20, height + 20)
 
-    pygame.draw.rect(boxSurf, color, coords, width = 5)
+    #pygame.draw.rect(boxSurf, color, coords, width = 5)
     boxSurf.blit(text, (10, 10))
-    return text
+    return boxSurf
 
 rotaryEncoder = rotary.Rotary(23, 24, 25, 2)
 rotaryEncoder.register(increment = incrementFlagCallback,
