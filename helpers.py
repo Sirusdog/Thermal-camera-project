@@ -27,7 +27,8 @@ class MenuItem:
 
         match self.type:
             case "text":
-                self.possibleValues = data
+                self.possibleValues = data 
+                self.currentVal = 0
 
             case "int":
                 self.maximum = data[1]
