@@ -194,3 +194,5 @@ class UARTController:
         payload = curCommand.buildPayload() 
 
 #Checksum = Add device, class, subclass, retirn flag and data, take lower 8 bits
+
+print("Helpers loaded.")

@@ -56,6 +56,7 @@ def decrementFlagCallback():
     decrementFlag = True
 
 def textBox(textIn, selected):
+    # Dynamically draws a border around some given text.
     text = font.render(textIn, 1, (255,255, 255))
     width, height = font.size(textIn)
 
@@ -127,6 +128,7 @@ else:
     cam = Picamera2()
     cam.start()
 
+print("Initialisations complete, running main body.")
 # Main --------------------------------------------------------------------
 while mainLoop:
     if usbCam:
@@ -178,6 +180,7 @@ while mainLoop:
             if pygame.key.get_pressed()[pygame.K_ESCAPE]:
                 mainLoop = False
 
+            # For debug inputs.
             if pygame.key.get_pressed()[pygame.K_UP]:
                 incrementFlagCallback()
             if pygame.key.get_pressed()[pygame.K_DOWN]:
@@ -207,6 +210,7 @@ while mainLoop:
                 curMenuIndex = len(mainMenu) - 1
 
             while not valid and not count > len(mainMenu):
+                print(curMainIndex)
                 curMenuItem = list(mainMenu.items())[curMenuIndex][1]
                 dependencies = curMenuItem.dependency
                 if dependencies == None:
