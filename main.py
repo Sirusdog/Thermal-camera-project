@@ -8,6 +8,8 @@ import sys
 import asyncio
 from RPi_GPIO_Rotary import rotary
 
+pygame.init()
+
 # Variable definitions --------------------------------------------------
 cameraControl = serial.Serial(port = "/dev/serial0", baudrate = 115200)
 
@@ -33,6 +35,7 @@ interpolationMode = cv2.INTER_AREA if coveredX < thermalCameraResX else cv2.INTE
 
 display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 pygame.mouse.set_visible(False)
+font = pygame.font.SysFont("Arial", 30)
 
 buttonFlag = False
 incrementFlag = False
@@ -53,8 +56,15 @@ async def decrementFlagCallback():
     global decrementFlag
     decrementFlag = True
 
-def textBox():
-    pass
+def textBox(textIn, selected):
+    text = font.render(textIn, 1, (0,0,0))
+    width, height = font.size(textIn)
+    boxSurf = pygame.Surface((width + 10), (height + 10), pygame.SRCALPHA)
+    color = (255, 0, 0) if selected else (255, 255, 255)
+    coords = Rect(0, 0, width + 20, height + 20)
+    pygame.draw.rect(boxSurf, color, coords, width = 5)
+    boxSurf.blit(text, (10, 10))
+    return boxSurf
 
 rotaryEncoder = rotary.Rotary(23, 24, 25, 2)
 rotaryEncoder.register(increment = incrementFlagCallback,
@@ -153,13 +163,11 @@ while mainLoop:
             img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         
     img = cv2.resize(img, (coveredX, coveredY), interpolation = interpolationMode)
-    img = cv2.copyMakeBorder(img, yBuffer, yBuffer, xBuffer, xBuffer,
-                            cv2.BORDER_CONSTANT, value = (0,0,0))
+    #img = cv2.copyMakeBorder(img, yBuffer, yBuffer, xBuffer, 
+    #xBuffer, cv2.BORDER_CONSTANT, value = (0,0,0))
 
     surf = pygame.surfarray.make_surface(img)
     display.blit(surf, (0, 0))
-
-
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -168,6 +176,23 @@ while mainLoop:
             if pygame.key.get_pressed()[pygame.K_ESCAPE]:
                 mainLoop = False
 
+            if pygame.key.get_pressed()[pygame.K_UP]:
+                incrementFlagCallback()
+            if pygame.key.get_pressed()[pygame.K_DOWN]:
+                decrementFlagCallback()
+            if pygame.key.get_pressed()[pygame.K_SPACE]:
+                buttonFlagCallback()
+
+    if buttonFlag and showMenu == False:
+        showMenu = True
+    elif buttonFlag and itemSelected:
+        itemSelected = False 
+    elif buttonFlag:
+        itemSelected = True
+
+    if showMenu:
+        mainItem = mainMenu["display"].possibleValues[mainMenu["display"].getDisplayText()]
+        display.blit(textBox(mainItem, False))
     pygame.display.update()
 
 pygame.quit()
