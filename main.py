@@ -54,6 +54,7 @@ async def decrementFlagCallback():
     decrementFlag = True
 
 def textBox():
+    pass
 
 rotaryEncoder = rotary.Rotary(23, 24, 25, 2)
 rotaryEncoder.register(increment = incrementFlagCallback,
