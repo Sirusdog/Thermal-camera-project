@@ -164,7 +164,7 @@ while mainLoop:
         case _:
             img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         
-    img = cv2.resize(img, (coveredX, coveredY), interpolation = interpolationMode)
+    img = cv2.resize(img, (coveredY, coveredX), interpolation = interpolationMode)
     #img = cv2.copyMakeBorder(img, yBuffer, yBuffer, xBuffer, 
     #xBuffer, cv2.BORDER_CONSTANT, value = (0,0,0))
 
@@ -217,7 +217,7 @@ while mainLoop:
             elif mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
                 valid = True
             else:
-                curMenuItem += 1
+                curMenuIndex += 1
                 count += 1
                 if curMenuItem > len(mainMenu):
                     curMenuIndex = 0
