@@ -5,7 +5,6 @@ import cv2
 import pygame
 from picamera2 import Picamera2
 import sys
-import asyncio
 from RPi_GPIO_Rotary import rotary
 
 pygame.init()
@@ -19,8 +18,8 @@ mainLoop = True
 screenResX = 1920
 screenResY = 1080
 
-thermalCameraResX = 3280
-thermalCameraResY = 2464
+thermalCameraResX = 640
+thermalCameraResY = 480
 
 # Computed value based off of the camera FoV and the screen FoV.
 coveredX = 500
@@ -44,15 +43,15 @@ showMenu = False
 itemSelected = False
 
 
-async def buttonFlagCallback():
+def buttonFlagCallback():
     global buttonFlag
     buttonFlag = True
 
-async def incrementFlagCallback():
+def incrementFlagCallback():
     global incrementFlag
     incrementFlag = True
 
-async def decrementFlagCallback():
+def decrementFlagCallback():
     global decrementFlag
     decrementFlag = True
 
