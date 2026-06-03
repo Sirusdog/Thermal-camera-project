@@ -1,4 +1,5 @@
 from collections.abc import Callable
+
 #import pySerial as ser
 
 """
@@ -107,11 +108,11 @@ class MenuItem:
             def decrementCurrentVal(self):
                 self.currentVal = not self.currentVal
                 self.updateDisplayText(self.currentVal)
-        
+
         case "exit":
-            def incrementCurrentVal():
+            def incrementCurrentVal(self):
                 pass
-            def decrementCurrentVal():
+            def decrementCurrentVal(self):
                 pass
 
 #---------------------------------------------------------------------------
@@ -136,6 +137,7 @@ class Command():
         self.classAddress = classAddress
         self.subclassAddress = subclassAddress
         self.flag = flag
+        self.data = data
 
         self.size = (len(data) + 4).to_bytes(1, byteorder="big")
         chkInt = int.from_bytes(classAddress, byteorder="big") \
@@ -143,7 +145,7 @@ class Command():
                                 + int.from_bytes(flag, byteorder = "big")
         for i in data:
             chkInt += int.from_bytes(i, byteorder = "big")
-        self.chk = bytes([int(bin(chkInt)[-8:], 2)])
+        self.chk = bytes([int((bin(chkInt)[2:])[-8:], 2)])
         
     
     def changeData(self, *data):
@@ -153,9 +155,9 @@ class Command():
                                 + int.from_bytes(self.flag, byteorder = "big")
         for i in data:
             chkInt += int.from_bytes(i, byteorder = "big")
-        self.chk = bytes([int((bin(chkInt)[1:])[-8:], 2)])
+        self.chk = bytes([int((bin(chkInt)[2:])[-8:], 2)])
         
-    def buildPayload():
+    def buildPayload(self):
         return b"\xF0" + self.size + b"\x36" \
                + self.classAddress + self.subclassAddress \
                + self.flag + self.data\
@@ -171,19 +173,19 @@ class UARTController:
     
     commands = {
         "READModel": Command(b"\x74", b"\x02", b"\x01", b"\x00"),
-        "SETBrightness": Command(b"\x78", b"\x02", b"\x00", ""),
-        "SETContrast": Command(b"\x78", b"\x03", b"\x00", ""),
-        "SETImageEnhancement": Command(b"\x78", b"\x10", b"\x00", ""),
-        "SETStaticDenoise": Command(b"\x78", b"\x15", b"\x00", ""),
-        "SETDynamicDenoise": Command(b"\x78", b"\x16", b"\x00", ""),
-        "SETPallette": Command(b"\x78", b"\x20", b"\x00", "")
+        "SETBrightness": Command(b"\x78", b"\x02", b"\x00", b"\x00"),
+        "SETContrast": Command(b"\x78", b"\x03", b"\x00", b"\x00"),
+        "SETImageEnhancement": Command(b"\x78", b"\x10", b"\x00", b"\x00"),
+        "SETStaticDenoise": Command(b"\x78", b"\x15", b"\x00", b"\x00"),
+        "SETDynamicDenoise": Command(b"\x78", b"\x16", b"\x00", b"\x00"),
+        "SETPallette": Command(b"\x78", b"\x20", b"\x00", b"\x00")
     }
 
     def sendCommand(self, signalOBJ, commandName, *modifyData):
-        curCommand = commands[commandName]
+        curCommand = self.commands[commandName]
         if len(modifyData) != 0:
-            commands.changeData()
-        payload = uartStart + curCommand.buildPayload
+            curCommand.changeData(*modifyData)
+        payload = curCommand.buildPayload() 
 
 #Checksum = Add device, class, subclass, retirn flag and data, take lower 8 bits
 

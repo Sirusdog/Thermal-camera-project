@@ -1,19 +1,18 @@
-#import pySerial as ser
+import serial
 from helpers import *
 import numpy as np 
 import cv2
 import pygame
-import Picamera
+import Picamera2
 import sys
 import asyncio
-
+from RPi_GPIO_Rotary import rotary
 
 # Variable definitions --------------------------------------------------
-#cameraControl = ser.serial.Serial(port = "/dev/ttyS0", baudrate = 115200)
+cameraControl = serial.Serial(port = "/dev/serial0", baudrate = 115200)
 
-usbCam = False
+usbCam = True
 mainLoop = True
-
 
 screenResX = 1500
 screenResY = 1500
@@ -28,17 +27,19 @@ coveredY = int(coveredX * (thermalCameraResY/thermalCameraResX))
 # the image may become stretched.
 
 xBuffer = int((screenResX - coveredX)/2)
-YBuffer = int((screenResY - coveredY)/2)
+yBuffer = int((screenResY - coveredY)/2)
 
 interpolationMode = cv2.INTER_AREA if coveredX < thermalCameraRexX else cv2.INTER_NEAREST
 
 display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+pygame.mouse.set_visible(False)
 
 buttonFlag = False
 incrementFlag = False
 decrementFlag = False
 showMenu = False
 itemSelected = False
+
 
 async def buttonFlagCallback():
     global buttonFlag
@@ -52,13 +53,14 @@ async def decrementFlagCallback():
     global decrementFlag
     decrementFlag = True
 
-async def showMenuCallback():
-    global showMenu
-    showMenu = True
+def textBox():
 
-async def itemSelectedCallback():
-    global itemSelected
-    itemSelected = True
+rotaryEncoder = rotary.Rotary(23, 24, 25, 2)
+rotaryEncoder.register(increment = incrementFlagCallback,
+                       decrement = decrementFlagCallback,
+                       pressed = buttonFlagCallback
+                       )
+rotaryEncoder.start()
 
 
 mainMenu = {
@@ -103,11 +105,13 @@ mainMenu = {
     "exit": MenuItem("Exit menu", "exit", "exit", None)
 }
 
+curMenuItem = 0
+
 if usbCam:
     cam = cv2.VideoCapture(0)
 else:
     cam = Picamera2()
-    cam.start
+    cam.start()
 
 # Main --------------------------------------------------------------------
 while mainLoop:
@@ -123,7 +127,7 @@ while mainLoop:
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             
             if mainMenu["edgeDetectionMode"].getCurrentVal() == "Auto":
-                np.median(frame)
+                median = np.median(frame)
                 lowerThreshold = int(max(0, 0.66 * median))
                 upperThreshold = int(min(255, 1.33 * median))
             else:
@@ -145,8 +149,11 @@ while mainLoop:
     img = cv2.resize(img, (coveredX, coveredY), interpolation = interpolationMode)
     img = cv2.copyMakeBorder(img, yBuffer, yBuffer, xBuffer, xBuffer,
                             cv2.BORDER_CONSTANT, value = (0,0,0))
+
     surf = pygame.surfarray.make_surface(img)
-    displaysurf.blit(surf, (0, 0))
+    display.blit(surf, (0, 0))
+
+
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
