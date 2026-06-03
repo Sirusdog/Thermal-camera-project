@@ -11,7 +11,7 @@ from RPi_GPIO_Rotary import rotary
 # Variable definitions --------------------------------------------------
 cameraControl = serial.Serial(port = "/dev/serial0", baudrate = 115200)
 
-usbCam = True
+usbCam = False
 mainLoop = True
 
 screenResX = 1500
