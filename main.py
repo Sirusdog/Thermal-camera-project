@@ -193,7 +193,7 @@ while mainLoop:
         buttonFlag = False
 
     if showMenu:
-        mainItem = mainMenu["display"].possibleValues[mainMenu["display"].getDisplayText()]
+        mainItem = mainMenu["display"].getDisplayText()
         display.blit(textBox(mainItem, False))
     pygame.display.update()
 
