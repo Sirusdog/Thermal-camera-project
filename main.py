@@ -94,12 +94,12 @@ mainMenu = {
 
     "edgeSensitivityLower": MenuItem("Edge sensitivity lower", 
         "edgeSensitivityLower", "int", 100, 0, 200, 
-        dependsOn = ("edgeDectionMode", "Manual")
+        dependsOn = ("edgeDetectionMode", "Manual")
     ),
 
     "edgeSensitivityUpper": MenuItem("Edge sensitivity upper", 
         "edgeSensitivityUpper", "int", 250, 0, 255, 
-        dependsOn = ("edgeDectionMode", "Manual")
+        dependsOn = ("edgeDetectionMode", "Manual")
     ),
 
     "digitalZoom": MenuItem("Digital zoom", "digitalZoom", "float", 1, 1, 4),
