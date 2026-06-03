@@ -241,7 +241,7 @@ while mainLoop:
                         if curMenuIndex < 0:
                             curMenuIndex = len(mainMenu) - 1
                 
-                mainMenu[list(mainMenu.keys())[curMenuIndex][1]].reset()
+                mainMenu[list(mainMenu.keys())[curMenuIndex][0]].reset()
             else:
                 curMenuKey = list(mainMenu.keys())[curMenuIndex][1]
                 if incrementFlag:
