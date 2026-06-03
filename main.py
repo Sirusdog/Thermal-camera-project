@@ -210,9 +210,11 @@ while mainLoop:
         valid = False
         count = 0
         while not valid and not count > len(mainMenu):
-            curMenuItem = list(mainMenu.items())[1][curMenuIndex]
+            curMenuItem = list(mainMenu.items())[curMenuIndex][1]
             dependencies = curMenuItem.dependency
-            if mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
+            if dependencies == None:
+                valid = True
+            elif mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
                 valid = True
             else:
                 curMenuItem += 1
@@ -220,7 +222,7 @@ while mainLoop:
                 if curMenuItem > len(mainMenu):
                     curMenuIndex = 0
 
-        curMenuKey = list(mainMenu.keys())[0][curMenuIndex] 
+        curMenuKey = list(mainMenu.keys())[curMenuIndex][1]
 
         mainItem = list(mainMenu.items())[curMenuIndex].getDisplayText()
         displayX, displayY = display.size()
