@@ -59,7 +59,7 @@ def textBox(textIn, selected):
     text = font.render(textIn, 1, (255,255, 255))
     width, height = font.size(textIn)
 
-    boxSurf = pygame.Surface((width + 10, height + 10), pygame.SRCALPHA)
+    boxSurf = pygame.Surface((width + 20, height + 20), pygame.SRCALPHA)
     color = (255, 0, 0) if selected else (255, 255, 255)
     coords = pygame.Rect(0, 0, width + 20, height + 20)
 
@@ -197,7 +197,10 @@ while mainLoop:
 
     if showMenu:
         mainItem = mainMenu["display"].getDisplayText()
-        display.blit(textBox(mainItem, False), (50,50))
+        displayX, displayY = display.size()
+        textBoxSurf = textBox(mainItem, False)
+        textBoxX, textBoxY = textBoxSurf.size()
+        display.blit(, (displayX/2 - textBoxX/2, displayY/2 - textBoxY/2))
 
     pygame.display.update()
 
