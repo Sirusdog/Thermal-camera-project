@@ -204,9 +204,10 @@ while mainLoop:
             decrementFlag = False
             
         if curMenuIndex < 0:
-            curMenuIndex = len(mainMenu)
-        elif curMenuIndex > len(mainMenu):
+            curMenuIndex = len(mainMenu) - 1
+        elif curMenuIndex > len(mainMenu) - 1:
             curMenuIndex = 0
+
         valid = False
         count = 0
         while not valid and not count > len(mainMenu):
@@ -219,7 +220,7 @@ while mainLoop:
             else:
                 curMenuIndex += 1
                 count += 1
-                if curMenuIndex > len(mainMenu):
+                if curMenuIndex > len(mainMenu) - 1:
                     curMenuIndex = 0
 
         curMenuKey = list(mainMenu.keys())[curMenuIndex][1]
