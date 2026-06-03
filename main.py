@@ -27,7 +27,7 @@ coveredY = int(coveredX * (thermalCameraResY/thermalCameraResX))
 # the image may become stretched.
 
 xBuffer = int((screenResX - coveredX)/2 - coveredX/2)
-yBuffer = int((screenResY - coveredY)/2 - coveredy/2)
+yBuffer = int((screenResY - coveredY)/2 - coveredY/2)
 
 interpolationMode = cv2.INTER_AREA if coveredX < thermalCameraResX else cv2.INTER_NEAREST
 
