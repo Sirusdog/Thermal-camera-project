@@ -81,26 +81,27 @@ mainMenu = {
     ), 
 
     "edgeSensitivityLower": MenuItem("Edge sensitivity lower", 
-        "edgeSensitivityLower", "int", 0, 200, 
+        "edgeSensitivityLower", "int", 100, 0, 200, 
         dependsOn = ("edgeDectionMode", "Manual")
     ),
 
     "edgeSensitivityUpper": MenuItem("Edge sensitivity upper", 
-        "edgeSensitivityUpper", "int", 0, 255, 
+        "edgeSensitivityUpper", "int", 250, 0, 255, 
         dependsOn = ("edgeDectionMode", "Manual")
     ),
 
-    "digitalZoom": MenuItem("Digital zoom", "digitalZoom", "float", 1, 4),
+    "digitalZoom": MenuItem("Digital zoom", "digitalZoom", "float", 1, 1, 4),
 
-    "contrast": MenuItem("Image Enhancement", "imageEnhancement", "int", 0, 100
+    "contrast": MenuItem("Image Enhancement", "imageEnhancement", "int", 50,
+        0, 100
     ),
 
-    "staticDenoise": MenuItem("Static Denoising", "staticDenoise", "int", 
+    "staticDenoise": MenuItem("Static Denoising", "staticDenoise", "int", 50,
         0, 100
     ),
 
     "dynamicDenoise": MenuItem("Dynamic Denoising", "dynaicDenoise", "int",
-        0, 100
+        50,  0, 100
     ),
 
     "exit": MenuItem("Exit menu", "exit", "exit", None)
