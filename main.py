@@ -206,11 +206,10 @@ while mainLoop:
         if incrementFlag == True:
             curMenuIndex += 1
             incrementFlag = False
-            if curMenuIndex < 0:
-                curMenuIndex = len(mainMenu) - 1
+            if curMenuIndex <= len(mainMenu):
+                curMenuIndex = 0
 
             while not valid and not count > len(mainMenu):
-                print(curMenuIndex)
                 curMenuItem = list(mainMenu.items())[curMenuIndex][1]
                 dependencies = curMenuItem.dependency
                 if dependencies == None:
@@ -220,8 +219,8 @@ while mainLoop:
                 else:
                     curMenuIndex += 1
                     count += 1
-                    if curMenuIndex > len(mainMenu) - 1:
-                        curMenuIndex = 0
+                    if curMenuIndex < 0:
+                        curMenuIndex = len(mainMenu) - 1
 
         elif decrementFlag == True:
             curMenuIndex -= 1
