@@ -56,7 +56,7 @@ def decrementFlagCallback():
     decrementFlag = True
 
 def textBox(textIn, selected):
-    text = font.render(textIn, 1, (0,0,0))
+    text = font.render(textIn, 1, (255,255, 255))
     width, height = font.size(textIn)
 
     boxSurf = pygame.Surface((width + 10, height + 10), pygame.SRCALPHA)
@@ -65,7 +65,7 @@ def textBox(textIn, selected):
 
     pygame.draw.rect(boxSurf, color, coords, width = 5)
     boxSurf.blit(text, (10, 10))
-    
+
     return boxSurf
 
 rotaryEncoder = rotary.Rotary(23, 24, 25, 2)
