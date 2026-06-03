@@ -206,7 +206,7 @@ while mainLoop:
         if incrementFlag == True:
             curMenuIndex += 1
             incrementFlag = False
-            if curMenuIndex <= len(mainMenu):
+            if curMenuIndex >= len(mainMenu):
                 curMenuIndex = 0
 
             while not valid and not count > len(mainMenu):
