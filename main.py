@@ -225,7 +225,7 @@ while mainLoop:
         curMenuKey = list(mainMenu.keys())[curMenuIndex][1]
 
         mainItem = list(mainMenu.items())[curMenuIndex][1].getDisplayText()
-        displayX, displayY = display.size()
+        displayX, displayY = surf.size()
         textBoxSurf = textBox(mainItem, False)
         textBoxX, textBoxY = textBoxSurf.size()
         display.blit(textBoxSurf, (displayX/2 - textBoxX/2, displayY/2 - textBoxY/2))
