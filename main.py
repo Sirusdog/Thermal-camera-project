@@ -211,6 +211,7 @@ while mainLoop:
         count = 0
         while not valid and not count > len(mainMenu):
             curMenuItem = list(mainMenu.items())[curMenuIndex]
+            print(curMenuItem)
             dependencies = curMenuItem.dependency
             if mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
                 valid = True
