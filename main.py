@@ -69,6 +69,7 @@ def textBox(textIn, selected):
 
     return boxSurf
 
+
 rotaryEncoder = rotary.Rotary(23, 24, 25, 2)
 rotaryEncoder.register(increment = incrementFlagCallback,
                        decrement = decrementFlagCallback,
@@ -202,49 +203,55 @@ while mainLoop:
 
         valid = False
         count = 0
-        
-        if incrementFlag == True:
-            curMenuIndex += 1
-            incrementFlag = False
-            if curMenuIndex >= len(mainMenu):
-                curMenuIndex = 0
+        if not itemSelected:
+            if incrementFlag == True:
+                curMenuIndex += 1
+                incrementFlag = False
+                if curMenuIndex >= len(mainMenu):
+                    curMenuIndex = 0
 
-            while not valid and not count > len(mainMenu):
-                curMenuItem = list(mainMenu.items())[curMenuIndex][1]
-                dependencies = curMenuItem.dependency
-                if dependencies == None:
-                    valid = True
-                elif mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
-                    valid = True
-                else:
-                    curMenuIndex += 1
-                    count += 1
-                    if curMenuIndex < 0:
-                        curMenuIndex = len(mainMenu) - 1
+                while not valid and not count > len(mainMenu):
+                    curMenuItem = list(mainMenu.items())[curMenuIndex][1]
+                    dependencies = curMenuItem.dependency
+                    if dependencies == None:
+                        valid = True
+                    elif mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
+                        valid = True
+                    else:
+                        curMenuIndex += 1
+                        count += 1
+                        if curMenuIndex < 0:
+                            curMenuIndex = len(mainMenu) - 1
 
-        elif decrementFlag == True:
-            curMenuIndex -= 1
-            decrementFlag = False
-            if curMenuIndex > len(mainMenu) - 1:
-                curMenuIndex = 0
-            while not valid and not count > 0:
-                curMenuItem = list(mainMenu.items())[curMenuIndex][1]
-                dependencies = curMenuItem.dependency
-                if dependencies == None:
-                    valid = True
-                elif mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
-                    valid = True
-                else:
-                    curMenuIndex -= 1
-                    count += 1
-                    if curMenuIndex < 0:
-                        curMenuIndex = len(mainMenu) - 1
-            
-        curMenuKey = list(mainMenu.keys())[curMenuIndex][1]
+            elif decrementFlag == True:
+                curMenuIndex -= 1
+                decrementFlag = False
+                if curMenuIndex < 0:
+                    curMenuIndex = len(mainMenu) - 1
+                while not valid and not count > 0:
+                    curMenuItem = list(mainMenu.items())[curMenuIndex][1]
+                    dependencies = curMenuItem.dependency
+                    if dependencies == None:
+                        valid = True
+                    elif mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
+                        valid = True
+                    else:
+                        curMenuIndex -= 1
+                        count += 1
+                        if curMenuIndex < 0:
+                            curMenuIndex = len(mainMenu) - 1
+                
+                mainMenu[list(mainMenu.keys())[curMenuIndex][1]].reset()
+            else:
+                curMenuKey = list(mainMenu.keys())[curMenuIndex][1]
+                if incrementFlag:
+                    mainMenu[curMenuKey].incrementCurrentVal()
+                elif decrementFlag:
+                    mainMenu[curMenuKey].decrementCurrentVal()
 
         mainItem = list(mainMenu.items())[curMenuIndex][1].getDisplayText()
         displayX, displayY = surf.get_width(), surf.get_height()
-        textBoxSurf = textBox(mainItem, False)
+        textBoxSurf = textBox(mainItem, itemSelected)
         textBoxX, textBoxY = textBoxSurf.get_width(), textBoxSurf.get_height()
         display.blit(textBoxSurf, (displayX/2 - textBoxX/2, displayY/2 - textBoxY/2))
 
