@@ -3,7 +3,7 @@ from helpers import *
 import numpy as np 
 import cv2
 import pygame
-import Picamera2
+from picamera2 import Picamera2
 import sys
 import asyncio
 from RPi_GPIO_Rotary import rotary
