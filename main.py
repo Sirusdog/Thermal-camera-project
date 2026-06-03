@@ -124,7 +124,7 @@ while mainLoop:
         frame = np.rot90(frame)
         frame = cv2.flip(frame, 1)
 
-    match mainMenu["display"].data[mainMenu["display"].getCurrentVal()]:
+    match mainMenu["display"].possibleValues[mainMenu["display"].getCurrentVal()]:
         case "Edges":
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             
