@@ -195,7 +195,8 @@ while mainLoop:
 
     if showMenu:
         mainItem = mainMenu["display"].getDisplayText()
-        display.blit(textBox(mainItem, False), (0,0))
+        display.blit(textBox(mainItem, False), (500,500))
+
     pygame.display.update()
 
 pygame.quit()
