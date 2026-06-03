@@ -29,7 +29,7 @@ coveredY = int(coveredX * (thermalCameraResY/thermalCameraResX))
 xBuffer = int((screenResX - coveredX)/2)
 yBuffer = int((screenResY - coveredY)/2)
 
-interpolationMode = cv2.INTER_AREA if coveredX < thermalCameraRexX else cv2.INTER_NEAREST
+interpolationMode = cv2.INTER_AREA if coveredX < thermalCameraResX else cv2.INTER_NEAREST
 
 display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 pygame.mouse.set_visible(False)
