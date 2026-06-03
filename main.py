@@ -61,7 +61,7 @@ def textBox(textIn, selected):
 
     boxSurf = pygame.Surface((width + 10, height + 10), pygame.SRCALPHA)
     color = (255, 0, 0) if selected else (255, 255, 255)
-    coords = Rect(0, 0, width + 20, height + 20)
+    coords = pygame.Rect(0, 0, width + 20, height + 20)
     pygame.draw.rect(boxSurf, color, coords, width = 5)
     boxSurf.blit(text, (10, 10))
     return boxSurf
