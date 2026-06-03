@@ -14,14 +14,14 @@ cameraControl = serial.Serial(port = "/dev/serial0", baudrate = 115200)
 usbCam = False
 mainLoop = True
 
-screenResX = 1500
-screenResY = 1500
+screenResX = 1920
+screenResY = 1080
 
 thermalCameraResX = 3280
 thermalCameraResY = 2464
 
 # Computed value based off of the camera FoV and the screen FoV.
-coveredX = 1000
+coveredX = 500
 coveredY = int(coveredX * (thermalCameraResY/thermalCameraResX))
 # Maintains aspect ratio. Will work with a predefined value but 
 # the image may become stretched.
