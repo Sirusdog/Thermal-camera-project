@@ -65,10 +65,10 @@ rotaryEncoder.start()
 
 
 mainMenu = {
-    "pallet": MenuItem("Colour Pallet", "pallet", "text", [
+    "pallet": MenuItem("Colour Pallet", "pallet", "text", *[
         "White Hot", "Black Hot", "Red Hot" # TODO DOUBLE CHECK THIS
     ]),
-    "display": MenuItem("Display mode", "display", "text", [
+    "display": MenuItem("Display mode", "display", "text", *[
         "Full image", "Cutoff", "Edges"
     ]),
 
@@ -77,7 +77,7 @@ mainMenu = {
     ),
 
     "edgeDetectionMode" : MenuItem("Edge detect mode", "edgeDetectionMode",
-        "text", ["Auto", "Manual"], dependsOn = ("display", "Edges")
+        "text", *["Auto", "Manual"], dependsOn = ("display", "Edges")
     ), 
 
     "edgeSensitivityLower": MenuItem("Edge sensitivity lower", 
@@ -140,7 +140,6 @@ while mainLoop:
             img = cv2.cvtColor(edges, cv2.COLOR_GRAY2RGB)
 
         case "Cutoff":
-        
             # TODO: Deterimine how to get the cuttoff temperature for each pixel.
             # Once that's done then just truncate the value to 0.
             img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
