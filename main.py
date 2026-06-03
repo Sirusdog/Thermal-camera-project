@@ -219,7 +219,7 @@ while mainLoop:
             else:
                 curMenuIndex += 1
                 count += 1
-                if curMenuItem > len(mainMenu):
+                if curMenuIndex > len(mainMenu):
                     curMenuIndex = 0
 
         curMenuKey = list(mainMenu.keys())[curMenuIndex][1]
