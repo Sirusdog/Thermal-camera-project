@@ -58,7 +58,8 @@ def decrementFlagCallback():
 def textBox(textIn, selected):
     text = font.render(textIn, 1, (0,0,0))
     width, height = font.size(textIn)
-    boxSurf = pygame.Surface((width + 10), (height + 10), pygame.SRCALPHA)
+
+    boxSurf = pygame.Surface((width + 10, height + 10), pygame.SRCALPHA)
     color = (255, 0, 0) if selected else (255, 255, 255)
     coords = Rect(0, 0, width + 20, height + 20)
     pygame.draw.rect(boxSurf, color, coords, width = 5)
