@@ -196,33 +196,47 @@ while mainLoop:
         buttonFlag = False
 
     if showMenu:
-        if incrementFlag == True:
-            curMenuIndex += 1
-            incrementFlag = False
-        elif decrementFlag == True:
-            curMenuIndex -= 1
-            decrementFlag = False
-            
-        if curMenuIndex < 0:
-            curMenuIndex = len(mainMenu) - 1
-        elif curMenuIndex > len(mainMenu) - 1:
-            curMenuIndex = 0
 
         valid = False
         count = 0
-        while not valid and not count > len(mainMenu):
-            curMenuItem = list(mainMenu.items())[curMenuIndex][1]
-            dependencies = curMenuItem.dependency
-            if dependencies == None:
-                valid = True
-            elif mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
-                valid = True
-            else:
-                curMenuIndex += 1
-                count += 1
-                if curMenuIndex > len(mainMenu) - 1:
-                    curMenuIndex = 0
+        
+        if incrementFlag == True:
+            curMenuIndex += 1
+            incrementFlag = False
+            if curMenuIndex < 0:
+                curMenuIndex = len(mainMenu) - 1
 
+            while not valid and not count > len(mainMenu):
+                curMenuItem = list(mainMenu.items())[curMenuIndex][1]
+                dependencies = curMenuItem.dependency
+                if dependencies == None:
+                    valid = True
+                elif mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
+                    valid = True
+                else:
+                    curMenuIndex += 1
+                    count += 1
+                    if curMenuIndex > len(mainMenu) - 1:
+                        curMenuIndex = 0
+
+        elif decrementFlag == True:
+            curMenuIndex -= 1
+            decrementFlag = False
+            if curMenuIndex > len(mainMenu) - 1:
+                curMenuIndex = 0
+            while not valid and not count > 0:
+                curMenuItem = list(mainMenu.items())[curMenuIndex][1]
+                dependencies = curMenuItem.dependency
+                if dependencies == None:
+                    valid = True
+                elif mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
+                    valid = True
+                else:
+                    curMenuIndex -= 1
+                    count += 1
+                    if curMenuIndex < 0:
+                        curMenuIndex = len(mainMenu) - 1
+            
         curMenuKey = list(mainMenu.keys())[curMenuIndex][1]
 
         mainItem = list(mainMenu.items())[curMenuIndex][1].getDisplayText()
