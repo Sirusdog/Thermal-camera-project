@@ -210,7 +210,7 @@ while mainLoop:
                 curMenuIndex = len(mainMenu) - 1
 
             while not valid and not count > len(mainMenu):
-                print(curMainIndex)
+                print(curMenuIndex)
                 curMenuItem = list(mainMenu.items())[curMenuIndex][1]
                 dependencies = curMenuItem.dependency
                 if dependencies == None:
