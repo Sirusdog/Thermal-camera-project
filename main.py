@@ -177,7 +177,7 @@ while mainLoop:
             imgGray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     curPallet = pallets[mainMenu["pallet"].getCurrentVal()]
-    img = np.merge(
+    img = cv2.merge(
         np.vectorize(curPallet[0])(imgGray),
         np.vectorize(curPallet[1])(imgGray),
         np.vectorize(curPallet[2])(imgGray)
