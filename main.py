@@ -36,7 +36,7 @@ screenResX = display.get_width()
 screenResY = display.get_height()
 
 xBuffer = int(screenResX/2 - coveredX/2)
-yBuffer = int(screenResY - coveredY/2)
+yBuffer = int(screenResY/2 - coveredY/2)
 
 print(display.get_width(), display.get_height())
 
