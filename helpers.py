@@ -72,7 +72,7 @@ class MenuItem:
         self.currentVal = vals
 
 
-    match self.itemType:
+    match itemType:
         case "text":
             def incrementCurrentVal(self):
                 self.currentVal += 1
