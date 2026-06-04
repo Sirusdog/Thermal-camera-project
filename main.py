@@ -245,10 +245,10 @@ while mainLoop:
             curMenuKey = list(mainMenu.keys())[curMenuIndex]
             if incrementFlag:
                 mainMenu[curMenuKey].incrementCurrentVal()
-                incrementFlag == False
+                incrementFlag = False
             elif decrementFlag:
                 mainMenu[curMenuKey].decrementCurrentVal()
-                decrementFlag == False
+                decrementFlag = False
 
 
         mainItem = list(mainMenu.items())[curMenuIndex][1].getDisplayText()
