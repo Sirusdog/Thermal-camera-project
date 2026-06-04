@@ -88,6 +88,7 @@ class MenuItem:
             case "float":
                 if self.currentVal != self.maximum:
                     self.currentVal += self.stepSize
+                    self.currentVal = round(self.currentVal, 2)
                 self.updateDisplayText(self.currentVal)
             case "toggle":
                 self.currentVal = not self.currentVal

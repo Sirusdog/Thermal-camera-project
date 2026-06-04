@@ -7,10 +7,10 @@ from picamera2 import Picamera2
 import sys
 from RPi_GPIO_Rotary import rotary
 
-pygame.init()
 
 # Variable definitions --------------------------------------------------
 cameraControl = serial.Serial(port = "/dev/serial0", baudrate = 115200)
+pygame.init()
 
 usbCam = False
 mainLoop = True
@@ -86,7 +86,7 @@ mainMenu = {
         "Full image", "Cutoff", "Edges"
     ]),
 
-    "cutoff": MenuItem("Cutoff temperature", "cutoff", "toggle", None,
+    "cutoff": MenuItem("Cutoff temperature", "cutoff", 50, 0, 100,
         dependsOn = ("display", "Cutoff")
     ),
 
@@ -155,10 +155,13 @@ while mainLoop:
             img = cv2.cvtColor(edges, cv2.COLOR_GRAY2RGB)
 
         case "Cutoff":
-            # TODO: Deterimine how to get the cuttoff temperature for each pixel.
-            # Once that's done then just truncate the value to 0.
-            img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            threshold = 255 * (mainMenu["cutoff"].getCurrentVal())/100
+            for row in range(len(frame)):
+                for col in range(len(row)):
+                    if frame[row][col] < threshold:
+                        frame[row][col] = 0
+            img = cv2.cvtColor(frame, cv2.COLOR_GRAY2RGB)
         case "Full image":
             img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
