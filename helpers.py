@@ -159,9 +159,12 @@ class Command():
         self.chk = bytes([int((bin(chkInt)[2:])[-8:], 2)])
         
     def buildPayload(self):
+        dataString = b""
+        for i in self.data:
+            dataString += i
         return b"\xF0" + self.size + b"\x36" \
                + self.classAddress + self.subclassAddress \
-               + self.flag + self.data\
+               + self.flag + dataString\
                + self.chk + b"\xFF"
 
 class UARTController:
