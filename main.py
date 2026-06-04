@@ -240,7 +240,7 @@ while mainLoop:
                         count += 1
                         if curMenuIndex < 0:
                             curMenuIndex = len(mainMenu) - 1
-                mainMenu[list(mainMenu.keys())[curMenuIndex]].reset()
+            mainMenu[list(mainMenu.keys())[curMenuIndex]].reset()
         else:
             curMenuKey = list(mainMenu.keys())[curMenuIndex]
             if incrementFlag:
