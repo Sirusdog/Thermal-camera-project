@@ -168,7 +168,8 @@ class UARTController:
     Helper class for handling the sending and interpretation? of commands.
     """
     
-    commands = {
+    def sendCommand(self, serialOBJ, commandName, *modifyData):
+        commands = {
         "READModel": Command(b"\x74", b"\x02", b"\x01", b"\x00"),
         "SETBrightness": Command(b"\x78", b"\x02", b"\x00", b"\x00"),
         "SETContrast": Command(b"\x78", b"\x03", b"\x00", b"\x00"),
@@ -176,9 +177,7 @@ class UARTController:
         "SETStaticDenoise": Command(b"\x78", b"\x15", b"\x00", b"\x00"),
         "SETDynamicDenoise": Command(b"\x78", b"\x16", b"\x00", b"\x00"),
         "SETPallet": Command(b"\x78", b"\x20", b"\x00", b"\x00")
-    }
-
-    def sendCommand(self, serialOBJ, commandName, *modifyData):
+        }
         curCommand = self.commands[commandName]
         if len(modifyData) != 0:
             curCommand.changeData(*modifyData)
