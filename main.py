@@ -297,6 +297,7 @@ while mainLoop:
 
             if doChange and curMenuKey in associatedCommands.keys():
                 cmdName = associatedCommands[curMenuKey]["command"]
+                print(cmdName)
                 if cmdName == "SETPallet":
                     data = associatedCommands[curMenuKey][mainMenu[curMenuKey].getCurrentVal()]
                 else:
