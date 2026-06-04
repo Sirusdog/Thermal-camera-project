@@ -207,6 +207,9 @@ while mainLoop:
     zoomLvl = mainMenu["digitalZoom"].getCurrentVal()
     img = cv2.resize(img, (int(coveredY * zoomLvl), int(coveredX * zoomLvl)), interpolation = interpolationMode)
 
+    xBuffer = int(screenResX/2 - int(coveredX * zoomLvl)/2)
+    yBuffer = int(screenResY/2 - int(coveredY * zoomLvl)/2)
+
     surf = pygame.surfarray.make_surface(img)
     display.blit(surf, (int(xBuffer/(zoomLvl**2)), int(yBuffer/(zoomLvl**2))))
 
