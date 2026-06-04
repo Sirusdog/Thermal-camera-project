@@ -73,58 +73,48 @@ class MenuItem:
 
     def getType(self):
         return self.type
-
-    def initialiseIncrementDecrementFunctions(self):
+    def incrementCurrentVal(self):
         match self.itemType:
             case "text":
-                def incrementCurrentVal(self):
-                    self.currentVal += 1
-                    if self.currentVal <= len(self.possibleValues) - 1:
-                        self.currentVal = 0
-                    self.updateDisplayText(self.possibleValues[self.currentVal])
-                def decrementCurrentVal(self):
-                    self.currentVal -= 1
-                    if self.currentVal >= 0:
-                        self.currentVal = len(self.possibleValues) - 1
-                    self.updateDisplayText(self.possibleValues[self.currentVal])
-
-                def getCurrentVal(self): 
-                    # scuffed but it's the only case where it needs to work
-                    return self.possibleValues[self.vurrentVal]
-
+                self.currentVal += 1
+                if self.currentVal <= len(self.possibleValues) - 1:
+                    self.currentVal = 0
+                self.updateDisplayText(self.possibleValues[self.currentVal])
             case "int":
-                def incrementCurrentVal(self):
-                    if self.currentVal != self.maximum:
-                        self.currentVal += self.stepSize
-                    self.updateDisplayText(self.currentVal)
-                def decrementCurrentVal(self):
-                    if self.currentVal != self.minimum:
-                        self.currentVal -= self.stepSize
-                    self.updateDisplayText(self.currentVal)
-
+                if self.currentVal != self.maximum:
+                    self.currentVal += self.stepSize
+                self.updateDisplayText(self.currentVal)
             case "float":
-                def incrementCurrentVal(self):
-                    if self.currentVal != self.maximum:
-                        self.currentVal += self.stepSize
-                    self.updateDisplayText(self.currentVal)
-                def decrementCurrentVal(self):
-                    if self.currentVal != self.minimum:
-                        self.currentVal -= self.stepSize
-                    self.updateDisplayText(self.currentVal)
-                
+                if self.currentVal != self.maximum:
+                    self.currentVal += self.stepSize
+                self.updateDisplayText(self.currentVal)
             case "toggle":
-                def incrementCurrentVal(self):
-                    self.currentVal = not self.currentVal
-                    self.updateDisplayText(self.currentVal)
-                def decrementCurrentVal(self):
-                    self.currentVal = not self.currentVal
-                    self.updateDisplayText(self.currentVal)
-
+                self.currentVal = not self.currentVal
+                self.updateDisplayText(self.currentVal)                    
             case "exit":
-                def incrementCurrentVal(self):
-                    pass
-                def decrementCurrentVal(self):
-                    pass
+                pass
+
+    def decrementCurrentVal(self):
+        match self.itemType:
+            case "text":
+                self.currentVal -= 1
+                if self.currentVal >= 0:
+                    self.currentVal = len(self.possibleValues) - 1
+                self.updateDisplayText(self.possibleValues[self.currentVal])
+            case "int":
+                if self.currentVal != self.minimum:
+                    self.currentVal -= self.stepSize
+                self.updateDisplayText(self.currentVal)
+            case "float":
+                if self.currentVal != self.minimum:
+                    self.currentVal -= self.stepSize
+                self.updateDisplayText(self.currentVal)
+            case "toggle":
+                self.currentVal = not self.currentVal
+                self.updateDisplayText(self.currentVal)
+            case "exit":
+                pass
+
 
 #---------------------------------------------------------------------------
 #SERIAL COMMUNICATION
