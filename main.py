@@ -21,7 +21,7 @@ thermalCameraResX = 640
 thermalCameraResY = 480
 
 # Computed value based off of the camera FoV and the screen FoV.
-coveredX = 500
+coveredX = 1000
 coveredY = int(coveredX * (thermalCameraResY/thermalCameraResX))
 # Maintains aspect ratio. Will work with a predefined value but 
 # the image may become stretched.
