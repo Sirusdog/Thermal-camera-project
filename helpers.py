@@ -12,6 +12,8 @@ Handle submenues
 """
 
 class MenuItem:
+
+    itemType = None
     """
     Class for each individual menu item.
     """
