@@ -75,7 +75,7 @@ class MenuItem:
         match self.itemType:
             case "text":
                 self.currentVal += 1
-                if self.currentVal <= len(self.possibleValues) - 1:
+                if self.currentVal == len(self.possibleValues):
                     self.currentVal = 0
                 self.updateDisplayText(self.possibleValues[self.currentVal])
             case "int":
