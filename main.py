@@ -113,7 +113,7 @@ mainMenu = {
     ),
 
     "digitalZoom": MenuItem("Digital zoom", "digitalZoom", "float", 1, 1, 4, 
-        numsteps = 6),
+        numSteps = 6),
 
     "contrast": MenuItem("Image Enhancement", "imageEnhancement", "int", 50,
         0, 100
