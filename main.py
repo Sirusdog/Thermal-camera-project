@@ -161,7 +161,7 @@ while mainLoop:
             # Once that's done then just truncate the value to 0.
             img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-        case "Full Image":
+        case "Full image":
             img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
         case _:
