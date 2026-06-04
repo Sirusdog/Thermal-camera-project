@@ -112,7 +112,8 @@ mainMenu = {
         dependsOn = ("edgeDetectionMode", "Manual")
     ),
 
-    "digitalZoom": MenuItem("Digital zoom", "digitalZoom", "float", 1, 1, 4),
+    "digitalZoom": MenuItem("Digital zoom", "digitalZoom", "float", 1, 1, 4, 
+        numsteps = 6),
 
     "contrast": MenuItem("Image Enhancement", "imageEnhancement", "int", 50,
         0, 100
@@ -182,6 +183,7 @@ while mainLoop:
 
     curPallet = pallets[mainMenu["pallet"].getCurrentVal()]
     img = cv2.cvtColor(imgGray, cv2.COLOR_GRAY2RGB)
+    zoomLvl = mainMenu["digitalZoom"].getCurrentVal()
     img = cv2.resize(img, (coveredY, coveredX), interpolation = interpolationMode)
 
     surf = pygame.surfarray.make_surface(img)
