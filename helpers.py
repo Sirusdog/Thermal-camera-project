@@ -154,6 +154,7 @@ class Command():
                                 + int.from_bytes(self.subclassAddress, byteorder="big") \
                                 + int.from_bytes(self.flag, byteorder = "big")
         for i in data:
+            print(i)
             chkInt += int.from_bytes(i, byteorder = "big")
         self.chk = bytes([int((bin(chkInt)[2:])[-8:], 2)])
         
