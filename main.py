@@ -69,6 +69,10 @@ def textBox(textIn, selected):
 
     return boxSurf
 
+pallets = {"White Hot": (lambda r : r, lambda g : g, lambda b : b),
+           "Black Hot": (lambda r: 255 - r, lambda g : 255 - g, lambda b: 255 - b),
+           "Red Hot": (lambda r: r, lambda g : 0, lambda b: 255 - r)
+           }
 
 rotaryEncoder = rotary.Rotary(23, 24, 25, 2)
 rotaryEncoder.register(increment = incrementFlagCallback,
@@ -141,6 +145,9 @@ while mainLoop:
 
     match mainMenu["display"].getCurrentVal():
         case "Edges":
+            # Converts an image to grayscale and computes the threshold values
+            # for the cv2.Canny function. Then applies canny edge detection 
+            # before converting the image into RGB.
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             
             if mainMenu["edgeDetectionMode"].getCurrentVal() == "Auto":
@@ -152,22 +159,25 @@ while mainLoop:
                 upperThreshold = mainMenu["edgeSensitivityUpper"].getCurrentVal()
 
             edges = cv2.Canny(frame, lowerThreshold, upperThreshold)
-            img = cv2.cvtColor(edges, cv2.COLOR_GRAY2RGB)
+            img = edges
 
         case "Cutoff":
+            # Converts the image into grayscale, computes the threshold for the
+            # bottom percentage of pixels then sets them to 0.
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             threshold = np.max(frame) * (mainMenu["cutoff"].getCurrentVal()/100)
-            print(np.max(frame))
             for i in range(len(frame)):
                 frame[i][frame[i] < threshold] = 0
-            img = cv2.cvtColor(frame, cv2.COLOR_GRAY2RGB)
+            img = frame
 
         case "Full image":
-            img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            img = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         case _:
-            img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        
+            img = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+    curPallet = pallets[mainMenu["pallet"].getCurrentVal()]
+    img = [(curPallet[0](pixel), curPallet[1](pixel), curPallet[2](pixel)) for pixel in row for row in img]
     img = cv2.resize(img, (coveredY, coveredX), interpolation = interpolationMode)
     #img = cv2.copyMakeBorder(img, yBuffer, yBuffer, xBuffer, 
     #xBuffer, cv2.BORDER_CONSTANT, value = (0,0,0))

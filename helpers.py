@@ -7,8 +7,6 @@ Notes:
 
 
 TODO:
-Handle changing text box sizes
-Handle submenues
 """
 
 class MenuItem:
@@ -116,7 +114,6 @@ class MenuItem:
                 self.updateDisplayText(self.currentVal)
             case "exit":
                 pass
-
 
 #---------------------------------------------------------------------------
 #SERIAL COMMUNICATION
