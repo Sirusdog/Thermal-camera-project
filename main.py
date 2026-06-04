@@ -71,7 +71,7 @@ def textBox(textIn, selected):
 
 pallets = {"White Hot": (lambda r : r, lambda g : g, lambda b : b),
            "Black Hot": (lambda r: 255 - r, lambda g : 255 - g, lambda b: 255 - b),
-           "Red Hot": (lambda r: r, lambda g : 0, lambda b: 255 - r)
+           "Red Hot": (lambda r: r, lambda g : 0, lambda b: 255 - b)
            }
 
 rotaryEncoder = rotary.Rotary(23, 24, 25, 2)
@@ -178,9 +178,9 @@ while mainLoop:
 
     curPallet = pallets[mainMenu["pallet"].getCurrentVal()]
     img = cv2.merge([
-        np.vectorize(curPallet[0])(imgGray),
-        np.vectorize(curPallet[1])(imgGray),
-        np.vectorize(curPallet[2])(imgGray)]
+        np.vectorize(lambda r : 255 - r)(imgGray),
+        np.vectorize(lambda g : 0)(imgGray),
+        np.vectorize(lambda b : b)(imgGray)]
     )
     img = cv2.resize(img, (coveredY, coveredX), interpolation = interpolationMode)
     #img = cv2.copyMakeBorder(img, yBuffer, yBuffer, xBuffer, 
