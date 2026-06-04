@@ -178,7 +178,7 @@ class UARTController:
         "SETDynamicDenoise": Command(b"\x78", b"\x16", b"\x00", b"\x00"),
         "SETPallet": Command(b"\x78", b"\x20", b"\x00", b"\x00")
         }
-        curCommand = self.commands[commandName]
+        curCommand = commands[commandName]
         if len(modifyData) != 0:
             curCommand.changeData(*modifyData)
         payload = curCommand.buildPayload()
