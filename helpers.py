@@ -42,7 +42,7 @@ class MenuItem:
                 pass
 
             case "exit":
-                pass
+                self.currentVal = ""
 
             case _:
                 raise ValueError("Invalid menu type specified.")
