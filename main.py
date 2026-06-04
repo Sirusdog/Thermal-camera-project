@@ -158,7 +158,7 @@ while mainLoop:
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             threshold = 255 * (mainMenu["cutoff"].getCurrentVal())/100
             for row in range(len(frame)):
-                for col in range(len(row)):
+                for col in range(row):
                     if frame[row][col] < threshold:
                         frame[row][col] = 0
             img = cv2.cvtColor(frame, cv2.COLOR_GRAY2RGB)
