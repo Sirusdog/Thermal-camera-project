@@ -21,11 +21,11 @@ class MenuItem:
         self.displayText = displayText
         self.defaultDisplayText = displayText
         self.name = name
-        self.type = itemType
+        self.itemType = itemType
         self.currentVal = data[0]
         self.dependency = dependsOn
 
-        match self.type:
+        match itemType:
             case "text":
                 self.possibleValues = data 
                 self.currentVal = 0
@@ -67,10 +67,10 @@ class MenuItem:
     def getCurrentVal(self):
         return self.currentVal
     def setCurrentVal(self, val):
-        self.currentVal = val
+        self.currentVal = vals
 
 
-    match type:
+    match itemType:
         case "text":
             def incrementCurrentVal(self):
                 self.currentVal += 1
