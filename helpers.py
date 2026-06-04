@@ -178,6 +178,7 @@ class UARTController:
         "SETDynamicDenoise": Command(b"\x78", b"\x16", b"\x00", b"\x00"),
         "SETPallet": Command(b"\x78", b"\x20", b"\x00", b"\x00")
         }
+        print(commandName, "Command name")
         curCommand = commands[commandName]
         if len(modifyData) != 0:
             curCommand.changeData(*modifyData)
