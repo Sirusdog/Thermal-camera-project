@@ -48,8 +48,6 @@ class MenuItem:
 
             case _:
                 raise ValueError("Invalid menu type specified.")
-
-        self.initialiseIncrementDecrementFunctions()
     
     def updateDisplayText(self, val):
         """Updates the displayed text to the given value. Mostly internal."""
