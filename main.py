@@ -171,7 +171,7 @@ while mainLoop:
             imgGray = frame
 
         case "Full image":
-            img = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            imgGray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         case _:
             imgGray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
