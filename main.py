@@ -15,8 +15,7 @@ pygame.init()
 usbCam = False
 mainLoop = True
 
-screenResX = 1920
-screenResY = 1080
+
 
 thermalCameraResX = 640
 thermalCameraResY = 480
@@ -27,14 +26,19 @@ coveredY = int(coveredX * (thermalCameraResY/thermalCameraResX))
 # Maintains aspect ratio. Will work with a predefined value but 
 # the image may become stretched.
 
-xBuffer = int(screenResX/2 - coveredX/2)
-yBuffer = int(screenResY - coveredY/2)
-
 interpolationMode = cv2.INTER_AREA if coveredX < thermalCameraResX else cv2.INTER_NEAREST
 
 display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 pygame.mouse.set_visible(False)
 font = pygame.font.SysFont(None, 30)
+
+screenResX = display.get_width()
+screenResY = display.get_height()
+
+xBuffer = int(screenResX/2 - coveredX/2)
+yBuffer = int(screenResY - coveredY/2)
+
+print(display.get_width(), display.get_height())
 
 buttonFlag = False
 incrementFlag = False
