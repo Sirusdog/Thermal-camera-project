@@ -208,7 +208,7 @@ while mainLoop:
     img = cv2.resize(img, (int(coveredY * zoomLvl), int(coveredX * zoomLvl)), interpolation = interpolationMode)
 
     surf = pygame.surfarray.make_surface(img)
-    display.blit(surf, (int(xBuffer/zoomLvl), int(yBuffer/zoomLvl)))
+    display.blit(surf, (int(xBuffer/(zoomLvl**2)), int(yBuffer/(zoomLvl**2))))
 
 
     # Handle pygame & keypress inputs
