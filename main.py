@@ -177,7 +177,7 @@ while mainLoop:
             imgGray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     curPallet = pallets[mainMenu["pallet"].getCurrentVal()]
-    img = cv2.cvtColor(frame, cv2.COLOR_GRAY2RGB)
+    img = cv2.cvtColor(imgGray, cv2.COLOR_GRAY2RGB)
     img = cv2.resize(img, (coveredY, coveredX), interpolation = interpolationMode)
     #img = cv2.copyMakeBorder(img, yBuffer, yBuffer, xBuffer, 
     #xBuffer, cv2.BORDER_CONSTANT, value = (0,0,0))
