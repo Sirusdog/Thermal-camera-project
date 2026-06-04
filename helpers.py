@@ -69,7 +69,7 @@ class MenuItem:
     def getCurrentVal(self):
         return self.currentVal
     def setCurrentVal(self, val):
-        self.currentVal = vals
+        self.currentVal = val
 
 
     match itemType:
