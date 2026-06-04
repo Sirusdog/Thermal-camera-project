@@ -141,7 +141,7 @@ while mainLoop:
 
     mainMenu["display"].setCurrentVal(2)
 
-    match mainMenu["display"].getCurrentVal():
+    match mainMenu["display"].possibleValues[mainMenu["display"].getCurrentVal()]:
         case "Edges":
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             
