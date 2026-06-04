@@ -73,8 +73,8 @@ class MenuItem:
 
     def getType(self):
         return self.type
-        
-    match getType():
+
+    match MenuItem.itemType:
         case "text":
             def incrementCurrentVal(self):
                 self.currentVal += 1
