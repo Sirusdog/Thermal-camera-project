@@ -178,6 +178,7 @@ while mainLoop:
 
     curPallet = np.vectorize(pallets[mainMenu["pallet"].getCurrentVal()])
     img = curPallet(imgGray)
+    print(img)
     img = cv2.resize(img, (coveredY, coveredX), interpolation = interpolationMode)
     #img = cv2.copyMakeBorder(img, yBuffer, yBuffer, xBuffer, 
     #xBuffer, cv2.BORDER_CONSTANT, value = (0,0,0))
