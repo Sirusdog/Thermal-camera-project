@@ -130,6 +130,27 @@ mainMenu = {
     "exit": MenuItem("Exit menu", "exit", "exit", None)
 }
 
+associatedCommands = {
+    "pallet": {
+        "command": "SETPallet",
+        "White Hot": b"\x00",
+        "Black Hot": b"\x01",
+        "Red Hot": b"\x02"
+        },
+    "staticDenoise": {
+        "command": "SETStaticDenoise"
+    },
+    "dynamicDenoise": {
+        "command": "SETDynamicDenoise"
+    },
+    "imageEnhancement": {
+        "command": "SETStaticDenoise"
+    },
+    "contrast": {
+        "command": "SETContrast"
+    }
+    }
+
 curMenuIndex = 0
 
 if usbCam:
@@ -190,7 +211,7 @@ while mainLoop:
     display.blit(surf, (xBuffer, yBuffer))
 
 
-    # Handle pygame & 
+    # Handle pygame & keypress inputs
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             mainLoop = False 
@@ -207,7 +228,8 @@ while mainLoop:
                 buttonFlagCallback()
 
 
-
+    # Logic for showing the menu when the button is pressed and the menu isn't 
+    # shown and for when it's pressed and something needs to be selected/
     if buttonFlag and showMenu == False:
         showMenu = True
         buttonFlag = False
@@ -219,7 +241,6 @@ while mainLoop:
         buttonFlag = False
 
     if showMenu:
-
         valid = False
         count = 0
         if not itemSelected:
@@ -263,20 +284,39 @@ while mainLoop:
         else:
             curMenuKey = list(mainMenu.keys())[curMenuIndex]
             mainMenu[curMenuKey].updateDisplayText(mainMenu[curMenuKey].getCurrentVal())
+
+            doChange = False
             if incrementFlag:
                 mainMenu[curMenuKey].incrementCurrentVal()
                 incrementFlag = False
+                doChange = True
             elif decrementFlag:
                 mainMenu[curMenuKey].decrementCurrentVal()
                 decrementFlag = False
+                doChange = True
 
+            if doChange and curMenuKey in associatedCommands.keys():
+                cmdName = associatedCommands[curMenuKey]["command"]
+                if cmdName == "SETPallet":
+                    data = associatedCommands[curMenuKey][mainMenu[curMenuKey].getCurrentVal()]
+                else:
+                    data = bytes([mainMenu[curMenuKey].getCurrentVal()])
+                UARTController.sendCommand(
+                    cameraControl,
+                    cmdName,
+                    *data
+                )
 
+        # Render the menu
         mainItem = list(mainMenu.items())[curMenuIndex][1].getDisplayText()
         displayX, displayY = display.get_width(), display.get_height()
         textBoxSurf = textBox(mainItem, itemSelected)
         textBoxX, textBoxY = textBoxSurf.get_width(), textBoxSurf.get_height()
         display.blit(textBoxSurf, (displayX/2 - textBoxX/2, displayY/2 - textBoxY/2))
 
+        # Handle what to do with those inputs
+        if mainItem.getName() == "exit" and itemSelected:
+            showMenu = False
     pygame.display.update()
 
 pygame.quit()

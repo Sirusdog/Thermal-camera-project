@@ -167,9 +167,6 @@ class UARTController:
     """
     Helper class for handling the sending and interpretation? of commands.
     """
-    uartStart = b"\xF0"
-    uartEnd = b"\xFF"
-    deviceAddress = b"\x36"
     
     commands = {
         "READModel": Command(b"\x74", b"\x02", b"\x01", b"\x00"),
@@ -178,14 +175,16 @@ class UARTController:
         "SETImageEnhancement": Command(b"\x78", b"\x10", b"\x00", b"\x00"),
         "SETStaticDenoise": Command(b"\x78", b"\x15", b"\x00", b"\x00"),
         "SETDynamicDenoise": Command(b"\x78", b"\x16", b"\x00", b"\x00"),
-        "SETPallette": Command(b"\x78", b"\x20", b"\x00", b"\x00")
+        "SETPallet": Command(b"\x78", b"\x20", b"\x00", b"\x00")
     }
 
-    def sendCommand(self, signalOBJ, commandName, *modifyData):
+    def sendCommand(self, serialOBJ, commandName, *modifyData):
         curCommand = self.commands[commandName]
         if len(modifyData) != 0:
             curCommand.changeData(*modifyData)
-        payload = curCommand.buildPayload() 
+        payload = curCommand.buildPayload()
+        print(payload)
+        serialOBJ.write(payload)
 
 #Checksum = Add device, class, subclass, retirn flag and data, take lower 8 bits
 
