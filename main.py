@@ -27,8 +27,8 @@ coveredY = int(coveredX * (thermalCameraResY/thermalCameraResX))
 # Maintains aspect ratio. Will work with a predefined value but 
 # the image may become stretched.
 
-xBuffer = int((screenResX - coveredX)/2 - coveredX/2)
-yBuffer = int((screenResY - coveredY)/2 - coveredY/2)
+xBuffer = int(screenResX/2 - coveredX/2)
+yBuffer = int(screenResY - coveredY/2)
 
 interpolationMode = cv2.INTER_AREA if coveredX < thermalCameraResX else cv2.INTER_NEAREST
 
@@ -179,8 +179,8 @@ while mainLoop:
     curPallet = pallets[mainMenu["pallet"].getCurrentVal()]
     img = cv2.cvtColor(imgGray, cv2.COLOR_GRAY2RGB)
     img = cv2.resize(img, (coveredY, coveredX), interpolation = interpolationMode)
-    img = cv2.copyMakeBorder(img, xBuffer, xBuffer, yBuffer, 
-    yBuffer, cv2.BORDER_CONSTANT, value = (0,0,0))
+    img = cv2.copyMakeBorder(img, yBuffer, yBuffer, xBuffer, 
+    xBuffer, cv2.BORDER_CONSTANT, value = (0,0,0))
 
     surf = pygame.surfarray.make_surface(img)
     display.blit(surf, (0, 0))
