@@ -240,11 +240,11 @@ while mainLoop:
                         count += 1
                         if curMenuIndex < 0:
                             curMenuIndex = len(mainMenu) - 1
-                
-                mainMenu[list(mainMenu.keys())[curMenuIndex][1]].reset()
+                print(list(mainMenu.keys())[curMenuIndex][1])
+                print(list(mainMenu.keys())[curMenuIndex])
+                mainMenu[list(mainMenu.keys())[curMenuIndex]].reset()
             else:
-                curMenuKey = list(mainMenu.keys())[curMenuIndex][1]
-                print(mainMenu.keys())
+                curMenuKey = list(mainMenu.keys())[curMenuIndex]
                 if incrementFlag:
                     mainMenu[curMenuKey].incrementCurrentVal()
                     print("Horizontal scrolling activated!")
