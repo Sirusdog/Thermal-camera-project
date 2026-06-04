@@ -141,7 +141,7 @@ while mainLoop:
 
     mainMenu["display"].setCurrentVal(2)
 
-    match mainMenu["display"].possibleValues[mainMenu["display"].getCurrentVal()]:
+    match mainMenu["display"].getCurrentVal():
         case "Edges":
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             
@@ -243,6 +243,7 @@ while mainLoop:
             mainMenu[list(mainMenu.keys())[curMenuIndex]].reset()
         else:
             curMenuKey = list(mainMenu.keys())[curMenuIndex]
+            mainMenu[curMenuKey].updateDisplayText(mainMenu[curMenuKey].getCurrentVal())
             if incrementFlag:
                 mainMenu[curMenuKey].incrementCurrentVal()
                 incrementFlag = False
