@@ -86,7 +86,7 @@ mainMenu = {
         "Full image", "Cutoff", "Edges"
     ]),
 
-    "cutoff": MenuItem("Cutoff temperature", "cutoff", 50, 0, 100,
+    "cutoff": MenuItem("Cutoff temperature", "cutoff", "int",  50, 0, 100,
         dependsOn = ("display", "Cutoff")
     ),
 
