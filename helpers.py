@@ -66,9 +66,9 @@ class MenuItem:
     
     def getCurrentVal(self):
         if self.itemType == "text":
-            return self.possibleValues[currentVal]
+            return self.possibleValues[self.currentVal]
         else:
-            return currentVal
+            return self.currentVal
     def setCurrentVal(self, val):
         self.currentVal = val
 
