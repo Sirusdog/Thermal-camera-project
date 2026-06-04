@@ -156,11 +156,12 @@ while mainLoop:
 
         case "Cutoff":
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            threshold = np.max(frame) * mainMenu["cutoff"].getCurrentVal()/100
+            threshold = np.max(frame) * (mainMenu["cutoff"].getCurrentVal()/100)
+            print(np.max(frame))
             for i in range(len(frame)):
                 frame[i][frame[i] < threshold] = 0
             img = cv2.cvtColor(frame, cv2.COLOR_GRAY2RGB)
-            
+
         case "Full image":
             img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
