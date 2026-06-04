@@ -139,8 +139,6 @@ while mainLoop:
         frame = np.rot90(frame)
         frame = cv2.flip(frame, 1)
 
-    mainMenu["display"].setCurrentVal(2)
-
     match mainMenu["display"].getCurrentVal():
         case "Edges":
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -174,6 +172,8 @@ while mainLoop:
     surf = pygame.surfarray.make_surface(img)
     display.blit(surf, (0, 0))
 
+
+    # Handle pygame & 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             mainLoop = False 
@@ -182,12 +182,14 @@ while mainLoop:
                 mainLoop = False
 
             # For debug inputs.
-            if pygame.key.get_pressed()[pygame.K_UP]:
-                incrementFlagCallback()
             if pygame.key.get_pressed()[pygame.K_DOWN]:
+                incrementFlagCallback()
+            if pygame.key.get_pressed()[pygame.K_UP]:
                 decrementFlagCallback()
             if pygame.key.get_pressed()[pygame.K_SPACE]:
                 buttonFlagCallback()
+
+
 
     if buttonFlag and showMenu == False:
         showMenu = True
