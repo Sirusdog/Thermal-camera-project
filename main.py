@@ -184,7 +184,7 @@ while mainLoop:
     curPallet = pallets[mainMenu["pallet"].getCurrentVal()]
     img = cv2.cvtColor(imgGray, cv2.COLOR_GRAY2RGB)
     zoomLvl = mainMenu["digitalZoom"].getCurrentVal()
-    img = cv2.resize(img, (coveredY, coveredX), interpolation = interpolationMode)
+    img = cv2.resize(img, (coveredY * zoomLvl, coveredX * zoomLvl), interpolation = interpolationMode)
 
     surf = pygame.surfarray.make_surface(img)
     display.blit(surf, (xBuffer, yBuffer))
