@@ -235,8 +235,8 @@ while mainLoop:
                     else:
                         curMenuIndex += 1
                         count += 1
-                        if curMenuIndex < 0:
-                            curMenuIndex = len(mainMenu) - 1
+                        if curMenuIndex == len(mainMenu):
+                            curMenuIndex = 0
 
             elif decrementFlag == True:
                 curMenuIndex -= 1
