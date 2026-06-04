@@ -245,10 +245,11 @@ while mainLoop:
             curMenuKey = list(mainMenu.keys())[curMenuIndex]
             if incrementFlag:
                 mainMenu[curMenuKey].incrementCurrentVal()
-                print("Horizontal scrolling activated!")
+                incrementFlag == False
             elif decrementFlag:
                 mainMenu[curMenuKey].decrementCurrentVal()
-                print("Horizontal scrolling activated!")
+                decrementFlag == False
+
 
         mainItem = list(mainMenu.items())[curMenuIndex][1].getDisplayText()
         displayX, displayY = surf.get_width(), surf.get_height()
