@@ -12,8 +12,6 @@ Handle submenues
 """
 
 class MenuItem:
-
-    itemType = None
     """
     Class for each individual menu item.
     """
@@ -50,6 +48,8 @@ class MenuItem:
 
             case _:
                 raise ValueError("Invalid menu type specified.")
+
+        initialiseIncrementDecrementFunctions()
     
     def updateDisplayText(self, val):
         """Updates the displayed text to the given value. Mostly internal."""
@@ -74,56 +74,57 @@ class MenuItem:
     def getType(self):
         return self.type
 
-    match MenuItem.itemType:
-        case "text":
-            def incrementCurrentVal(self):
-                self.currentVal += 1
-                if self.currentVal <= len(self.possibleValues) - 1:
-                    self.currentVal = 0
-                self.updateDisplayText(self.possibleValues[self.currentVal])
-            def decrementCurrentVal(self):
-                self.currentVal -= 1
-                if self.currentVal >= 0:
-                    self.currentVal = len(self.possibleValues) - 1
-                self.updateDisplayText(self.possibleValues[self.currentVal])
+    def initialiseIncrementDecrementFunctions(self):
+        match self.itemType:
+            case "text":
+                def incrementCurrentVal(self):
+                    self.currentVal += 1
+                    if self.currentVal <= len(self.possibleValues) - 1:
+                        self.currentVal = 0
+                    self.updateDisplayText(self.possibleValues[self.currentVal])
+                def decrementCurrentVal(self):
+                    self.currentVal -= 1
+                    if self.currentVal >= 0:
+                        self.currentVal = len(self.possibleValues) - 1
+                    self.updateDisplayText(self.possibleValues[self.currentVal])
 
-            def getCurrentVal(self): 
-                # scuffed but it's the only case where it needs to work
-                return self.possibleValues[self.vurrentVal]
+                def getCurrentVal(self): 
+                    # scuffed but it's the only case where it needs to work
+                    return self.possibleValues[self.vurrentVal]
 
-        case "int":
-            def incrementCurrentVal(self):
-                if self.currentVal != self.maximum:
-                    self.currentVal += self.stepSize
-                self.updateDisplayText(self.currentVal)
-            def decrementCurrentVal(self):
-                if self.currentVal != self.minimum:
-                    self.currentVal -= self.stepSize
-                self.updateDisplayText(self.currentVal)
+            case "int":
+                def incrementCurrentVal(self):
+                    if self.currentVal != self.maximum:
+                        self.currentVal += self.stepSize
+                    self.updateDisplayText(self.currentVal)
+                def decrementCurrentVal(self):
+                    if self.currentVal != self.minimum:
+                        self.currentVal -= self.stepSize
+                    self.updateDisplayText(self.currentVal)
 
-        case "float":
-            def incrementCurrentVal(self):
-                if self.currentVal != self.maximum:
-                    self.currentVal += self.stepSize
-                self.updateDisplayText(self.currentVal)
-            def decrementCurrentVal(self):
-                if self.currentVal != self.minimum:
-                    self.currentVal -= self.stepSize
-                self.updateDisplayText(self.currentVal)
-            
-        case "toggle":
-            def incrementCurrentVal(self):
-                self.currentVal = not self.currentVal
-                self.updateDisplayText(self.currentVal)
-            def decrementCurrentVal(self):
-                self.currentVal = not self.currentVal
-                self.updateDisplayText(self.currentVal)
+            case "float":
+                def incrementCurrentVal(self):
+                    if self.currentVal != self.maximum:
+                        self.currentVal += self.stepSize
+                    self.updateDisplayText(self.currentVal)
+                def decrementCurrentVal(self):
+                    if self.currentVal != self.minimum:
+                        self.currentVal -= self.stepSize
+                    self.updateDisplayText(self.currentVal)
+                
+            case "toggle":
+                def incrementCurrentVal(self):
+                    self.currentVal = not self.currentVal
+                    self.updateDisplayText(self.currentVal)
+                def decrementCurrentVal(self):
+                    self.currentVal = not self.currentVal
+                    self.updateDisplayText(self.currentVal)
 
-        case "exit":
-            def incrementCurrentVal(self):
-                pass
-            def decrementCurrentVal(self):
-                pass
+            case "exit":
+                def incrementCurrentVal(self):
+                    pass
+                def decrementCurrentVal(self):
+                    pass
 
 #---------------------------------------------------------------------------
 #SERIAL COMMUNICATION
