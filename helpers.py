@@ -115,6 +115,7 @@ class MenuItem:
             case "exit":
                 pass
 
+
 #---------------------------------------------------------------------------
 #SERIAL COMMUNICATION
 
@@ -154,7 +155,6 @@ class Command():
                                 + int.from_bytes(self.subclassAddress, byteorder="big") \
                                 + int.from_bytes(self.flag, byteorder = "big")
         for i in data:
-            print(i)
             chkInt += int.from_bytes(i, byteorder = "big")
         self.chk = bytes([int((bin(chkInt)[2:])[-8:], 2)])
         
@@ -166,6 +166,7 @@ class Command():
                + self.classAddress + self.subclassAddress \
                + self.flag + dataString\
                + self.chk + b"\xFF"
+
 
 class UARTController:
     """
@@ -182,7 +183,7 @@ class UARTController:
         "SETDynamicDenoise": Command(b"\x78", b"\x16", b"\x00", b"\x00"),
         "SETPallet": Command(b"\x78", b"\x20", b"\x00", b"\x00")
         }
-        print(commandName, "Command name")
+
         curCommand = commands[commandName]
         if len(modifyData) != 0:
             curCommand.changeData(*modifyData)

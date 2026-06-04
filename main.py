@@ -281,6 +281,7 @@ while mainLoop:
                         if curMenuIndex < 0:
                             curMenuIndex = len(mainMenu) - 1
             mainMenu[list(mainMenu.keys())[curMenuIndex]].reset()
+
         else:
             curMenuKey = list(mainMenu.keys())[curMenuIndex]
             mainMenu[curMenuKey].updateDisplayText(mainMenu[curMenuKey].getCurrentVal())
@@ -297,12 +298,10 @@ while mainLoop:
 
             if doChange and curMenuKey in associatedCommands.keys():
                 cmdName = associatedCommands[curMenuKey]["command"]
-                print(cmdName)
                 if cmdName == "SETPallet":
                     data = associatedCommands[curMenuKey][mainMenu[curMenuKey].getCurrentVal()]
                 else:
                     data = bytes([mainMenu[curMenuKey].getCurrentVal()])
-                print(data)
                 UARTController.sendCommand(
                     cameraControl,
                     cmdName,
@@ -319,6 +318,7 @@ while mainLoop:
         # Handle what to do with those inputs
         if list(mainMenu.items())[curMenuIndex][1].getName() == "exit" and itemSelected:
             showMenu = False
+            itemSelected = False
     pygame.display.update()
 
 pygame.quit()
