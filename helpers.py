@@ -58,7 +58,7 @@ class MenuItem:
 
 
     def getDisplayText(self): 
-        return self.displayText
+        return str(self.displayText)
     # Setter covered by self.updateDisplayText
     
     def getName(self):
