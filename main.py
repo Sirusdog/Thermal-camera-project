@@ -302,10 +302,11 @@ while mainLoop:
                     data = associatedCommands[curMenuKey][mainMenu[curMenuKey].getCurrentVal()]
                 else:
                     data = bytes([mainMenu[curMenuKey].getCurrentVal()])
+                print(data)
                 UARTController.sendCommand(
                     cameraControl,
                     cmdName,
-                    *data
+                    data
                 )
 
         # Render the menu
