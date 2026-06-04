@@ -315,7 +315,7 @@ while mainLoop:
         display.blit(textBoxSurf, (displayX/2 - textBoxX/2, displayY/2 - textBoxY/2))
 
         # Handle what to do with those inputs
-        if mainItem.getName() == "exit" and itemSelected:
+        if list(mainMenu.items())[curMenuIndex][1].getName() == "exit" and itemSelected:
             showMenu = False
     pygame.display.update()
 
