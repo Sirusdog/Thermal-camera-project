@@ -168,7 +168,7 @@ class UARTController:
     Helper class for handling the sending and interpretation? of commands.
     """
     
-    def sendCommand(self, serialOBJ, commandName, *modifyData):
+    def sendCommand(serialOBJ, commandName, *modifyData):
         commands = {
         "READModel": Command(b"\x74", b"\x02", b"\x01", b"\x00"),
         "SETBrightness": Command(b"\x78", b"\x02", b"\x00", b"\x00"),
