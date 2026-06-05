@@ -187,15 +187,18 @@ class CameraHandler:
             f = self.cam.capture_array()
             f = np.rot90(f)
             frame = cv2.flip(f, 1)
-            print("Updating thread!")
-            global curDisplayMode
-            if curDisplayMode =="Edges":
+            global mainMenu
+
+            displayMode = mainMenu["display"].getCurrentVal
+            edgeDetectMode = mainMenu["edgeDetectionMode"].getCurrentVal()
+
+            if displayMode =="Edges":
                 # Converts an image to grayscale and computes the threshold values
                 # for the cv2.Canny function. Then applies canny edge detection 
                 # before converting the image into RGB.
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
                 
-                if mainMenu["edgeDetectionMode"].getCurrentVal() == "Auto":
+                if edgeDetectMode == "Auto":
                     median = np.median(frame)
                     lowerThreshold = int(max(0, 0.66 * median))
                     upperThreshold = int(min(255, 1.33 * median))
@@ -206,7 +209,7 @@ class CameraHandler:
                 edges = cv2.Canny(frame, lowerThreshold, upperThreshold)
                 img = cv2.cvtColor(edges, cv2.COLOR_GRAY2RGB)
 
-            elif curDisplayMode == "Cutoff":
+            elif displayMode == "Cutoff":
                 # Converts the image into grayscale, computes the threshold for the
                 # bottom percentage of pixels then sets them to 0.
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -216,7 +219,7 @@ class CameraHandler:
 
                 img = cv2.cvtColor(frame, cv2.COLOR_GRAY2RGB)
 
-            elif curDisplayMode == "Full image":
+            elif displayMode == "Full image":
                 img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
             else:
