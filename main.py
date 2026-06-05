@@ -190,7 +190,7 @@ class CameraHandler:
             displayMode = mainMenu["display"].getCurrentVal()
             edgeDetectMode = mainMenu["edgeDetectionMode"].getCurrentVal()
             curPallet = pallets[mainMenu["pallet"].getCurrentVal()]
-            rO, gO, bO, rM, gM, bM = curPallet
+            rO, gO, bO, rM, gM, bM = [int(i) for i in curPallet]
 
             if displayMode =="Edges":
                 # Converts an image to grayscale and computes the threshold values
