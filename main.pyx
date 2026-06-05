@@ -176,39 +176,40 @@ while mainLoop:
         frame = np.rot90(frame)
         frame = cv2.flip(frame, 1)
 
-    match mainMenu["display"].getCurrentVal():
-        case "Edges":
-            # Converts an image to grayscale and computes the threshold values
-            # for the cv2.Canny function. Then applies canny edge detection 
-            # before converting the image into RGB.
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            
-            if mainMenu["edgeDetectionMode"].getCurrentVal() == "Auto":
-                median = np.median(frame)
-                lowerThreshold = int(max(0, 0.66 * median))
-                upperThreshold = int(min(255, 1.33 * median))
-            else:
-                lowerThreshold = mainMenu["edgeSensitivityLower"].getCurrentVal()
-                upperThreshold = mainMenu["edgeSensitivityUpper"].getCurrentVal()
+    curDisplayMode = mainMenu["display"].getCurrentVal()
 
-            edges = cv2.Canny(frame, lowerThreshold, upperThreshold)
-            img = cv2.cvtColor(edges, cv2.COLOR_GRAY2RGB)
+    if curDisplayMode =="Edges":
+        # Converts an image to grayscale and computes the threshold values
+        # for the cv2.Canny function. Then applies canny edge detection 
+        # before converting the image into RGB.
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        
+        if mainMenu["edgeDetectionMode"].getCurrentVal() == "Auto":
+            median = np.median(frame)
+            lowerThreshold = int(max(0, 0.66 * median))
+            upperThreshold = int(min(255, 1.33 * median))
+        else:
+            lowerThreshold = mainMenu["edgeSensitivityLower"].getCurrentVal()
+            upperThreshold = mainMenu["edgeSensitivityUpper"].getCurrentVal()
 
-        case "Cutoff":
-            # Converts the image into grayscale, computes the threshold for the
-            # bottom percentage of pixels then sets them to 0.
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            threshold = np.max(frame) * (mainMenu["cutoff"].getCurrentVal()/100)
-            for i in range(len(frame)):
-                frame[i][frame[i] < threshold] = 0
+        edges = cv2.Canny(frame, lowerThreshold, upperThreshold)
+        img = cv2.cvtColor(edges, cv2.COLOR_GRAY2RGB)
 
-            img = cv2.cvtColor(frame, cv2.COLOR_GRAY2RGB)
+    elif curDisplayMode == "Cutoff":
+        # Converts the image into grayscale, computes the threshold for the
+        # bottom percentage of pixels then sets them to 0.
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        threshold = np.max(frame) * (mainMenu["cutoff"].getCurrentVal()/100)
+        for i in range(len(frame)):
+            frame[i][frame[i] < threshold] = 0
 
-        case "Full image":
-            img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        img = cv2.cvtColor(frame, cv2.COLOR_GRAY2RGB)
 
-        case _:
-            img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    elif curDisplayMode == "Full image":
+        img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+    else:
+        img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
     curPallet = pallets[mainMenu["pallet"].getCurrentVal()]
     zoomLvl = mainMenu["digitalZoom"].getCurrentVal()

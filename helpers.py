@@ -23,29 +23,29 @@ class MenuItem:
         self.currentVal = data[0]
         self.dependency = dependsOn
 
-        match itemType:
-            case "text":
-                self.possibleValues = data 
-                self.currentVal = 0
 
-            case "int":
-                self.maximum = data[1]
-                self.minimum = data[2]
-                self.stepSize = round((self.maximum - self.minimum) / numSteps)
+        if itemType == "text":
+            self.possibleValues = data 
+            self.currentVal = 0
 
-            case "float":
-                self.maximum = data[1]
-                self.minimum = data[2]
-                self.stepSize = (self.maximum - self.minimum) / numSteps
+        elif itemType == "int":
+            self.maximum = data[1]
+            self.minimum = data[2]
+            self.stepSize = round((self.maximum - self.minimum) / numSteps)
 
-            case "toggle":
-                pass
+        elif itemType == "float":
+            self.maximum = data[1]
+            self.minimum = data[2]
+            self.stepSize = (self.maximum - self.minimum) / numSteps
 
-            case "exit":
-                self.currentVal = ""
+        elif itemType == "toggle":
+            pass
 
-            case _:
-                raise ValueError("Invalid menu type specified.")
+        elif itemType == "exit":
+            self.currentVal = ""
+
+        else:
+            raise ValueError("Invalid menu type specified.")
     
     def updateDisplayText(self, val):
         """Updates the displayed text to the given value. Mostly internal."""
@@ -73,47 +73,45 @@ class MenuItem:
     def getType(self):
         return self.type
     def incrementCurrentVal(self):
-        match self.itemType:
-            case "text":
-                self.currentVal += 1
-                if self.currentVal == len(self.possibleValues):
-                    self.currentVal = 0
-                self.updateDisplayText(self.possibleValues[self.currentVal])
-            case "int":
-                if self.currentVal != self.maximum:
-                    self.currentVal += self.stepSize
-                self.updateDisplayText(self.currentVal)
-            case "float":
-                if self.currentVal != self.maximum:
-                    self.currentVal += self.stepSize
-                    self.currentVal = round(self.currentVal, 2)
-                self.updateDisplayText(self.currentVal)
-            case "toggle":
-                self.currentVal = not self.currentVal
-                self.updateDisplayText(self.currentVal)                    
-            case "exit":
-                pass
+        if self.itemType =="text":
+            self.currentVal += 1
+            if self.currentVal == len(self.possibleValues):
+                self.currentVal = 0
+            self.updateDisplayText(self.possibleValues[self.currentVal])
+        elif self.itemType == "int":
+            if self.currentVal != self.maximum:
+                self.currentVal += self.stepSize
+            self.updateDisplayText(self.currentVal)
+        elif self.itemType == "float":
+            if self.currentVal != self.maximum:
+                self.currentVal += self.stepSize
+                self.currentVal = round(self.currentVal, 2)
+            self.updateDisplayText(self.currentVal)
+        elif self.itemType == "toggle":
+            self.currentVal = not self.currentVal
+            self.updateDisplayText(self.currentVal)                    
+        elif self.itemType == "exit":
+            pass
 
     def decrementCurrentVal(self):
-        match self.itemType:
-            case "text":
-                self.currentVal -= 1
-                if self.currentVal < 0:
-                    self.currentVal = len(self.possibleValues) - 1
-                self.updateDisplayText(self.possibleValues[self.currentVal])
-            case "int":
-                if self.currentVal != self.minimum:
-                    self.currentVal -= self.stepSize
-                self.updateDisplayText(self.currentVal)
-            case "float":
-                if self.currentVal != self.minimum:
-                    self.currentVal -= self.stepSize
-                self.updateDisplayText(self.currentVal)
-            case "toggle":
-                self.currentVal = not self.currentVal
-                self.updateDisplayText(self.currentVal)
-            case "exit":
-                pass
+        if self.itemType ==  "text":
+            self.currentVal -= 1
+            if self.currentVal < 0:
+                self.currentVal = len(self.possibleValues) - 1
+            self.updateDisplayText(self.possibleValues[self.currentVal])
+        elif self.itemType == "int":
+            if self.currentVal != self.minimum:
+                self.currentVal -= self.stepSize
+            self.updateDisplayText(self.currentVal)
+        elif self.itemType == "float":
+            if self.currentVal != self.minimum:
+                self.currentVal -= self.stepSize
+            self.updateDisplayText(self.currentVal)
+        elif self.itemType == "toggle":
+            self.currentVal = not self.currentVal
+            self.updateDisplayText(self.currentVal)
+        elif self.itemType == "exit":
+            pass
 
 
 #---------------------------------------------------------------------------
