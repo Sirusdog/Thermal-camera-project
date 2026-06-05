@@ -2,6 +2,7 @@ from collections.abc import Callable
 from picamera2 import Picamera2
 from threading import Thread
 import cv2
+import numpy as np
 
 #import pySerial as ser
 
@@ -27,7 +28,7 @@ class CameraHandler:
         return self
 
     def updateThread(self):
-        f = cam.capture_array()
+        f = self.cam.capture_array()
         f = np.rot90(f)
         frame = cv2.flip(f, 1)
 
