@@ -194,7 +194,7 @@ class UARTController:
         print(payload)
         serialOBJ.write(payload)
 
-    def readCommand(serialOBJ)
+   #def readCommand(serialOBJ)
 
 #Checksum = Add device, class, subclass, retirn flag and data, take lower 8 bits
 
