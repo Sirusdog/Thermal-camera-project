@@ -1,5 +1,6 @@
 import serial
 from helpers import *
+from cythonFuncs import *
 import numpy as np 
 import cv2
 import pygame
@@ -75,9 +76,9 @@ def textBox(textIn, selected):
 
     
 
-pallets = {"White Hot": lambda i : (i, i, i),
-           "Black Hot": lambda i : (255 - i, 255 - i, 255 - i),
-           "Red Hot": lambda i : (i, 0, 255 - i)
+pallets = {"White Hot": [0, 0, 0, 1, 1, 1],
+           "Black Hot": lambda i : [255, 255, 255, -1, -1, -1],
+           "Red Hot": lambda i : [0, 0, 0, 1, 0, 0]
            }
 
 rotaryEncoder = rotary.Rotary(23, 24, 25, 2)
@@ -93,7 +94,7 @@ mainMenu = {
         "White Hot", "Black Hot", "Red Hot" # TODO DOUBLE CHECK THIS
     ]),
     "display": MenuItem("Display mode", "display", "text", *[
-        "Full image", "Cutoff", "Edges"
+        "Full image", "Cutoff", "Edges", "Raw output"
     ]),
 
     "cutoff": MenuItem("Cutoff temperature", "cutoff", "int",  50, 0, 100,
@@ -188,6 +189,7 @@ class CameraHandler:
 
             displayMode = mainMenu["display"].getCurrentVal()
             edgeDetectMode = mainMenu["edgeDetectionMode"].getCurrentVal()
+            curPallet = pallets[mainMenu["pallet"].getCurrentVal()]
 
             if displayMode =="Edges":
                 # Converts an image to grayscale and computes the threshold values
@@ -204,7 +206,7 @@ class CameraHandler:
                     upperThreshold = mainMenu["edgeSensitivityUpper"].getCurrentVal()
 
                 edges = cv2.Canny(frame, lowerThreshold, upperThreshold)
-                img = cv2.cvtColor(edges, cv2.COLOR_GRAY2RGB)
+                img = recolorImage(edges, *curPallet)
 
             elif displayMode == "Cutoff":
                 # Converts the image into grayscale, computes the threshold for the
@@ -214,12 +216,13 @@ class CameraHandler:
                 for i in range(len(frame)):
                     frame[i][frame[i] < threshold] = 0
 
-                img = cv2.cvtColor(frame, cv2.COLOR_GRAY2RGB)
+                img = recolorImage(frame, *curPallet)
 
             elif displayMode == "Full image":
-                img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                img = recolorImage(img, *curPallet)
 
-            else:
+            elif displayMode == "Raw output":
                 img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
             self.frame = img
@@ -299,12 +302,13 @@ while mainLoop:
                 if curMenuIndex >= len(mainMenu):
                     curMenuIndex = 0
 
-                while not valid and not count > len(mainMenu):
+                while not valid:
                     curMenuItem = list(mainMenu.items())[curMenuIndex][1]
                     dependencies = curMenuItem.dependency
+
                     if dependencies == None:
                         valid = True
-                    elif mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
+                    if mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
                         valid = True
                     else:
                         curMenuIndex += 1
@@ -317,18 +321,20 @@ while mainLoop:
                 decrementFlag = False
                 if curMenuIndex < 0:
                     curMenuIndex = len(mainMenu) - 1
-                while not valid and not count > 0:
+                while not valid:
                     curMenuItem = list(mainMenu.items())[curMenuIndex][1]
                     dependencies = curMenuItem.dependency
+
                     if dependencies == None:
                         valid = True
-                    elif mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
+                    if mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
                         valid = True
                     else:
                         curMenuIndex -= 1
                         count += 1
                         if curMenuIndex < 0:
                             curMenuIndex = len(mainMenu) - 1
+
             mainMenu[list(mainMenu.keys())[curMenuIndex]].reset()
 
         else:

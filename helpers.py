@@ -174,9 +174,7 @@ class UARTController:
     """
     Helper class for handling the sending and interpretation? of commands.
     """
-    
-    def sendCommand(serialOBJ, commandName, *modifyData):
-        commands = {
+    commands = {
         "READModel": Command(b"\x74", b"\x02", b"\x01", b"\x00"),
         "SETBrightness": Command(b"\x78", b"\x02", b"\x00", b"\x00"),
         "SETContrast": Command(b"\x78", b"\x03", b"\x00", b"\x00"),
@@ -185,13 +183,18 @@ class UARTController:
         "SETDynamicDenoise": Command(b"\x78", b"\x16", b"\x00", b"\x00"),
         "SETPallet": Command(b"\x78", b"\x20", b"\x00", b"\x00")
         }
+    
+    def sendCommand(serialOBJ, commandName, *modifyData):
+        
 
-        curCommand = commands[commandName]
+        curCommand = UARTController.commands[commandName]
         if len(modifyData) != 0:
             curCommand.changeData(*modifyData)
         payload = curCommand.buildPayload()
         print(payload)
         serialOBJ.write(payload)
+
+    def readCommand(serialOBJ)
 
 #Checksum = Add device, class, subclass, retirn flag and data, take lower 8 bits
 
