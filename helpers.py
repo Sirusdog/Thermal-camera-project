@@ -24,7 +24,7 @@ class CameraHandler:
         self.stopped = False
 
     def startThread(self):
-        Thread(target=self.update, args=()).start()
+        Thread(target=self.updateThread, args=()).start()
         return self
 
     def updateThread(self):
