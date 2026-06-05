@@ -22,7 +22,12 @@ class CameraHandler:
         self.cam.configure(config)
         self.cam.start()
         self.stopped = False
-        self.frame = None
+
+        f = self.cam.capture_array()
+        f = np.rot90(f)
+        frame = cv2.flip(f, 1)
+
+        self.frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
     def startThread(self):
         Thread(target=self.updateThread, args=()).start()
