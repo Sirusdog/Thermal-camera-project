@@ -188,7 +188,7 @@ class CameraHandler:
             f = np.rot90(f)
             frame = cv2.flip(f, 1)
 
-            self.frame = img
+            self.frame = frame
 
         if self.stopped:
             self.cam.stop()
