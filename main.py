@@ -77,8 +77,8 @@ def textBox(textIn, selected):
     
 
 pallets = {"White Hot": [0, 0, 0, 1, 1, 1],
-           "Black Hot": lambda i : [255, 255, 255, -1, -1, -1],
-           "Red Hot": lambda i : [0, 0, 0, 1, 0, 0]
+           "Black Hot": [255, 255, 255, -1, -1, -1],
+           "Red Hot": [0, 0, 0, 1, 0, 0]
            }
 
 rotaryEncoder = rotary.Rotary(23, 24, 25, 2)
