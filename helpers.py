@@ -13,6 +13,19 @@ Notes:
 TODO:
 """
 
+class Recolor:
+    transforms = {
+        "White Hot": [0, 0, 0, 1, 1, 1],
+        "Black Hot": [255, 255, 255, -1, -1, -1],
+        "Red Hot": [0, 0, 255, 1, 0, -1]}
+
+    def __init__(self, imgGray, pallet):
+        self.output = np.zeros((len(imgGray), len(imgGray[0])))
+        self.imgGray = imgGray 
+        self.transformations = Recolor.transforms[pallet]
+
+    
+
 class MenuItem:
     """
     Class for each individual menu item.

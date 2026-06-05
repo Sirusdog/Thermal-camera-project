@@ -75,17 +75,11 @@ def textBox(textIn, selected):
 
     return boxSurf
 
-async def transformColor(inputImg, offset):
-    output = np.zeros((len(inputImg), len(inputImg[0])))
-    for row in range(len(inputImg)):
-        for col in range(row):
-            output[row, col] = abs(offset - inputImg)
-    return output
-
-async def recolorImage(inputImg, *dataIn):
-    images = [transformColor(inputImg, i) for i in dataIn]
-    rgb = await asyncio.gather(*images)
-    return cv2.merge(*rgb)
+def recolorImage(imgGray, palletIn):
+    r = palletIn[0] + palletIn[3] * imgGray
+    g = palletIn[1] + palletIn[4] * imgGray
+    b = palletIn[2] + palletIn[5] * imgGray
+    return cv2.merge(r, g, b)
 
 pallets = {"White Hot": [0, 0, 0],
            "Black Hot": [255, 255, 255],
