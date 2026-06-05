@@ -76,7 +76,7 @@ def textBox(textIn, selected):
     return boxSurf
 
 def recolorImage(imgIn, palletIn):
-    imgGray = np.array(imgIn, dtype = np.int8)
+    imgGray = np.array(imgIn, dtype = np.int16)
     r = abs(palletIn[0] + palletIn[3] * imgGray)
     g = abs(palletIn[1] + palletIn[4] * imgGray)
     b = abs(palletIn[2] + palletIn[5] * imgGray)
