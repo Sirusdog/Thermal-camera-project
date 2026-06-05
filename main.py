@@ -166,9 +166,7 @@ class CameraHandler:
     # Taking implementation from https://pyimagesearch.com/2015/12/28/increasing-raspberry-pi-fps-with-python-and-opencv/
     def __init__(self):
         self.cam = Picamera2()
-        mode = self.cam.sensor_modes[0]
-        self.cam.video_configuration.controls.FrameRate = 50
-        self.cam.configure("video")
+
         self.cam.start()
         self.stopped = False
 
@@ -215,7 +213,7 @@ time.sleep(0.5)
 while mainLoop:
     frame = cam.read()
 
-    displayMode = mainMenu["display"].getCurrentVal
+    displayMode = mainMenu["display"].getCurrentVal()
     edgeDetectMode = mainMenu["edgeDetectionMode"].getCurrentVal()
 
     if displayMode =="Edges":
