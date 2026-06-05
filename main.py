@@ -62,7 +62,7 @@ def decrementFlagCallback():
 
 def textBox(textIn, selected):
     # Dynamically draws a border around some given text.
-    text = font.render(textIn, 1, (255,255, 255))
+    text = font.render(textIn, 1, (255,255, 255), background = (0, 0, 0, 25))
     width, height = font.size(textIn)
 
     boxSurf = pygame.Surface((width + 20, height + 20), pygame.SRCALPHA)
@@ -328,7 +328,7 @@ while mainLoop:
     tNew = time.time()
     fps = 1/(tNew - tPrev)
     tPrev = tNew
-    txt = font.render(str(round(fps)), 1, (255,255, 255))
+    txt = font.render(str(round(fps)), 1, (255,255, 255), background=(0,0,0))
     display.blit(txt, (0,0))
     pygame.display.update()
 
