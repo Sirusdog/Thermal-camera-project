@@ -1,6 +1,8 @@
 import cython
 import numpy as np
 cimport numpy as np
+from cython.parallel cimport prange
+
 
  
 cpdef recolorImage(img, char rO, char gO, char bO,
@@ -21,7 +23,7 @@ cpdef recolorImage(img, char rO, char gO, char bO,
     cdef short D = img.shape[1]
 
     output = np.empty((N, D), dtype = (int, 3))
-    for row in range(N):
+    for row in prange(N):
         for col in range(D):
             v = img[row, col]
             output[row, col] = tuple(
