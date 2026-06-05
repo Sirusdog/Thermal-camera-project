@@ -6,6 +6,7 @@ import pygame
 from picamera2 import Picamera2
 import sys
 from RPi_GPIO_Rotary import rotary
+import time
 
 
 # Variable definitions --------------------------------------------------
@@ -112,8 +113,8 @@ mainMenu = {
         dependsOn = ("edgeDetectionMode", "Manual")
     ),
 
-    "digitalZoom": MenuItem("Digital zoom", "digitalZoom", "float", 1, 1, 4, 
-        numSteps = 6),
+    "digitalZoom": MenuItem("Digital zoom", "digitalZoom", "float", 1, 1, 2.5, 
+        numSteps = 4),
 
     "contrast": MenuItem("Image Enhancement", "imageEnhancement", "int", 50,
         0, 100
@@ -161,6 +162,8 @@ else:
 
 print("Initialisations complete, running main body.")
 # Main --------------------------------------------------------------------
+tPrev = 0
+tNew = 0
 while mainLoop:
     if usbCam:
         ret, frame = cam.read()
@@ -197,10 +200,10 @@ while mainLoop:
             imgGray = frame
 
         case "Full image":
-            imgGray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            imgGray = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
         case _:
-            imgGray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            imgGray = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
     curPallet = pallets[mainMenu["pallet"].getCurrentVal()]
     img = cv2.cvtColor(imgGray, cv2.COLOR_GRAY2RGB)
@@ -322,6 +325,11 @@ while mainLoop:
         if list(mainMenu.items())[curMenuIndex][1].getName() == "exit" and itemSelected:
             showMenu = False
             itemSelected = False
+    tNew = time.time()
+    fps = 1/(tNew - tPrev)
+    tPrev = tNew
+    txt = font.render(str(round(fps)), 1, (255,255, 255))
+    display.blit(txt, (0,0))
     pygame.display.update()
 
 pygame.quit()
