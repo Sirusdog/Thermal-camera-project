@@ -81,9 +81,9 @@ def recolorImage(imgGray, palletIn):
     b = palletIn[2] + palletIn[5] * imgGray
     return cv2.merge(r, g, b)
 
-pallets = {"White Hot": [0, 0, 0],
-           "Black Hot": [255, 255, 255],
-           "Red Hot": [0, 0, 0, 1]
+pallets = {"White Hot": [0, 0, 0, 1, 1, 1],
+           "Black Hot": [255, 255, 255, -1, -1, -1],
+           "Red Hot": [0, 0, 0, 1, 0, 0]
            }
 
 rotaryEncoder = rotary.Rotary(23, 24, 25, 2)
