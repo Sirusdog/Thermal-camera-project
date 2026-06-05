@@ -4,10 +4,16 @@ import numpy
 
 extensions = [
     Extension(
-        "cythonFuncs",
-        ["cythonFuncs.pyx"],
-        extra_compile_args = ["-fopenmp", "-O3"],
-        extra_link_args = ["-fopenmp", "-O3"]
+        "main",
+        ["main.pyx"],
+        extra_compile_args = ["-O3"],
+        extra_link_args = ["-O3"]
+    ),
+    Extension(
+        "helpers",
+        ["helpers.pyx"],
+        extra_compile_args = ["-O3"],
+        extra_link_args = ["-O3"]
     )
 ]
 

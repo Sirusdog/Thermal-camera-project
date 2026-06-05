@@ -1,5 +1,6 @@
 import serial
 from helpers import *
+#from cythonFuncs import *
 import numpy as np 
 import cv2
 import pygame
@@ -8,6 +9,10 @@ import sys
 from RPi_GPIO_Rotary import rotary
 import time
 from threading import Thread
+import cython
+
+if not cython.compiled:
+    print("Main is not cythonized. Re-run the build script to speed things up.")
 
 
 # Variable definitions --------------------------------------------------
@@ -46,7 +51,6 @@ decrementFlag = False
 showMenu = False
 itemSelected = False
 
-
 def buttonFlagCallback():
     global buttonFlag
     buttonFlag = True
@@ -61,7 +65,7 @@ def decrementFlagCallback():
 
 def textBox(textIn, selected):
     # Dynamically draws a border around some given text.
-    text = font.render(textIn, 1, (255,255, 255), (0, 0, 0, 25))
+    text = font.render(textIn, 1, (255,255, 255))
     width, height = font.size(textIn)
 
     boxSurf = pygame.Surface((width + 20, height + 20), pygame.SRCALPHA)
@@ -73,9 +77,10 @@ def textBox(textIn, selected):
 
     return boxSurf
 
-pallets = {"White Hot": lambda i : (i, i, i),
-           "Black Hot": lambda i : (255 - i, 255 - i, 255 - i),
-           "Red Hot": lambda i : (i, 0, 255 - i)
+
+pallets = {"White Hot": [0, 0, 0, 1, 1, 1],
+           "Black Hot": [-255, -255, -255, 1, 1, 1],
+           "Red Hot": [0, 0, -255, 1, 0, 1]
            }
 
 rotaryEncoder = rotary.Rotary(23, 24, 25, 2)
@@ -91,7 +96,7 @@ mainMenu = {
         "White Hot", "Black Hot", "Red Hot" # TODO DOUBLE CHECK THIS
     ]),
     "display": MenuItem("Display mode", "display", "text", *[
-        "Full image", "Cutoff", "Edges"
+        "Full image", "Cutoff", "Edges", "Raw output"
     ]),
 
     "cutoff": MenuItem("Cutoff temperature", "cutoff", "int",  50, 0, 100,
@@ -130,13 +135,14 @@ mainMenu = {
     "exit": MenuItem("Exit menu", "exit", "exit", None)
 }
 
+
 associatedCommands = {
-    "pallet": {
-        "command": "SETPallet",
-        "White Hot": b"\x00",
-        "Black Hot": b"\x01",
-        "Red Hot": b"\x02"
-        },
+    #"pallet": {
+    #    "command": "SETPallet",
+    #    "White Hot": b"\x00",
+    #    "Black Hot": b"\x01",
+    #    "Red Hot": b"\x02"
+    #    },
     "staticDenoise": {
         "command": "SETStaticDenoise"
     },
@@ -158,6 +164,83 @@ if usbCam:
 else:
     pass
 
+curDisplayMode = mainMenu["display"].getCurrentVal()
+
+class CameraHandler:
+    # Taking implementation from https://pyimagesearch.com/2015/12/28/increasing-raspberry-pi-fps-with-python-and-opencv/
+    def __init__(self):
+        self.cam = Picamera2()
+        self.cam.set_controls({'AeEnable': False})
+        self.cam.start()
+        self.stopped = False
+
+        f = self.cam.capture_array()
+        f = np.rot90(f)
+        frame = cv2.flip(f, 1)
+
+        self.frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+    def startThread(self):
+        Thread(target=self.updateThread, args=()).start()
+        return self
+
+    def updateThread(self):
+        while not self.stopped:
+            f = self.cam.capture_array()
+            f = np.rot90(f)
+            frame = cv2.flip(f, 1)
+
+            displayMode = mainMenu["display"].getCurrentVal()
+            edgeDetectMode = mainMenu["edgeDetectionMode"].getCurrentVal()
+            curPallet = pallets[mainMenu["pallet"].getCurrentVal()]
+
+
+            if displayMode =="Edges":
+                # Converts an image to grayscale and computes the threshold values
+                # for the cv2.Canny function. Then applies canny edge detection 
+                # before converting the image into RGB.
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                
+                if edgeDetectMode == "Auto":
+                    median = np.median(frame)
+                    lowerThreshold = int(max(0, 0.66 * median))
+                    upperThreshold = int(min(255, 1.33 * median))
+                else:
+                    lowerThreshold = mainMenu["edgeSensitivityLower"].getCurrentVal()
+                    upperThreshold = mainMenu["edgeSensitivityUpper"].getCurrentVal()
+
+                edges = cv2.Canny(frame, lowerThreshold, upperThreshold)
+                img = recolorImage(edges, curPallet)
+
+            elif displayMode == "Cutoff":
+                # Converts the image into grayscale, computes the threshold for the
+                # bottom percentage of pixels then sets them to 0.
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                threshold = np.max(frame) * (mainMenu["cutoff"].getCurrentVal()/100)
+                for i in range(len(frame)):
+                    frame[i][frame[i] < threshold] = 0
+
+                img = recolorImage(frame, curPallet)
+
+            elif displayMode == "Full image":
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                img = recolorImage(frame, curPallet)
+
+            elif displayMode == "Raw output":
+                img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+            self.frame = img
+
+        if self.stopped:
+            self.cam.stop()
+            return
+
+    def read(self):
+        return self.frame
+
+    def stop(self):
+        self.stopped = True
+
 
 
 print("Initialisations complete, running main body.")
@@ -165,9 +248,10 @@ print("Initialisations complete, running main body.")
 tPrev = 0
 tNew = 0
 
-cam = CameraHandler.start()
+cam = CameraHandler()
+cam.startThread()
 time.sleep(0.5)
-curDisplayMode = mainMenu["display"].getCurrentVal()
+
 
 while mainLoop:
     img = cam.read()
@@ -222,12 +306,13 @@ while mainLoop:
                 if curMenuIndex >= len(mainMenu):
                     curMenuIndex = 0
 
-                while not valid and not count > len(mainMenu):
+                while not valid:
                     curMenuItem = list(mainMenu.items())[curMenuIndex][1]
                     dependencies = curMenuItem.dependency
+
                     if dependencies == None:
                         valid = True
-                    elif mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
+                    if mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
                         valid = True
                     else:
                         curMenuIndex += 1
@@ -240,18 +325,20 @@ while mainLoop:
                 decrementFlag = False
                 if curMenuIndex < 0:
                     curMenuIndex = len(mainMenu) - 1
-                while not valid and not count > 0:
+                while not valid:
                     curMenuItem = list(mainMenu.items())[curMenuIndex][1]
                     dependencies = curMenuItem.dependency
+
                     if dependencies == None:
                         valid = True
-                    elif mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
+                    if mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
                         valid = True
                     else:
                         curMenuIndex -= 1
                         count += 1
                         if curMenuIndex < 0:
                             curMenuIndex = len(mainMenu) - 1
+
             mainMenu[list(mainMenu.keys())[curMenuIndex]].reset()
 
         else:
@@ -291,6 +378,7 @@ while mainLoop:
         if list(mainMenu.items())[curMenuIndex][1].getName() == "exit" and itemSelected:
             showMenu = False
             itemSelected = False
+
     tNew = time.time()
     fps = 1/(tNew - tPrev)
     tPrev = tNew

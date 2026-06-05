@@ -9,7 +9,10 @@ import sys
 from RPi_GPIO_Rotary import rotary
 import time
 from threading import Thread
-import asyncio
+import cython
+
+if not cython.compiled:
+    print("Main is not cythonized. Re-run the build script to speed things up.")
 
 
 # Variable definitions --------------------------------------------------
@@ -48,7 +51,6 @@ decrementFlag = False
 showMenu = False
 itemSelected = False
 
-
 def buttonFlagCallback():
     global buttonFlag
     buttonFlag = True
@@ -63,7 +65,7 @@ def decrementFlagCallback():
 
 def textBox(textIn, selected):
     # Dynamically draws a border around some given text.
-    text = font.render(textIn, 1, (255,255, 255), (0, 0, 0, 25))
+    text = font.render(textIn, 1, (255,255, 255))
     width, height = font.size(textIn)
 
     boxSurf = pygame.Surface((width + 20, height + 20), pygame.SRCALPHA)
@@ -75,12 +77,6 @@ def textBox(textIn, selected):
 
     return boxSurf
 
-def recolorImage(imgIn, palletIn):
-    imgGray = np.array(imgIn, dtype = np.int16)
-    r = abs(palletIn[0] + palletIn[3] * imgGray)
-    g = abs(palletIn[1] + palletIn[4] * imgGray)
-    b = abs(palletIn[2] + palletIn[5] * imgGray)
-    return cv2.merge([r, g, b])
 
 pallets = {"White Hot": [0, 0, 0, 1, 1, 1],
            "Black Hot": [-255, -255, -255, 1, 1, 1],
@@ -139,13 +135,14 @@ mainMenu = {
     "exit": MenuItem("Exit menu", "exit", "exit", None)
 }
 
+
 associatedCommands = {
-    "pallet": {
-        "command": "SETPallet",
-        "White Hot": b"\x00",
-        "Black Hot": b"\x01",
-        "Red Hot": b"\x02"
-        },
+    #"pallet": {
+    #    "command": "SETPallet",
+    #    "White Hot": b"\x00",
+    #    "Black Hot": b"\x01",
+    #    "Red Hot": b"\x02"
+    #    },
     "staticDenoise": {
         "command": "SETStaticDenoise"
     },
@@ -381,6 +378,7 @@ while mainLoop:
         if list(mainMenu.items())[curMenuIndex][1].getName() == "exit" and itemSelected:
             showMenu = False
             itemSelected = False
+
     tNew = time.time()
     fps = 1/(tNew - tPrev)
     tPrev = tNew
