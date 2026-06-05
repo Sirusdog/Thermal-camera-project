@@ -19,6 +19,6 @@ setup(
             "boundscheck": False,
             "wraparound": False
         }
-    )
+    ),
     include_dirs=[numpy.get_include()]
 )
