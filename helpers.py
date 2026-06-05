@@ -22,6 +22,7 @@ class CameraHandler:
         self.cam.configure(config)
         self.cam.start()
         self.stopped = False
+        self.frame = None
 
     def startThread(self):
         Thread(target=self.updateThread, args=()).start()
