@@ -165,7 +165,8 @@ print("Initialisations complete, running main body.")
 tPrev = 0
 tNew = 0
 
-cam = CameraHandler.startThread()
+cam = CameraHandler
+cam.startThread()
 time.sleep(0.5)
 curDisplayMode = mainMenu["display"].getCurrentVal()
 
