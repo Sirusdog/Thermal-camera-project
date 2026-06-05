@@ -188,7 +188,7 @@ while mainLoop:
                 upperThreshold = mainMenu["edgeSensitivityUpper"].getCurrentVal()
 
             edges = cv2.Canny(frame, lowerThreshold, upperThreshold)
-            imgGray = edges
+            img = cv2.cvtColor(edges, cv2.COLOR_GRAY2RGB)
 
         case "Cutoff":
             # Converts the image into grayscale, computes the threshold for the
@@ -197,16 +197,16 @@ while mainLoop:
             threshold = np.max(frame) * (mainMenu["cutoff"].getCurrentVal()/100)
             for i in range(len(frame)):
                 frame[i][frame[i] < threshold] = 0
-            imgGray = frame
+
+            img = cv2.cvtColor(frame, cv2.COLOR_GRAY2RGB)
 
         case "Full image":
-            imgGray = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
         case _:
-            imgGray = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
     curPallet = pallets[mainMenu["pallet"].getCurrentVal()]
-    img = cv2.cvtColor(imgGray, cv2.COLOR_GRAY2RGB)
     zoomLvl = mainMenu["digitalZoom"].getCurrentVal()
     img = cv2.resize(img, (int(coveredY * zoomLvl), int(coveredX * zoomLvl)), interpolation = interpolationMode)
 
