@@ -26,10 +26,10 @@ cpdef recolorImage(img, char rO, char gO, char bO,
     for row in prange(N, nogil = True):
         for col in range(D):
             v = img[row, col]
-            output[row, col] = tuple(
-                [rO + v,
+            output[row, col] = (
+                rO + v,
                 gO + v,
-                bO + v]
+                bO + v
             )
     
     return output
