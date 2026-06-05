@@ -5,7 +5,7 @@ from cython.parallel cimport prange
 
 
  
-cpdef recolorImage(img, char rO, char gO, char bO,
+cpdef recolorImage(img, int rO, int gO, int bO,
     char rM, char gM, char bM):
     """
     Recolors 8 bit images based on modes for rM, gM and bM.
@@ -18,7 +18,7 @@ cpdef recolorImage(img, char rO, char gO, char bO,
     rM, gM, bM : The value to multiply the inputs by. Currently only works with
         -1, 0, 1.
     """
-    cdef short row, col, v
+    int short row, col, v
     cdef short N = img.shape[0]
     cdef short D = img.shape[1]
 
@@ -26,10 +26,6 @@ cpdef recolorImage(img, char rO, char gO, char bO,
     for row in prange(N, nogil = True):
         for col in range(D):
             v = img[row, col]
-            output[row, col] = (
-                rO + v,
-                gO + v,
-                bO + v
-            )
+            output[row, col] = (rO + v, gO + v, bO + v)
     
     return output
