@@ -18,7 +18,7 @@ cpdef recolorImage(img, int rO, int gO, int bO,
     rM, gM, bM : The value to multiply the inputs by. Currently only works with
         -1, 0, 1.
     """
-    int short row, col, v
+    cdef int row, col, v
     cdef short N = img.shape[0]
     cdef short D = img.shape[1]
 
