@@ -160,8 +160,8 @@ else:
 
 
 mode = cam.sensor_modes[0]
-config = picam2.create_preview_configuration(sensor={"output_size" = mode["size"], "bit_depth": mode["bit_depth"]})
-picam2.configure(config)
+config = cam.create_preview_configuration(sensor={'output_size': mode['size'], 'bit_depth': mode['bit_depth']})
+cam.configure(config)
 
 print("Initialisations complete, running main body.")
 # Main --------------------------------------------------------------------
