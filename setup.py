@@ -1,11 +1,23 @@
-from setuptools import setup
+from setuptools import setup, Extension
 from Cython.Build import cythonize
 import numpy
 
+extensions = [
+    Extension(
+        "cythonFuncs",
+        ["cythonFuncs.pyx"],
+        extra_compile_args = ["-O3"],
+        extra_link_args = ["-O3"]
+    )
+]
+
 setup(
-    ext_modules = cythonize("cythonFuncs.pyx", compiler_directives = {
-        "boundscheck": False,
-        "wraparound": False
-    }, extra_compile_args=["-O3"]),
-    include_dirs=[numpy.get_include()]
+    ext_modules = cythonize(
+        extensions,
+        compiler_directives = {
+            "language_level": 3,
+            "boundscheck": False,
+            "wraparound": False
+        }
+    )
 )
