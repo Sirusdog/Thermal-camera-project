@@ -19,6 +19,7 @@ cpdef recolorImage(img, int rO, int gO, int bO,
         -1, 0, 1.
     """
     cdef int row, col, v
+    cdef int r, g, b
     cdef short N = img.shape[0]
     cdef short D = img.shape[1]
 
@@ -26,6 +27,9 @@ cpdef recolorImage(img, int rO, int gO, int bO,
     for row in prange(N, nogil = True):
         for col in range(D):
             v = img[row, col]
-            output[row, col] = (rO + v, gO + v, bO + v)
+            r = rO + v
+            g = rO + v
+            b = bO + v
+            output[row, col] = (r, g, b)
     
     return output
