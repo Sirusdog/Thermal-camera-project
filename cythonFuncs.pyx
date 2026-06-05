@@ -23,7 +23,7 @@ cpdef recolorImage(img, int rO, int gO, int bO,
     for row in range(N):
         for col in range(D):
             v = img[row, col]
-            output[row, col] = tuple(
+            output[row, col] = (
                 round(rO + rM * v),
                 round(gO + gM * v),
                 round(bO + bM * v)
