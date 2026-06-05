@@ -23,7 +23,7 @@ cpdef recolorImage(img, char rO, char gO, char bO,
     cdef short D = img.shape[1]
 
     output = np.empty((N, D), dtype = (int, 3))
-    for row in prange(N):
+    for row in prange(N, nogil = True):
         for col in range(D):
             v = img[row, col]
             output[row, col] = tuple(
