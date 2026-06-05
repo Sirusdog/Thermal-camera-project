@@ -76,9 +76,9 @@ def textBox(textIn, selected):
     return boxSurf
 
 def recolorImage(imgGray, palletIn):
-    r = abs(palletIn[0] + palletIn[3] * imgGray)
-    g = abs(palletIn[1] + palletIn[4] * imgGray)
-    b = abs(palletIn[2] + palletIn[5] * imgGray)
+    r = abs(palletIn[0] + int(palletIn[3] * imgGray))
+    g = abs(palletIn[1] + int(palletIn[4] * imgGray))
+    b = abs(palletIn[2] + int(palletIn[5] * imgGray))
     return cv2.merge([r, g, b])
 
 pallets = {"White Hot": [0, 0, 0, 1, 1, 1],
