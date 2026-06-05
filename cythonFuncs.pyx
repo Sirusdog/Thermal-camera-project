@@ -3,7 +3,7 @@ import numpy as np
 cimport numpy as np
 
  
-cpdef recolorImage(np.ndarray[char, dim=2] img, char rO, char gO, char bO,
+cpdef recolorImage(np.ndarray[char, ndim=2] img, char rO, char gO, char bO,
     char rM, char gM, char bM):
     """
     Recolors 8 bit images based on modes for rM, gM and bM.
@@ -16,9 +16,9 @@ cpdef recolorImage(np.ndarray[char, dim=2] img, char rO, char gO, char bO,
     rM, gM, bM : The value to multiply the inputs by. Currently only works with
         -1, 0, 1.
     """
-    cdef int row, col, v
-    cdef int N = img.shape[0]
-    cdef int D = img.shape[1]
+    cdef char row, col, v
+    cdef char N = img.shape[0]
+    cdef char D = img.shape[1]
 
     output = np.empty((N, D), dtype = (int, 3))
     for row in range(N):
