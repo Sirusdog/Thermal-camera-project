@@ -220,7 +220,7 @@ class CameraHandler:
 
             elif displayMode == "Full image":
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                img = recolorImage(list(img), *curPallet)
+                img = recolorImage(list(frame), *curPallet)
 
             elif displayMode == "Raw output":
                 img = cv2.cvtColor(list(frame), cv2.COLOR_BGR2RGB)
