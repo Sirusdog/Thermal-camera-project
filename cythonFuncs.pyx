@@ -20,7 +20,7 @@ cpdef recolorImage(img, char rO, char gO, char bO,
     cdef short N = img.shape[0]
     cdef short D = img.shape[1]
 
-    output = np.empty((N, D), dtype = (char, 3))
+    output = np.empty((N, D), dtype = (bytes, 3))
     for row in range(N):
         for col in range(D):
             v = img[row, col]
