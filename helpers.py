@@ -17,8 +17,8 @@ class CameraHandler:
     # Taking implementation from https://pyimagesearch.com/2015/12/28/increasing-raspberry-pi-fps-with-python-and-opencv/
     def __init__(self):
         self.cam = Picamera2()
-        mode = cam.sensor_modes[0]
-        config = cam.create_preview_configuration(sensor={'output_size': mode['size'], 'bit_depth': mode['bit_depth']})
+        mode = self.cam.sensor_modes[0]
+        config = self.cam.create_preview_configuration(sensor={'output_size': mode['size'], 'bit_depth': mode['bit_depth']})
         self.cam.configure(config)
         self.cam.start()
         self.stopped = False
