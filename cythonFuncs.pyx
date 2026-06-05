@@ -1,6 +1,7 @@
 import cython
 import numpy as np
 cimport numpy as np
+
  
 cpdef recolorImage(img, int rO, int gO, int bO,
     rM, gM, bM):
@@ -24,9 +25,9 @@ cpdef recolorImage(img, int rO, int gO, int bO,
         for col in range(D):
             v = img[row, col]
             output[row, col] = tuple(
-                [round(rO + rM * v),
-                round(gO + gM * v),
-                round(bO + bM * v)]
+                [rO + rM * v,
+                gO + gM * v,
+                bO + bM * v]
             )
     
     return output
