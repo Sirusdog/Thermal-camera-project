@@ -218,7 +218,7 @@ class CameraHandler:
                     upperThreshold = mainMenu["edgeSensitivityUpper"].getCurrentVal()
 
                 edges = cv2.Canny(frame, lowerThreshold, upperThreshold)
-                img = recolorImage(edges, *curpallet)
+                img = recolorImage(edges, *curPallet)
 
             elif displayMode == "Cutoff":
                 # Converts the image into grayscale, computes the threshold for the
@@ -228,11 +228,11 @@ class CameraHandler:
                 for i in range(len(frame)):
                     frame[i][frame[i] < threshold] = 0
 
-                img = recolorImage(frame, *curpallet)
+                img = recolorImage(frame, *curPallet)
 
             elif displayMode == "Full image":
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                img = recolorImage(frame, *curpallet)
+                img = recolorImage(frame, *curPallet)
 
             elif displayMode == "Raw output":
                 img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
