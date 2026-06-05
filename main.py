@@ -161,7 +161,7 @@ else:
     pass
 
 curDisplayMode = mainMenu["display"].getCurrentVal()
-"""
+
 class CameraHandler:
     # Taking implementation from https://pyimagesearch.com/2015/12/28/increasing-raspberry-pi-fps-with-python-and-opencv/
     def __init__(self):
@@ -232,7 +232,7 @@ class CameraHandler:
 
     def stop(self):
         self.stopped = True
-"""
+
 
 
 print("Initialisations complete, running main body.")
