@@ -190,6 +190,7 @@ class CameraHandler:
             displayMode = mainMenu["display"].getCurrentVal()
             edgeDetectMode = mainMenu["edgeDetectionMode"].getCurrentVal()
             curPallet = pallets[mainMenu["pallet"].getCurrentVal()]
+            rO, gO, bO, rM, gM, bM = *curPallet
 
             if displayMode =="Edges":
                 # Converts an image to grayscale and computes the threshold values
@@ -206,7 +207,7 @@ class CameraHandler:
                     upperThreshold = mainMenu["edgeSensitivityUpper"].getCurrentVal()
 
                 edges = cv2.Canny(frame, lowerThreshold, upperThreshold)
-                img = recolorImage(edges, *curPallet)
+                img = recolorImage(edges, rO, gO, bO, rM, gM, bM)
 
             elif displayMode == "Cutoff":
                 # Converts the image into grayscale, computes the threshold for the
@@ -216,11 +217,11 @@ class CameraHandler:
                 for i in range(len(frame)):
                     frame[i][frame[i] < threshold] = 0
 
-                img = recolorImage(frame, *curPallet)
+                img = recolorImage(frame, rO, gO, bO, rM, gM, bM)
 
             elif displayMode == "Full image":
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                img = recolorImage(frame, *curPallet)
+                img = recolorImage(frame, rO, gO, bO, rM, gM, bM)
 
             elif displayMode == "Raw output":
                 img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
