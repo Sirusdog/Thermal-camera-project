@@ -16,8 +16,6 @@ pygame.init()
 usbCam = False
 mainLoop = True
 
-
-
 thermalCameraResX = 640
 thermalCameraResY = 480
 
@@ -159,6 +157,11 @@ if usbCam:
 else:
     cam = Picamera2()
     cam.start()
+
+
+mode = cam.sensor_modes[0]
+config = picam2.create_preview_configuration(sensor={"output_size" = mode["size"], "bit_depth": mode["bit_depth"]})
+picam2.configure(config)
 
 print("Initialisations complete, running main body.")
 # Main --------------------------------------------------------------------
