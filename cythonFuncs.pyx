@@ -22,6 +22,7 @@ cpdef recolorImage(np.ndarray[int, ndim=2] img, int rO, int gO, int bO,
     cdef int r, g, b
     cdef short N = img.shape[0]
     cdef short D = img.shape[1]
+    cdef (int, 3) tupleOut
 
     output = np.empty((N, D), dtype = (int, 3))
     for row in prange(N, nogil = True):
@@ -30,6 +31,7 @@ cpdef recolorImage(np.ndarray[int, ndim=2] img, int rO, int gO, int bO,
             r = rO + v
             g = rO + v
             b = bO + v
-            output[row, col] = (r, g, b)
+            tupleOut = (r, g, b)
+            output[row, col] = tupleOut
     
     return output
