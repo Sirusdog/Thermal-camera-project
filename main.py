@@ -1,6 +1,6 @@
 import serial
 from helpers import *
-from cythonFuncs import *
+#from cythonFuncs import *
 import numpy as np 
 import cv2
 import pygame
@@ -9,6 +9,7 @@ import sys
 from RPi_GPIO_Rotary import rotary
 import time
 from threading import Thread
+import asyncio
 
 
 # Variable definitions --------------------------------------------------
@@ -74,11 +75,21 @@ def textBox(textIn, selected):
 
     return boxSurf
 
-    
+async def transformColor(inputImg, offset):
+    output = np.zeros((len(inputImg), len(inputImg[0])))
+    for row in range(len(inputImg)):
+        for col in range(row):
+            output[row, col] = abs(offset - inputImg)
+    return output
 
-pallets = {"White Hot": [0, 0, 0, 1, 1, 1],
-           "Black Hot": [255, 255, 255, -1, -1, -1],
-           "Red Hot": [0, 0, 0, 1, 0, 0]
+async def recolorImage(inputImg, *dataIn):
+    images = [transformColor(inputImg, i) for i in dataIn]
+    rgb = await asyncio.gather(*images)
+    return cv2.merge(*rgb)
+
+pallets = {"White Hot": [0, 0, 0],
+           "Black Hot": [255, 255, 255],
+           "Red Hot": [0, 0, 0, 1]
            }
 
 rotaryEncoder = rotary.Rotary(23, 24, 25, 2)

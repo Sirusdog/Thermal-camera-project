@@ -5,7 +5,7 @@ from cython.parallel cimport prange
 
 
  
-cpdef recolorImage(np.ndarray[int, ndim=2] img, int rO, int gO, int bO,
+cpdef recolorImage(np.ndarray[char, ndim=2] img, int rO, int gO, int bO,
     char rM, char gM, char bM):
     """
     Recolors 8 bit images based on modes for rM, gM and bM.
@@ -25,7 +25,7 @@ cpdef recolorImage(np.ndarray[int, ndim=2] img, int rO, int gO, int bO,
     cdef (int, 3) tupleOut
 
     output = np.empty((N, D), dtype = (int, 3))
-    for row in prange(N, nogil = True):
+    for row in prange(N):
         for col in range(D):
             v = img[row, col]
             r = rO + v
