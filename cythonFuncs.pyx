@@ -2,7 +2,7 @@ import cython
 import numpy as np
 cimport numpy as np
  
-cpdef recolorImage(np.ndarray[int, ndim=2] img, int rO, int gO, int bO,
+cpdef recolorImage(img, int rO, int gO, int bO,
     rM, gM, bM):
     """
     Recolors 8 bit images based on modes for rM, gM and bM.
