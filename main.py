@@ -186,7 +186,7 @@ class CameraHandler:
         f = self.cam.capture_array()
         f = np.rot90(f)
         frame = cv2.flip(f, 1)
-
+        print("Updating thread!")
         global curDisplayMode
         if curDisplayMode =="Edges":
             # Converts an image to grayscale and computes the threshold values
