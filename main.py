@@ -186,7 +186,43 @@ class CameraHandler:
             f = np.rot90(f)
             frame = cv2.flip(f, 1)
 
-            self.frame = frame
+            displayMode = mainMenu["display"].getCurrentVal()
+            edgeDetectMode = mainMenu["edgeDetectionMode"].getCurrentVal()
+
+            if displayMode =="Edges":
+                # Converts an image to grayscale and computes the threshold values
+                # for the cv2.Canny function. Then applies canny edge detection 
+                # before converting the image into RGB.
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                
+                if edgeDetectMode == "Auto":
+                    median = np.median(frame)
+                    lowerThreshold = int(max(0, 0.66 * median))
+                    upperThreshold = int(min(255, 1.33 * median))
+                else:
+                    lowerThreshold = mainMenu["edgeSensitivityLower"].getCurrentVal()
+                    upperThreshold = mainMenu["edgeSensitivityUpper"].getCurrentVal()
+
+                edges = cv2.Canny(frame, lowerThreshold, upperThreshold)
+                img = cv2.cvtColor(edges, cv2.COLOR_GRAY2RGB)
+
+            elif displayMode == "Cutoff":
+                # Converts the image into grayscale, computes the threshold for the
+                # bottom percentage of pixels then sets them to 0.
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                threshold = np.max(frame) * (mainMenu["cutoff"].getCurrentVal()/100)
+                for i in range(len(frame)):
+                    frame[i][frame[i] < threshold] = 0
+
+                img = cv2.cvtColor(frame, cv2.COLOR_GRAY2RGB)
+
+            elif displayMode == "Full image":
+                img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+            else:
+                img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+            self.frame = img
 
         if self.stopped:
             self.cam.stop()
@@ -211,43 +247,7 @@ time.sleep(0.5)
 
 
 while mainLoop:
-    frame = cam.read()
-
-    displayMode = mainMenu["display"].getCurrentVal()
-    edgeDetectMode = mainMenu["edgeDetectionMode"].getCurrentVal()
-
-    if displayMode =="Edges":
-        # Converts an image to grayscale and computes the threshold values
-        # for the cv2.Canny function. Then applies canny edge detection 
-        # before converting the image into RGB.
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        
-        if edgeDetectMode == "Auto":
-            median = np.median(frame)
-            lowerThreshold = int(max(0, 0.66 * median))
-            upperThreshold = int(min(255, 1.33 * median))
-        else:
-            lowerThreshold = mainMenu["edgeSensitivityLower"].getCurrentVal()
-            upperThreshold = mainMenu["edgeSensitivityUpper"].getCurrentVal()
-
-        edges = cv2.Canny(frame, lowerThreshold, upperThreshold)
-        img = cv2.cvtColor(edges, cv2.COLOR_GRAY2RGB)
-
-    elif displayMode == "Cutoff":
-        # Converts the image into grayscale, computes the threshold for the
-        # bottom percentage of pixels then sets them to 0.
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        threshold = np.max(frame) * (mainMenu["cutoff"].getCurrentVal()/100)
-        for i in range(len(frame)):
-            frame[i][frame[i] < threshold] = 0
-
-        img = cv2.cvtColor(frame, cv2.COLOR_GRAY2RGB)
-
-    elif displayMode == "Full image":
-        img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
-    else:
-        img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    img = cam.read()
 
     curPallet = pallets[mainMenu["pallet"].getCurrentVal()]
     zoomLvl = mainMenu["digitalZoom"].getCurrentVal()
