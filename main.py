@@ -166,7 +166,7 @@ class CameraHandler:
     # Taking implementation from https://pyimagesearch.com/2015/12/28/increasing-raspberry-pi-fps-with-python-and-opencv/
     def __init__(self):
         self.cam = Picamera2()
-
+        self.cam.set_controls({'AeEnable': False})
         self.cam.start()
         self.stopped = False
 
