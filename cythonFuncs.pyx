@@ -5,7 +5,7 @@ from cython.parallel cimport prange
 
 
  
-cpdef recolorImage(img, int rO, int gO, int bO,
+cpdef recolorImage(np.ndarray[int, ndim=2] img, int rO, int gO, int bO,
     char rM, char gM, char bM):
     """
     Recolors 8 bit images based on modes for rM, gM and bM.
