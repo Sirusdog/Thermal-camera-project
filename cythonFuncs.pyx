@@ -19,9 +19,6 @@ cpdef recolorImage(np.ndarray[int, ndim = 2] img, int rO, int gO, int bO,
     cdef int N = img.shape[0]
     cdef int D = img.shape[1]
 
-    if rM == 0:
-
-
     output = np.zeros((N, D), dtype = int)
     for row in range(N):
         for col in range(D):
