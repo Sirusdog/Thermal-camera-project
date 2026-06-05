@@ -3,8 +3,8 @@ import numpy as np
 cimport numpy as np
 
  
-cpdef recolorImage(img, int rO, int gO, int bO,
-    rM, gM, bM):
+cpdef recolorImage(np.ndarray[char, dim=2] img, , char rO, char gO, char bO,
+    char rM, char gM, char bM):
     """
     Recolors 8 bit images based on modes for rM, gM and bM.
     
