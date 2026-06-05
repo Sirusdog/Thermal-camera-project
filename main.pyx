@@ -7,6 +7,7 @@ from picamera2 import Picamera2
 import sys
 from RPi_GPIO_Rotary import rotary
 import time
+from threading import Thread
 
 
 # Variable definitions --------------------------------------------------
@@ -155,12 +156,7 @@ curMenuIndex = 0
 if usbCam:
     cam = cv2.VideoCapture(0)
 else:
-    cam = Picamera2()
-    mode = cam.sensor_modes[0]
-    config = cam.create_preview_configuration(sensor={'output_size': mode['size'], 'bit_depth': mode['bit_depth']})
-    cam.configure(config)
-    cam.start()
-
+    pass
 
 
 
@@ -168,48 +164,13 @@ print("Initialisations complete, running main body.")
 # Main --------------------------------------------------------------------
 tPrev = 0
 tNew = 0
+
+cam = CameraHandler.start()
+time.sleep(0.5)
+curDisplayMode = mainMenu["display"].getCurrentVal()
+
 while mainLoop:
-    if usbCam:
-        ret, frame = cam.read()
-    else:
-        frame = cam.capture_array()
-        frame = np.rot90(frame)
-        frame = cv2.flip(frame, 1)
-
-    curDisplayMode = mainMenu["display"].getCurrentVal()
-
-    if curDisplayMode =="Edges":
-        # Converts an image to grayscale and computes the threshold values
-        # for the cv2.Canny function. Then applies canny edge detection 
-        # before converting the image into RGB.
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        
-        if mainMenu["edgeDetectionMode"].getCurrentVal() == "Auto":
-            median = np.median(frame)
-            lowerThreshold = int(max(0, 0.66 * median))
-            upperThreshold = int(min(255, 1.33 * median))
-        else:
-            lowerThreshold = mainMenu["edgeSensitivityLower"].getCurrentVal()
-            upperThreshold = mainMenu["edgeSensitivityUpper"].getCurrentVal()
-
-        edges = cv2.Canny(frame, lowerThreshold, upperThreshold)
-        img = cv2.cvtColor(edges, cv2.COLOR_GRAY2RGB)
-
-    elif curDisplayMode == "Cutoff":
-        # Converts the image into grayscale, computes the threshold for the
-        # bottom percentage of pixels then sets them to 0.
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        threshold = np.max(frame) * (mainMenu["cutoff"].getCurrentVal()/100)
-        for i in range(len(frame)):
-            frame[i][frame[i] < threshold] = 0
-
-        img = cv2.cvtColor(frame, cv2.COLOR_GRAY2RGB)
-
-    elif curDisplayMode == "Full image":
-        img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
-    else:
-        img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    img = cam.read()
 
     curPallet = pallets[mainMenu["pallet"].getCurrentVal()]
     zoomLvl = mainMenu["digitalZoom"].getCurrentVal()
@@ -337,5 +298,6 @@ while mainLoop:
     display.blit(txt, (0,0))
     pygame.display.update()
 
+cam.stop()
 pygame.quit()
 sys.exit()
