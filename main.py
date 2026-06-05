@@ -167,8 +167,8 @@ class CameraHandler:
     def __init__(self):
         self.cam = Picamera2()
         mode = self.cam.sensor_modes[0]
-        cam.video_configuration.controls.FrameRate = 50
-        cam.configure("video")
+        self.cam.video_configuration.controls.FrameRate = 50
+        self.cam.configure("video")
         self.cam.start()
         self.stopped = False
 
