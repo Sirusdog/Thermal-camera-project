@@ -19,7 +19,7 @@ cpdef recolorImage(img, int rO, int gO, int bO,
     cdef int N = img.shape[0]
     cdef int D = img.shape[1]
 
-    output = np.zeros((N, D), dtype = tuple[int])
+    output = np.zeros((N, D), dtype = (int, int, int))
     for row in range(N):
         for col in range(D):
             v = img[row, col]
