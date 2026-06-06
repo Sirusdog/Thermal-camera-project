@@ -4,14 +4,15 @@ import numpy
 
 extensions = [
     Extension(
-        "main",
-        ["main.pyx"],
+        "helpers",
+        ["helpers.pyx"],
         extra_compile_args = ["-O3"],
         extra_link_args = ["-O3"]
     ),
+    
     Extension(
-        "helpers",
-        ["helpers.pyx"],
+        "main",
+        ["main.pyx"],
         extra_compile_args = ["-O3"],
         extra_link_args = ["-O3"]
     )
