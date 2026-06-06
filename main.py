@@ -10,6 +10,7 @@ from RPi_GPIO_Rotary import rotary
 import time
 from threading import Thread
 import cython
+import traceback
 
 import logging
 logger = logging.getLogger(__name__)
@@ -302,18 +303,19 @@ try:
             itemSelected = True
             buttonFlag = False
         
-        logger.debug("Events handled fine!")
+        logger.debug("Flags handled fine!")
 
         if showMenu:
             valid = False
             count = 0
             if not itemSelected:
+                logger.debug("Item isn't selected")
                 if incrementFlag == True:
                     curMenuIndex += 1
                     incrementFlag = False
                     if curMenuIndex >= len(mainMenu):
                         curMenuIndex = 0
-
+                    logger.debug("Inrementing")
                     while not valid:
                         curMenuItem = list(mainMenu.items())[curMenuIndex][1]
                         dependencies = curMenuItem.dependency
@@ -400,6 +402,7 @@ try:
         pygame.display.update()
 except Exception as e:
     print(e)
+    traceback.print_exc()
 finally:
     cam.stop()
     pygame.quit()
