@@ -1,21 +1,19 @@
-from collections.abc import Callable
 from picamera2 import Picamera2
 from threading import Thread
 import cv2
 import numpy as np
 import cython
+import numpy.typing as npt
 
 if not cython.compiled:
     print("Helpers is not cythonized. Re-run the build script to speed things up.")
 
-"""
-Notes:
 
-
-TODO:
-"""
-
-def recolorImage(imgIn, palletIn):
+def recolorImage(imgIn: npt.NDArray, palletIn: list[int]) -> npt.NDArray:
+    """
+    Modifies a given grayscale image to a pallet defined by palletIn. Returns
+    an RGB image.
+    """
     imgGray = np.array(imgIn, dtype = np.int16)
     r = abs(palletIn[0] + palletIn[3] * imgGray)
     g = abs(palletIn[1] + palletIn[4] * imgGray)
@@ -27,8 +25,8 @@ class MenuItem:
     """
     Class for each individual menu item.
     """
-    def __init__(self, displayText: str, name: str,
-                itemType: str, *data: list, numSteps = 20, dependsOn = None):
+    def __init__(self, displayText: str, name: str, itemType: str, *data: list,
+                numSteps = 20, dependsOn = None):
         
         self.displayText = displayText
         self.defaultDisplayText = displayText
@@ -64,16 +62,17 @@ class MenuItem:
     def updateDisplayText(self, val):
         """Updates the displayed text to the given value. Mostly internal."""
         self.displayText = val
+
     def reset(self):
         """Resets displayText to it's default."""
         self.displayText = self.defaultDisplayText
 
 
-    def getDisplayText(self): 
+    def getDisplayText(self) -> str: 
         return str(self.displayText)
     # Setter covered by self.updateDisplayText
     
-    def getName(self):
+    def getName(self) -> str:
         return self.name
     
     def getCurrentVal(self):
@@ -81,29 +80,35 @@ class MenuItem:
             return self.possibleValues[self.currentVal]
         else:
             return self.currentVal
+
     def setCurrentVal(self, val):
         self.currentVal = val
 
-    def getType(self):
+    def getType(self) -> str:
         return self.type
+
     def incrementCurrentVal(self):
         if self.itemType =="text":
             self.currentVal += 1
             if self.currentVal == len(self.possibleValues):
                 self.currentVal = 0
             self.updateDisplayText(self.possibleValues[self.currentVal])
+
         elif self.itemType == "int":
             if self.currentVal != self.maximum:
                 self.currentVal += self.stepSize
             self.updateDisplayText(self.currentVal)
+
         elif self.itemType == "float":
             if self.currentVal != self.maximum:
                 self.currentVal += self.stepSize
                 self.currentVal = round(self.currentVal, 2)
             self.updateDisplayText(self.currentVal)
+
         elif self.itemType == "toggle":
             self.currentVal = not self.currentVal
-            self.updateDisplayText(self.currentVal)                    
+            self.updateDisplayText(self.currentVal)
+
         elif self.itemType == "exit":
             pass
 
@@ -113,17 +118,21 @@ class MenuItem:
             if self.currentVal < 0:
                 self.currentVal = len(self.possibleValues) - 1
             self.updateDisplayText(self.possibleValues[self.currentVal])
+
         elif self.itemType == "int":
             if self.currentVal != self.minimum:
                 self.currentVal -= self.stepSize
             self.updateDisplayText(self.currentVal)
+
         elif self.itemType == "float":
             if self.currentVal != self.minimum:
                 self.currentVal -= self.stepSize
             self.updateDisplayText(self.currentVal)
+
         elif self.itemType == "toggle":
             self.currentVal = not self.currentVal
             self.updateDisplayText(self.currentVal)
+
         elif self.itemType == "exit":
             pass
 
@@ -146,7 +155,8 @@ class Command():
     """
     deviceAddress = b"\x36"
 
-    def __init__(self, classAddress, subclassAddress, flag, *data):
+    def __init__(self, classAddress: bytes, subclassAddress: bytes, 
+                flag: bytes, *data: bytes):
         self.classAddress = classAddress
         self.subclassAddress = subclassAddress
         self.flag = flag
@@ -154,23 +164,25 @@ class Command():
 
         self.size = (len(data) + 4).to_bytes(1, byteorder="big")
         chkInt = int.from_bytes(classAddress, byteorder="big") \
-                                + int.from_bytes(subclassAddress, byteorder="big") \
-                                + int.from_bytes(flag, byteorder = "big")
+            + int.from_bytes(subclassAddress, byteorder="big") \
+            + int.from_bytes(flag, byteorder = "big")
+
         for i in data:
             chkInt += int.from_bytes(i, byteorder = "big")
         self.chk = bytes([int((bin(chkInt)[2:])[-8:], 2)])
         
     
-    def changeData(self, *data):
+    def changeData(self, *data: bytes):
         self.size = (len(data) + 4).to_bytes(1, byteorder="big")
         chkInt = int.from_bytes(self.classAddress, byteorder="big") \
-                                + int.from_bytes(self.subclassAddress, byteorder="big") \
-                                + int.from_bytes(self.flag, byteorder = "big")
+            + int.from_bytes(self.subclassAddress, byteorder="big") \
+            + int.from_bytes(self.flag, byteorder = "big")
+
         for i in data:
             chkInt += int.from_bytes(i, byteorder = "big")
         self.chk = bytes([int((bin(chkInt)[2:])[-8:], 2)])
         
-    def buildPayload(self):
+    def buildPayload(self) -> bytearray:
         dataString = b""
         for i in self.data:
             dataString += i
@@ -194,9 +206,8 @@ class UARTController:
         "SETPallet": Command(b"\x78", b"\x20", b"\x00", b"\x00")
         }
     
-    def sendCommand(serialOBJ, commandName, *modifyData):
-        
-
+    def sendCommand(serialOBJ: serial.Serial, commandName: str, 
+                    *modifyData: list[bytes]):
         curCommand = UARTController.commands[commandName]
         if len(modifyData) != 0:
             curCommand.changeData(*modifyData)

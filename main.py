@@ -1,6 +1,5 @@
 import serial
 from helpers import *
-#from cythonFuncs import *
 import numpy as np 
 import cv2
 import pygame
@@ -32,6 +31,10 @@ mainLoop = True
 thermalCameraResX = 640
 thermalCameraResY = 480
 
+# Get these from the cameras spec sheet
+camFovX = 17.6
+camFovY = 13.2
+
 # Computed value based off of the camera FoV and the screen FoV.
 coveredX = 1000
 coveredY = int(coveredX * (thermalCameraResY/thermalCameraResX))
@@ -50,7 +53,7 @@ screenResY = display.get_height()
 xBuffer = int(screenResX/2 - coveredX/2)
 yBuffer = int(screenResY/2 - coveredY/2)
 
-print(display.get_width(), display.get_height())
+print("Using display of dimensions:", display.get_width(), display.get_height())
 
 buttonFlag = False
 incrementFlag = False
@@ -70,7 +73,7 @@ def decrementFlagCallback():
     global decrementFlag
     decrementFlag = True
 
-def textBox(textIn, selected):
+def textBox(textIn: str, selected: bool) -> pygame.Surface:
     # Dynamically draws a border around some given text.
     text = font.render(textIn, 1, (255,255, 255))
     width, height = font.size(textIn)
@@ -87,8 +90,12 @@ def textBox(textIn, selected):
 
 pallets = {"White Hot": [0, 0, 0, 1, 1, 1],
            "Black Hot": [-255, -255, -255, 1, 1, 1],
-           "Red Hot": [0, 0, -255, 1, 0, 1]
+           "Ironbow": [0, 0, -255, 1, 0, 1],
+           "Red Hot": [0, 0, 0, 1, 0, 0],
+           "Orange": [0, 0, 0, 1, 0.98, 0]
            }
+# Each pallet is defined as an offset for each channel and a multiplier.
+# To get a "positive" color, leave it as 
 
 rotaryEncoder = rotary.Rotary(23, 24, 25, 2)
 rotaryEncoder.register(increment = incrementFlagCallback,
@@ -99,9 +106,7 @@ rotaryEncoder.start()
 
 
 mainMenu = {
-    "pallet": MenuItem("Colour Pallet", "pallet", "text", *[
-        "White Hot", "Black Hot", "Red Hot" # TODO DOUBLE CHECK THIS
-    ]),
+    "pallet": MenuItem("Colour Pallet", "pallet", *pallets.keys()),
     "display": MenuItem("Display mode", "display", "text", *[
         "Full image", "Cutoff", "Edges", "Raw output"
     ]),
@@ -243,7 +248,7 @@ class CameraHandler:
             self.cam.stop()
             return
 
-    def read(self):
+    def read(self) -> np.typing.NDArray:
         return self.frame
 
     def stop(self):

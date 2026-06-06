@@ -1,0 +1,9 @@
+numpy
+cv2
+pygame
+picamera2
+RPi_GPIO_Rotary
+threading
+cython
+setuptools
+serial
