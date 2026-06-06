@@ -11,6 +11,11 @@ import time
 from threading import Thread
 import cython
 
+import logging
+logger = logging.getLogger(__name__)
+logging.basicConfig(filename='example.log', encoding='utf-8', level=logging.DEBUG)
+
+
 if not cython.compiled:
     print("Main is not cythonized. Re-run the build script to speed things up.")
 
@@ -164,6 +169,7 @@ if usbCam:
 else:
     pass
 
+
 curDisplayMode = mainMenu["display"].getCurrentVal()
 
 class CameraHandler:
@@ -242,7 +248,6 @@ class CameraHandler:
         self.stopped = True
 
 
-
 print("Initialisations complete, running main body.")
 # Main --------------------------------------------------------------------
 tPrev = 0
@@ -252,140 +257,149 @@ cam = CameraHandler()
 cam.startThread()
 time.sleep(0.5)
 
+try:
+    while mainLoop:
+        img = cam.read()
+        logger.debug("Image read fine!")
 
-while mainLoop:
-    img = cam.read()
+        curPallet = pallets[mainMenu["pallet"].getCurrentVal()]
+        zoomLvl = mainMenu["digitalZoom"].getCurrentVal()
 
-    curPallet = pallets[mainMenu["pallet"].getCurrentVal()]
-    zoomLvl = mainMenu["digitalZoom"].getCurrentVal()
-    img = cv2.resize(img, (int(coveredY * zoomLvl), int(coveredX * zoomLvl)), interpolation = interpolationMode)
+        img = cv2.resize(img, (int(coveredY * zoomLvl), int(coveredX * zoomLvl)), interpolation = interpolationMode)
 
-    xBuffer = int(screenResX/2 - int(coveredX * zoomLvl)/2)
-    yBuffer = int(screenResY/2 - int(coveredY * zoomLvl)/2)
+        xBuffer = int(screenResX/2 - int(coveredX * zoomLvl)/2)
+        yBuffer = int(screenResY/2 - int(coveredY * zoomLvl)/2)
 
-    surf = pygame.surfarray.make_surface(img)
-    display.blit(surf, (int(xBuffer/(zoomLvl**2)), int(yBuffer/(zoomLvl**2))))
+        surf = pygame.surfarray.make_surface(img)
+        display.blit(surf, (int(xBuffer/(zoomLvl**2)), int(yBuffer/(zoomLvl**2))))
+        logger.debug("Wrote to display surface fine!")
+        # Handle pygame & keypress inputs
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                mainLoop = False 
+            if event.type == pygame.KEYDOWN:
+                if pygame.key.get_pressed()[pygame.K_ESCAPE]:
+                    mainLoop = False
 
+                # For debug inputs.
+                if pygame.key.get_pressed()[pygame.K_DOWN]:
+                    incrementFlagCallback()
+                if pygame.key.get_pressed()[pygame.K_UP]:
+                    decrementFlagCallback()
+                if pygame.key.get_pressed()[pygame.K_SPACE]:
+                    buttonFlagCallback()
+        logger.debug("Events handled fine!")
 
-    # Handle pygame & keypress inputs
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            mainLoop = False 
-        if event.type == pygame.KEYDOWN:
-            if pygame.key.get_pressed()[pygame.K_ESCAPE]:
-                mainLoop = False
+        # Logic for showing the menu when the button is pressed and the menu isn't 
+        # shown and for when it's pressed and something needs to be selected/
+        if buttonFlag and showMenu == False:
+            showMenu = True
+            buttonFlag = False
+        elif buttonFlag and itemSelected:
+            itemSelected = False 
+            buttonFlag = False
+        elif buttonFlag:
+            itemSelected = True
+            buttonFlag = False
+        
+        logger.debug("Events handled fine!")
 
-            # For debug inputs.
-            if pygame.key.get_pressed()[pygame.K_DOWN]:
-                incrementFlagCallback()
-            if pygame.key.get_pressed()[pygame.K_UP]:
-                decrementFlagCallback()
-            if pygame.key.get_pressed()[pygame.K_SPACE]:
-                buttonFlagCallback()
+        if showMenu:
+            valid = False
+            count = 0
+            if not itemSelected:
+                if incrementFlag == True:
+                    curMenuIndex += 1
+                    incrementFlag = False
+                    if curMenuIndex >= len(mainMenu):
+                        curMenuIndex = 0
 
+                    while not valid:
+                        curMenuItem = list(mainMenu.items())[curMenuIndex][1]
+                        dependencies = curMenuItem.dependency
 
-    # Logic for showing the menu when the button is pressed and the menu isn't 
-    # shown and for when it's pressed and something needs to be selected/
-    if buttonFlag and showMenu == False:
-        showMenu = True
-        buttonFlag = False
-    elif buttonFlag and itemSelected:
-        itemSelected = False 
-        buttonFlag = False
-    elif buttonFlag:
-        itemSelected = True
-        buttonFlag = False
+                        if dependencies == None:
+                            valid = True
+                        if mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
+                            valid = True
+                        else:
+                            curMenuIndex += 1
+                            count += 1
+                            if curMenuIndex == len(mainMenu):
+                                curMenuIndex = 0
+                        logger.debug("Increment handled fine!")
+                elif decrementFlag == True:
+                    curMenuIndex -= 1
+                    decrementFlag = False
+                    if curMenuIndex < 0:
+                        curMenuIndex = len(mainMenu) - 1
+                    while not valid:
+                        curMenuItem = list(mainMenu.items())[curMenuIndex][1]
+                        dependencies = curMenuItem.dependency
 
-    if showMenu:
-        valid = False
-        count = 0
-        if not itemSelected:
-            if incrementFlag == True:
-                curMenuIndex += 1
-                incrementFlag = False
-                if curMenuIndex >= len(mainMenu):
-                    curMenuIndex = 0
+                        if dependencies == None:
+                            valid = True
+                        if mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
+                            valid = True
+                        else:
+                            curMenuIndex -= 1
+                            count += 1
+                            if curMenuIndex < 0:
+                                curMenuIndex = len(mainMenu) - 1
+                    logger.debug("Decrement handled fine!")
+                mainMenu[list(mainMenu.keys())[curMenuIndex]].reset()
 
-                while not valid:
-                    curMenuItem = list(mainMenu.items())[curMenuIndex][1]
-                    dependencies = curMenuItem.dependency
+            else:
+                curMenuKey = list(mainMenu.keys())[curMenuIndex]
+                mainMenu[curMenuKey].updateDisplayText(mainMenu[curMenuKey].getCurrentVal())
 
-                    if dependencies == None:
-                        valid = True
-                    if mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
-                        valid = True
+                doChange = False
+                if incrementFlag:
+                    mainMenu[curMenuKey].incrementCurrentVal()
+                    incrementFlag = False
+                    doChange = True
+                    logger.debug("Sub-item increment handled fine!")
+                elif decrementFlag:
+                    mainMenu[curMenuKey].decrementCurrentVal()
+                    decrementFlag = False
+                    doChange = True
+                    logger.debug("Sub-item decrement handled fine!")
+
+                if doChange and curMenuKey in associatedCommands.keys():
+                    cmdName = associatedCommands[curMenuKey]["command"]
+                    if cmdName == "SETPallet":
+                        data = associatedCommands[curMenuKey][mainMenu[curMenuKey].getCurrentVal()]
                     else:
-                        curMenuIndex += 1
-                        count += 1
-                        if curMenuIndex == len(mainMenu):
-                            curMenuIndex = 0
+                        data = bytes([mainMenu[curMenuKey].getCurrentVal()])
+                    UARTController.sendCommand(
+                        cameraControl,
+                        cmdName,
+                        data
+                    )
+                    logger.debug("Command sent fine.")
+                
+            # Render the menu
+            mainItem = list(mainMenu.items())[curMenuIndex][1].getDisplayText()
+            displayX, displayY = display.get_width(), display.get_height()
+            textBoxSurf = textBox(mainItem, itemSelected)
+            textBoxX, textBoxY = textBoxSurf.get_width(), textBoxSurf.get_height()
+            display.blit(textBoxSurf, (displayX/2 - textBoxX/2, displayY/2 - textBoxY/2))
 
-            elif decrementFlag == True:
-                curMenuIndex -= 1
-                decrementFlag = False
-                if curMenuIndex < 0:
-                    curMenuIndex = len(mainMenu) - 1
-                while not valid:
-                    curMenuItem = list(mainMenu.items())[curMenuIndex][1]
-                    dependencies = curMenuItem.dependency
+            logger.debug("Rendering went fine!")
+            # Handle what to do with those inputs
+            if list(mainMenu.items())[curMenuIndex][1].getName() == "exit" and itemSelected:
+                showMenu = False
+                itemSelected = False
 
-                    if dependencies == None:
-                        valid = True
-                    if mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
-                        valid = True
-                    else:
-                        curMenuIndex -= 1
-                        count += 1
-                        if curMenuIndex < 0:
-                            curMenuIndex = len(mainMenu) - 1
-
-            mainMenu[list(mainMenu.keys())[curMenuIndex]].reset()
-
-        else:
-            curMenuKey = list(mainMenu.keys())[curMenuIndex]
-            mainMenu[curMenuKey].updateDisplayText(mainMenu[curMenuKey].getCurrentVal())
-
-            doChange = False
-            if incrementFlag:
-                mainMenu[curMenuKey].incrementCurrentVal()
-                incrementFlag = False
-                doChange = True
-            elif decrementFlag:
-                mainMenu[curMenuKey].decrementCurrentVal()
-                decrementFlag = False
-                doChange = True
-
-            if doChange and curMenuKey in associatedCommands.keys():
-                cmdName = associatedCommands[curMenuKey]["command"]
-                if cmdName == "SETPallet":
-                    data = associatedCommands[curMenuKey][mainMenu[curMenuKey].getCurrentVal()]
-                else:
-                    data = bytes([mainMenu[curMenuKey].getCurrentVal()])
-                UARTController.sendCommand(
-                    cameraControl,
-                    cmdName,
-                    data
-                )
-
-        # Render the menu
-        mainItem = list(mainMenu.items())[curMenuIndex][1].getDisplayText()
-        displayX, displayY = display.get_width(), display.get_height()
-        textBoxSurf = textBox(mainItem, itemSelected)
-        textBoxX, textBoxY = textBoxSurf.get_width(), textBoxSurf.get_height()
-        display.blit(textBoxSurf, (displayX/2 - textBoxX/2, displayY/2 - textBoxY/2))
-
-        # Handle what to do with those inputs
-        if list(mainMenu.items())[curMenuIndex][1].getName() == "exit" and itemSelected:
-            showMenu = False
-            itemSelected = False
-
-    tNew = time.time()
-    fps = 1/(tNew - tPrev)
-    tPrev = tNew
-    txt = font.render(str(round(fps)), 1, (255,255, 255), (0,0,0))
-    display.blit(txt, (0,0))
-    pygame.display.update()
-
-cam.stop()
-pygame.quit()
-sys.exit()
+        tNew = time.time()
+        fps = 1/(tNew - tPrev)
+        tPrev = tNew
+        txt = font.render(str(round(fps)), 1, (255,255, 255), (0,0,0))
+        display.blit(txt, (0,0))
+        pygame.display.update()
+except Exception as e:
+    print(e)
+finally:
+    cam.stop()
+    pygame.quit()
+    sys.exit()
