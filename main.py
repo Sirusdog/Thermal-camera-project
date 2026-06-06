@@ -14,8 +14,9 @@ import traceback
 
 import logging
 logger = logging.getLogger(__name__)
-logging.basicConfig(filename='example.log', encoding='utf-8', level=logging.DEBUG)
-
+logging.basicConfig(filename='example.log', encoding='utf-8')
+logger.setLevel(logging.WARNING)
+logger.debug("Item isn't selected")
 
 if not cython.compiled:
     print("Main is not cythonized. Re-run the build script to speed things up.")
@@ -322,7 +323,7 @@ try:
 
                         if dependencies == None:
                             valid = True
-                        if mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
+                        elif mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
                             valid = True
                         else:
                             curMenuIndex += 1
@@ -341,7 +342,7 @@ try:
 
                         if dependencies == None:
                             valid = True
-                        if mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
+                        elif mainMenu[dependencies[0]].getCurrentVal() == dependencies[1]:
                             valid = True
                         else:
                             curMenuIndex -= 1
