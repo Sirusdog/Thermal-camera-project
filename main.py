@@ -367,10 +367,11 @@ try:
 
                 if doChange and curMenuKey in associatedCommands.keys():
                     cmdName = associatedCommands[curMenuKey]["command"]
-                    if cmdName == "SETPallet":
-                        data = associatedCommands[curMenuKey][mainMenu[curMenuKey].getCurrentVal()]
-                    else:
-                        data = bytes([mainMenu[curMenuKey].getCurrentVal()])
+                    #if cmdName == "SETPallet":
+                     #   data = associatedCommands[curMenuKey][mainMenu[curMenuKey].getCurrentVal()]
+                    #else: Leaving this here in case I want to set the pallet
+                    # on the camera later
+                    data = bytes([mainMenu[curMenuKey].getCurrentVal()])
                     UARTController.sendCommand(
                         cameraControl,
                         cmdName,
