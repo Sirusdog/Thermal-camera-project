@@ -15,9 +15,9 @@ def recolorImage(imgIn: npt.NDArray, palletIn: list[int]) -> npt.NDArray:
     an RGB image.
     """
     imgGray = np.array(imgIn, dtype = np.int16)
-    r = int(abs(palletIn[0] + palletIn[3] * imgGray))
-    g = int(abs(palletIn[1] + palletIn[4] * imgGray))
-    b = int(abs(palletIn[2] + palletIn[5] * imgGray))
+    r = round(abs(palletIn[0] + palletIn[3] * imgGray))
+    g = round(abs(palletIn[1] + palletIn[4] * imgGray))
+    b = round(abs(palletIn[2] + palletIn[5] * imgGray))
     return cv2.merge([r, g, b])
     
 
