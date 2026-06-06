@@ -106,7 +106,7 @@ rotaryEncoder.start()
 
 
 mainMenu = {
-    "pallet": MenuItem("Colour Pallet", "pallet", *pallets.keys()),
+    "pallet": MenuItem("Colour Pallet", "pallet", "text", *pallets.keys()),
     "display": MenuItem("Display mode", "display", "text", *[
         "Full image", "Cutoff", "Edges", "Raw output"
     ]),
