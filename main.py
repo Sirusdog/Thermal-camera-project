@@ -184,6 +184,10 @@ class CameraHandler:
     def __init__(self):
         self.cam = Picamera2()
         self.cam.set_controls({'AeEnable': False})
+        config = picam2.create_still_configuration(
+            buffer_count = 2,
+            controls={"Framerate": 50}
+        )
         self.cam.start()
         self.stopped = False
 
