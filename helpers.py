@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 import cython
 import numpy.typing as npt
+from concurrent.futures import ThreadPoolExecutor as tpe
 
 
 if not cython.compiled:
@@ -16,11 +17,14 @@ def recolorImage(imgIn: npt.NDArray, palletIn: list[int]) -> npt.NDArray:
     an RGB image.
     """
     imgGray = np.array(imgIn, dtype = np.int16)
-    r = (np.round(abs(palletIn[0] + palletIn[3] * imgGray))).astype(np.int8)
-    g = (np.round(abs(palletIn[1] + palletIn[4] * imgGray))).astype(np.int8)
-    b = (np.round(abs(palletIn[2] + palletIn[5] * imgGray))).astype(np.int8)
-    return cv2.merge([r, g, b])
-    
+    with tpe(max_workers=3) as pool:
+        r = pool.submit(colorTransform, palletIn[0])
+        g = pool.submit(colorTransform, palletIn[1])
+        b = pool.submit(colorTransform, palletIn[2])
+    return cv2.merge([r.result(), g.result(), b.result()])
+
+def colorTransform(imgIn: npt.NDArray, dataIn):
+    return (np.round(abs(dataIn[0] + dataIn[1] * imgIn))).astype(np.int8)
 
 class MenuItem:
     """
