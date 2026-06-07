@@ -413,7 +413,7 @@ try:
         txt = font.render(str(round(fps)), 1, (255,255, 255), (0,0,0))
         txt2 = font.render(str(round(cam.getFPS())), 1, (255, 255, 255), (0,0,0))
         display.blit(txt, (0,0))
-        display.blig(txt2, (0, 35))
+        display.blit(txt2, (0, 35))
         pygame.display.update()
 except Exception as e:
     print(e)
