@@ -5,6 +5,7 @@ import numpy as np
 import cython
 import numpy.typing as npt
 
+
 if not cython.compiled:
     print("Helpers is not cythonized. Re-run the build script to speed things up.")
 

@@ -192,12 +192,14 @@ class CameraHandler:
         frame = cv2.flip(f, 1)
 
         self.frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        self.fps = 0
 
     def startThread(self):
         Thread(target=self.updateThread, args=()).start()
         return self
 
     def updateThread(self):
+        prevTime = 0
         while not self.stopped:
             f = self.cam.capture_array()
             f = np.rot90(f)
@@ -243,6 +245,9 @@ class CameraHandler:
                 img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
             self.frame = img
+            curTime = time.time()
+            self.fps = 1/(curTime - prevTime)
+            prevTime = curTime
 
         if self.stopped:
             self.cam.stop()
@@ -254,6 +259,8 @@ class CameraHandler:
     def stop(self):
         self.stopped = True
 
+    def getFPS(self):
+        return self.fps
 
 print("Initialisations complete, running main body.")
 # Main --------------------------------------------------------------------
@@ -404,7 +411,9 @@ try:
         fps = 1/(tNew - tPrev)
         tPrev = tNew
         txt = font.render(str(round(fps)), 1, (255,255, 255), (0,0,0))
+        txt2 = font.render(str(round(cam.getFPS())), 1, (255, 255, 255), (0,0,0))
         display.blit(txt, (0,0))
+        display.blig(txt2, (0, 35))
         pygame.display.update()
 except Exception as e:
     print(e)
