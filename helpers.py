@@ -18,9 +18,9 @@ def recolorImage(imgIn: npt.NDArray, palletIn: list[int]) -> npt.NDArray:
     """
     imgGray = np.array(imgIn, dtype = np.int16)
     with tpe(max_workers=3) as pool:
-        r = pool.submit(colorTransform, palletIn[0])
-        g = pool.submit(colorTransform, palletIn[1])
-        b = pool.submit(colorTransform, palletIn[2])
+        r = pool.submit(colorTransform, imgGray, palletIn[0])
+        g = pool.submit(colorTransform, imgGray, palletIn[1])
+        b = pool.submit(colorTransform, imgGray, palletIn[2])
     return cv2.merge([r.result(), g.result(), b.result()])
 
 def colorTransform(imgIn: npt.NDArray, dataIn):
