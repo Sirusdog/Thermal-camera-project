@@ -88,11 +88,11 @@ def textBox(textIn: str, selected: bool) -> pygame.Surface:
     return boxSurf
 
 
-pallets = {"White Hot": [0, 0, 0, 1, 1, 1],
-           "Black Hot": [-255, -255, -255, 1, 1, 1],
-           "Ironbow": [0, 0, -255, 1, 0, 1],
-           "Red Hot": [0, 0, 0, 1, 0, 0],
-           "Orange": [0, 0, 0, 1, 0.41, 0.12]
+pallets = {"White Hot": [[0, 1], [0, 1], [0, 0]],
+           "Black Hot": [[-255, 1], [-255, 1], [-255, 1]],
+           "Ironbow": [[0, 1], [0, 0], [-255, 1]],
+           "Red Hot": [[0, 1], [0, 0], [0, 0]],
+           "Orange": [[0, 1], [0, 0.41], [0, 0.12]]
            }
 # Each pallet is defined as an offset for each channel and a multiplier.
 # To get a "positive" color, leave it as 
