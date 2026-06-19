@@ -192,7 +192,7 @@ class CameraHandler:
         #self.stopped = False
 
         f = self.cam.read()
-        f = np.rot90(f)
+        #f = np.rot90(f)
         frame = cv2.flip(f, 1)
 
         self.frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -206,7 +206,7 @@ class CameraHandler:
         prevTime = 0
         while not self.stopped:
             f = self.cam.capture_array()
-            f = np.rot90(f)
+            #f = np.rot90(f)
             frame = cv2.flip(f, 1)
 
             displayMode = mainMenu["display"].getCurrentVal()
