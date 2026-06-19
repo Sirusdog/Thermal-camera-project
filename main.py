@@ -205,7 +205,7 @@ class CameraHandler:
     def updateThread(self):
         prevTime = 0
         while not self.stopped:
-            f = self.cam.capture_array()
+            f = self.cam.read()
             #f = np.rot90(f)
             frame = cv2.flip(f, 1)
 
