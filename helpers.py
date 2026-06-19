@@ -187,7 +187,7 @@ class Command():
             chkInt += int.from_bytes(i, byteorder = "big")
         self.chk = bytes([int((bin(chkInt)[2:])[-8:], 2)])
         
-    def buildPayload(self) -> bytearray:
+    def buildPayload(self) -> bytes:
         dataString = b""
         for i in self.data:
             dataString += i

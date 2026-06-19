@@ -25,11 +25,11 @@ if not cython.compiled:
 cameraControl = serial.Serial(port = "/dev/serial0", baudrate = 115200)
 pygame.init()
 
-usbCam = False
+usbCam = True
 mainLoop = True
 
-thermalCameraResX = 640
-thermalCameraResY = 480
+thermalCameraResX = 256
+thermalCameraResY = 192
 
 # Get these from the cameras spec sheet
 camFovX = 17.6
@@ -182,16 +182,16 @@ curDisplayMode = mainMenu["display"].getCurrentVal()
 class CameraHandler:
     # Taking implementation from https://pyimagesearch.com/2015/12/28/increasing-raspberry-pi-fps-with-python-and-opencv/
     def __init__(self):
-        self.cam = Picamera2()
-        self.cam.set_controls({'AeEnable': False})
-        config = self.cam.create_still_configuration(
-            buffer_count = 2,
-            controls={"Framerate": 50}
-        )
-        self.cam.start()
-        self.stopped = False
+        self.cam = cv2.VideoCapture(0)
+        #self.cam.set_controls({'AeEnable': False})
+        #config = self.cam.create_still_configuration(
+        #    buffer_count = 2,
+        #    controls={"Framerate": 50}
+        #)
+        #self.cam.start()
+        #self.stopped = False
 
-        f = self.cam.capture_array()
+        f = self.cam.read()
         f = np.rot90(f)
         frame = cv2.flip(f, 1)
 
