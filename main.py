@@ -191,7 +191,7 @@ class CameraHandler:
         #self.cam.start()
         #self.stopped = False
 
-        frame = self.cam.read()
+        ret, frame = self.cam.read()
         #f = np.rot90(f)
         #frame = cv2.flip(f, 1)
 
@@ -205,7 +205,7 @@ class CameraHandler:
     def updateThread(self):
         prevTime = 0
         while not self.stopped:
-            frame = self.cam.read()
+            ret, frame = self.cam.read()
             #f = np.rot90(f)
             #frame = cv2.flip(f, 1)
 
@@ -213,7 +213,7 @@ class CameraHandler:
             edgeDetectMode = mainMenu["edgeDetectionMode"].getCurrentVal()
             curPallet = pallets[mainMenu["pallet"].getCurrentVal()]
 
-
+            
             if displayMode =="Edges":
                 # Converts an image to grayscale and computes the threshold values
                 # for the cv2.Canny function. Then applies canny edge detection 
