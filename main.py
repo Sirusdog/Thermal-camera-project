@@ -212,7 +212,7 @@ class CameraHandler:
             displayMode = mainMenu["display"].getCurrentVal()
             edgeDetectMode = mainMenu["edgeDetectionMode"].getCurrentVal()
             curPallet = pallets[mainMenu["pallet"].getCurrentVal()]
-
+            displayMode = "Raw output"
             
             if displayMode =="Edges":
                 # Converts an image to grayscale and computes the threshold values
@@ -246,7 +246,8 @@ class CameraHandler:
                 img = recolorImage(frame, curPallet)
 
             elif displayMode == "Raw output":
-                img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                #img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                img = frame
 
             self.frame = img
             curTime = time.time()
