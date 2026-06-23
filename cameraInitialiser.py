@@ -3,7 +3,10 @@ ser = serial.Serial(
     port = "/dev/serial0", baudrate = 115200, parity=serial.PARITY_NONE,
     stopbits=serial.STOPBITS_ONE, timeout=1)
 from time import sleep
+import codecs
 
+hexlify = codecs.getencoder('hex')
+toHex = lambda s : hexlify(s)[0]
 def pbyte(data):
     # check if there are multiple bytes
     if len(str(data)) > 1:
@@ -13,7 +16,7 @@ def pbyte(data):
         s = 0
         for u in msg:
             # convert byte to ascii, then encode ascii to get byte number
-            u = str(u).encode("hex")
+            u = toHex(str(u))
             # make byte printable by canceling \x
             u = "\\x"+u
             # apply coverted byte to byte list
@@ -23,7 +26,7 @@ def pbyte(data):
     else:
         msg = data
         # convert byte to ascii, then encode ascii to get byte number
-        msg = str(msg).encode("hex")
+        msg = toHex(str(msg))
         # make byte printable by canceling \x
         msg = "\\x"+msg
     # return printable byte
