@@ -6,36 +6,12 @@ from time import sleep
 from binascii import hexlify
 
 
-def pbyte(data):
-    # check if there are multiple bytes
-    if len(str(data)) > 1:
-        # make list all bytes given
-        msg = list(data)
-        # mark which item is being converted
-        s = 0
-        for u in msg:
-            # convert byte to ascii, then encode ascii to get byte number
-            u = hexlify(bytes(str(u)))
-            # make byte printable by canceling \x
-            u = "\\x"+u
-            # apply coverted byte to byte list
-            msg[s] = u
-            s = s + 1
-        msg = "".join(msg)
-    else:
-        msg = data
-        # convert byte to ascii, then encode ascii to get byte number
-        msg = hexlify(bytes(str(u)))
-        # make byte printable by canceling \x
-        msg = "\\x"+msg
-    # return printable byte
-    return msg
 #ser.send(b"\x55\x43\x49\x12\x00\x10\x10\x46\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x58\x4d")
 
 def cycle(data):
     ser.write(data)
     ret = ser.read(23)
-    pbyte(ret)
+    print(ret)
     sleep(1)
     return ret
 
