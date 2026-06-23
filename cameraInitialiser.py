@@ -5,7 +5,6 @@ ser = serial.Serial(
 from time import sleep
 from binascii import hexlify
 
-hexlify = codecs.getencoder('hex')
 
 def pbyte(data):
     # check if there are multiple bytes
