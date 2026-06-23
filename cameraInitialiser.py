@@ -1,7 +1,7 @@
 import serial
 ser = serial.Serial(
     port = "/dev/serial0", baudrate = 115200, parity=serial.PARITY_NONE,
-    stopbits=STOPBITS_ONE, )
+    stopbits=serial.STOPBITS_ONE, )
     
 ser.open()
 #ser.send(b"\x55\x43\x49\x12\x00\x10\x10\x46\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x58\x4d")
