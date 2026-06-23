@@ -15,7 +15,7 @@ def pbyte(data):
         s = 0
         for u in msg:
             # convert byte to ascii, then encode ascii to get byte number
-            u = hexlify(u)
+            u = hexlify(bytes(str(u)))
             # make byte printable by canceling \x
             u = "\\x"+u
             # apply coverted byte to byte list
@@ -25,7 +25,7 @@ def pbyte(data):
     else:
         msg = data
         # convert byte to ascii, then encode ascii to get byte number
-        msg = hexlify(u)
+        msg = hexlify(bytes(str(u)))
         # make byte printable by canceling \x
         msg = "\\x"+msg
     # return printable byte
