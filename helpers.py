@@ -6,6 +6,7 @@ import cython
 import numpy.typing as npt
 from concurrent.futures import ThreadPoolExecutor as tpe
 import logging
+import serial
 from crc import Calculator, Crc16
 logger = logging.getLogger(__name__)
 
