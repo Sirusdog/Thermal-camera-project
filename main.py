@@ -13,7 +13,7 @@ import traceback
 
 import logging
 logger = logging.getLogger(__name__)
-logging.basicConfig(filename='example.log', encoding='utf-8')
+logging.basicConfig(filename='main.log', encoding='utf-8')
 logger.setLevel(logging.WARNING)
 logger.debug("Item isn't selected")
 
@@ -22,7 +22,14 @@ if not cython.compiled:
 
 
 # Variable definitions --------------------------------------------------
-cameraControl = serial.Serial(port = "/dev/serial0", baudrate = 115200)
+cameraControl = serial.Serial(
+    port = "/dev/serial0", 
+    baudrate = 115200, 
+    parity=serial.PARITY_NONE,
+    stopbits=serial.STOPBITS_ONE, 
+    timeout=1
+    )
+
 pygame.init()
 
 usbCam = True
@@ -149,12 +156,12 @@ mainMenu = {
 
 
 associatedCommands = {
-    #"pallet": {
-    #    "command": "SETPallet",
-    #    "White Hot": b"\x00",
-    #    "Black Hot": b"\x01",
-    #    "Red Hot": b"\x02"
-    #    },
+    "pallet": {
+        "command": "SETPallet",
+        "White Hot": b"\x00",
+        "Black Hot": b"\x01",
+        "Red Hot": b"\x02"
+        },
     "staticDenoise": {
         "command": "SETStaticDenoise"
     },
