@@ -319,7 +319,7 @@ class UARTController:
         ):
 
         curCommand = UARTController.commands[commandClass]
-        if type(subcommand) = str:
+        if type(subcommand) == str:
             byteString = curCommand[subCommand]
         else:
             byteString = curCommand.items()[1][index]
