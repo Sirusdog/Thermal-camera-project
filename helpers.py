@@ -323,7 +323,7 @@ class UARTController:
         if type(subcommand) == str:
             byteString = curCommand[subCommand]
         else:
-            byteString = list(curCommand.items()[subcommand])[1]
+            byteString = list(curCommand.items())[subcommand][1]
         serialOBJ.write(byteString)
         response = serialOBJ.read(23)
         ret = {}
