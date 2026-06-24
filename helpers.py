@@ -316,14 +316,14 @@ class UARTController:
     crcCalculator = Calculator(Crc16.XMODEM)
 
     def sendCommand(
-        serialOBJ: serial.Serial, commandClass: str, subcommand
+        serialOBJ: serial.Serial, commandClass: str, subCommand
         ):
 
         curCommand = UARTController.commands[commandClass]
-        if type(subcommand) == str:
+        if type(subCommand) == str:
             byteString = curCommand[subCommand]
         else:
-            byteString = list(curCommand.items())[subcommand][1]
+            byteString = list(curCommand.items())[subCommand][1]
         serialOBJ.write(byteString)
         response = serialOBJ.read(23)
         ret = {}
