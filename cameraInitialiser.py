@@ -1,5 +1,5 @@
 import serial
-import helpers
+from helpers import UARTController
 
 ser = serial.Serial(
     port = "/dev/serial0", baudrate = 115200, parity=serial.PARITY_NONE,
