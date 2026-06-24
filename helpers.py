@@ -328,7 +328,7 @@ class UARTController:
         response = serialOBJ.read(23)
         ret = {}
 
-        expectedCRC = bytestring[-1] + bytestring[-2]
+        expectedCRC = byteString[-1] + byteString[-2]
         recievedCRC = response[5:-2]
 
         if subCommand == "Get":
