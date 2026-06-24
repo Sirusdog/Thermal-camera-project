@@ -30,5 +30,5 @@ displayMode = cycle(b"\x55\x43\x49\x12\x00\x10\x10\x8a\x00\x00\x00\x00\x00\x00\x
 print("Serial code written")
 print(analogOutputModes[displayMode])
 """
-UARTController.sendCommand(ser, "Mode", index = 1)
-UARTController.sendCommand(ser, "Mode", subCommand = "Get")
+UARTController.sendCommand(ser, "Mode", subCommand = "", index = 1)
+UARTController.sendCommand(ser, "Mode", subCommand = "Get", index = 1)
