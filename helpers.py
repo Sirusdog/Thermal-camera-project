@@ -315,12 +315,11 @@ class UARTController:
     crcCalculator = Calculator(Crc16.XMODEM)
 
     def sendCommand(
-        serialOBJ: serial.Serial, commandClass: str, subCommand = "",
-        index = 0
+        serialOBJ: serial.Serial, commandClass: str, subcommand
         ):
 
         curCommand = UARTController.commands[commandClass]
-        if subCommand != "":
+        if type(subcommand) = str:
             byteString = curCommand[subCommand]
         else:
             byteString = curCommand.items()[1][index]
@@ -332,7 +331,7 @@ class UARTController:
         recievedCRC = response[5:-2]
 
         if subCommand == "Get":
-            print(response)
+            print
         else:
             if response == b"":
                 logger.warning("No response recieved. Cable is likely disconnected.")
