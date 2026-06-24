@@ -323,7 +323,7 @@ class UARTController:
         if type(subcommand) == str:
             byteString = curCommand[subCommand]
         else:
-            byteString = curCommand.items()[1][index]
+            byteString = list(curCommand.items()[index])[1]
         serialOBJ.write(byteString)
         response = serialOBJ.read(23)
         ret = {}
@@ -332,7 +332,7 @@ class UARTController:
         recievedCRC = response[5:-2]
 
         if subCommand == "Get":
-            print
+            print(response)
         else:
             if response == b"":
                 logger.warning("No response recieved. Cable is likely disconnected.")
