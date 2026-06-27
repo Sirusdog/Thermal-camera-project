@@ -247,7 +247,7 @@ class UARTController:
         }
     }
 
-    responsesGeneral = {v: k for k, v in }
+    responsesGeneral = {v: k for k, v in commands.items()}
 
     crcCalculator = Calculator(Crc16.XMODEM)
 
