@@ -13,22 +13,6 @@ logger = logging.getLogger(__name__)
 if not cython.compiled:
     print("Helpers is not cythonized. Re-run the build script to speed things up.")
 
-
-def recolorImage(imgIn: npt.NDArray, palletIn: list[int]) -> npt.NDArray:
-    """
-    Modifies a given grayscale image to a pallet defined by palletIn. Returns
-    an RGB image.
-    """
-    imgGray = np.array(imgIn, dtype = np.int16)
-    with tpe(max_workers=3) as pool:
-        r = pool.submit(colorTransform, imgGray, palletIn[0])
-        g = pool.submit(colorTransform, imgGray, palletIn[1])
-        b = pool.submit(colorTransform, imgGray, palletIn[2])
-    return cv2.merge([r.result(), g.result(), b.result()])
-
-def colorTransform(imgIn: npt.NDArray, dataIn):
-    return (np.round(abs(dataIn[0] + dataIn[1] * imgIn))).astype(np.int8)
-
 class MenuItem:
     """
     Class for each individual menu item.
@@ -148,56 +132,6 @@ class MenuItem:
 #---------------------------------------------------------------------------
 #SERIAL COMMUNICATION
 
-class Command():
-    """
-    Class to represent a single command.
-    
-    Attributes:
-    classAddress : byte
-        Class address for a command in the docs.
-    subclassAddress : byte
-        Subclass address for a command in the docs.
-    flag : byte
-        Read/write flag for a given command.
-    data : list[byte]
-    """
-    deviceAddress = b"\x36"
-
-    def __init__(self, classAddress: bytes, subclassAddress: bytes, 
-                flag: bytes, *data: bytes):
-        self.classAddress = classAddress
-        self.subclassAddress = subclassAddress
-        self.flag = flag
-        self.data = data
-
-        self.size = (len(data) + 4).to_bytes(1, byteorder="big")
-        chkInt = int.from_bytes(classAddress, byteorder="big") \
-            + int.from_bytes(subclassAddress, byteorder="big") \
-            + int.from_bytes(flag, byteorder = "big")
-
-        for i in data:
-            chkInt += int.from_bytes(i, byteorder = "big")
-        self.chk = bytes([int((bin(chkInt)[2:])[-8:], 2)])
-        
-    
-    def changeData(self, *data: bytes):
-        self.size = (len(data) + 4).to_bytes(1, byteorder="big")
-        chkInt = int.from_bytes(self.classAddress, byteorder="big") \
-            + int.from_bytes(self.subclassAddress, byteorder="big") \
-            + int.from_bytes(self.flag, byteorder = "big")
-
-        for i in data:
-            chkInt += int.from_bytes(i, byteorder = "big")
-        self.chk = bytes([int((bin(chkInt)[2:])[-8:], 2)])
-        
-    def buildPayload(self) -> bytes:
-        dataString = b""
-        for i in self.data:
-            dataString += i
-        return b"\xF0" + self.size + b"\x36" \
-               + self.classAddress + self.subclassAddress \
-               + self.flag + dataString\
-               + self.chk + b"\xFF"
 
 
 class UARTController:
@@ -217,7 +151,7 @@ class UARTController:
             'Jungle': rb'\x55\x43\x49\x12\x00\x10\x03\x45\x00\x00\x08\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xDA\xCF',
             'Medical': rb'\x55\x43\x49\x12\x00\x10\x03\x45\x00\x00\x09\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x93\x17',
             'Black Hot': rb'\x55\x43\x49\x12\x00\x10\x03\x45\x00\x00\x0A\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x69\x6F',
-            'Golden Red Glory_Hot': rb'\x55\x43\x49\x12\x00\x10\x03\x45\x00\x00\x0B\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20\xB7',
+            'Golden Red': rb'\x55\x43\x49\x12\x00\x10\x03\x45\x00\x00\x0B\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x20\xB7',
             'Get': rb'\x55\x43\x49\x12\x00\x10\x03\x85\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x21\x67',
         },
         
@@ -225,13 +159,13 @@ class UARTController:
             'Low Temperature Highlight': rb'\x55\x43\x49\x12\x00\x10\x04\x42\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xC5\x65',
             'Linear Stretch': rb'\x55\x43\x49\x12\x00\x10\x04\x42\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xB0\x66',
             'Low Contrast': rb'\x55\x43\x49\x12\x00\x10\x04\x42\x00\x02\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x2F\x63',
-            'General Mode (Default)': rb'\x55\x43\x49\x12\x00\x10\x04\x42\x00\x03\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x5A\x60',
+            'General': rb'\x55\x43\x49\x12\x00\x10\x04\x42\x00\x03\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x5A\x60',
             'High Contrast': rb'\x55\x43\x49\x12\x00\x10\x04\x42\x00\x04\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x11\x68',
             'Highlight': rb'\x55\x43\x49\x12\x00\x10\x04\x42\x00\x05\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x64\x6B',
             'Reserved 1': rb'\x55\x43\x49\x12\x00\x10\x04\x42\x00\x06\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xFB\x6E',
             'Reserved 2': rb'\x55\x43\x49\x12\x00\x10\x04\x42\x00\x07\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x8E\x6D',
             'Reserved 3': rb'\x55\x43\x49\x12\x00\x10\x04\x42\x00\x08\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x6D\x7E',
-            'Outline Mode': rb'\x55\x43\x49\x12\x00\x10\x04\x42\x00\x09\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x18\x7D',
+            'Outline': rb'\x55\x43\x49\x12\x00\x10\x04\x42\x00\x09\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x18\x7D',
             'Get': rb'\x55\x43\x49\x12\x00\x10\x04\x89\x00\x01\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x0D\x0A'
             },
 
@@ -313,6 +247,8 @@ class UARTController:
         }
     }
 
+    responsesGeneral = {v: k for k, v in }
+
     crcCalculator = Calculator(Crc16.XMODEM)
 
     def sendCommand(
@@ -328,7 +264,7 @@ class UARTController:
         response = serialOBJ.read(23)
         ret = {}
 
-        expectedCRC = byteString[-1] + byteString[-2]
+        expectedCRC = byteString[-2:]
         recievedCRC = response[5:-2]
 
         if subCommand == "Get":
@@ -342,6 +278,4 @@ class UARTController:
                 logger.warning("Command " + commandClass + " did not ")
                 print(("Command " + commandClass + " did not "))
 
-
-   #def readCommand(serialOBJ)
 print("Helpers loaded.")

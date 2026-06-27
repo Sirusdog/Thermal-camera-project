@@ -21,7 +21,7 @@ if not cython.compiled:
     print("Main is not cythonized. Re-run the build script to speed things up.")
 
 
-# Variable definitions --------------------------------------------------
+# Definitions and initialisations --------------------------------------------
 cameraControl = serial.Serial(
     port = "/dev/serial0", 
     baudrate = 115200, 
@@ -95,15 +95,6 @@ def textBox(textIn: str, selected: bool) -> pygame.Surface:
     return boxSurf
 
 
-pallets = {"White Hot": [[0, 1], [0, 1], [0, 0]],
-           "Black Hot": [[-255, 1], [-255, 1], [-255, 1]],
-           "Ironbow": [[0, 1], [0, 0], [-255, 1]],
-           "Red Hot": [[0, 1], [0, 0], [0, 0]],
-           "Orange": [[0, 1], [0, 0.41], [0, 0.12]]
-           }
-# Each pallet is defined as an offset for each channel and a multiplier.
-# To get a "positive" color, leave it as 
-
 rotaryEncoder = rotary.Rotary(23, 24, 25, 2)
 rotaryEncoder.register(increment = incrementFlagCallback,
                        decrement = decrementFlagCallback,
@@ -113,28 +104,14 @@ rotaryEncoder.start()
 
 
 mainMenu = {
-    "pallet": MenuItem("Colour Pallet", "pallet", "text", *pallets.keys()),
-    "display": MenuItem("Display mode", "display", "text", *[
-        "Full image", "Cutoff", "Edges", "Raw output"
+    "pallet": MenuItem("Colour Pallet", "pallet", "text", *[
+        "White Hot", "Black Hot", "Ironbow", "Rainbow", "Night", "Aurora",
+        "Red Hot", "Jungle", "Medical", "Golden Red"
     ]),
-
-    "cutoff": MenuItem("Cutoff temperature", "cutoff", "int",  50, 0, 100,
-        dependsOn = ("display", "Cutoff")
-    ),
-
-    "edgeDetectionMode" : MenuItem("Edge detect mode", "edgeDetectionMode",
-        "text", *["Auto", "Manual"], dependsOn = ("display", "Edges")
-    ), 
-
-    "edgeSensitivityLower": MenuItem("Edge sensitivity lower", 
-        "edgeSensitivityLower", "int", 100, 0, 200, 
-        dependsOn = ("edgeDetectionMode", "Manual")
-    ),
-
-    "edgeSensitivityUpper": MenuItem("Edge sensitivity upper", 
-        "edgeSensitivityUpper", "int", 250, 0, 255, 
-        dependsOn = ("edgeDetectionMode", "Manual")
-    ),
+    "display": MenuItem("Display mode", "display", "text", *[
+        "General", "Outline". "Low Temperature Highlight", "Linear Stretch",
+        "High Contrast", "Low Contrast"
+    ]),
 
     "digitalZoom": MenuItem("Digital zoom", "digitalZoom", "float", 1, 1, 2.5, 
         numSteps = 4),
@@ -143,11 +120,11 @@ mainMenu = {
         0, 100
     ),
 
-    "staticDenoise": MenuItem("Static Denoising", "staticDenoise", "int", 50,
+    "spatialDenoise": MenuItem("Spatial Denoise", "spatialDenoise", "int", 50,
         0, 100
     ),
 
-    "dynamicDenoise": MenuItem("Dynamic Denoising", "dynaicDenoise", "int",
+    "temporalNR": MenuItem("Temporal Noise Reduction", "temporalNR", "int",
         50,  0, 100
     ),
 
@@ -157,13 +134,10 @@ mainMenu = {
 
 associatedCommands = {
     "pallet": {
-        "command": "SETPallet",
-        "White Hot": b"\x00",
-        "Black Hot": b"\x01",
-        "Red Hot": b"\x02"
+        "command": "Pallet"
         },
     "staticDenoise": {
-        "command": "SETStaticDenoise"
+        "command": ""
     },
     "dynamicDenoise": {
         "command": "SETDynamicDenoise"
@@ -215,48 +189,9 @@ class CameraHandler:
             ret, frame = self.cam.read()
             #f = np.rot90(f)
             #frame = cv2.flip(f, 1)
+            self.frame = frame
 
-            displayMode = mainMenu["display"].getCurrentVal()
-            edgeDetectMode = mainMenu["edgeDetectionMode"].getCurrentVal()
-            curPallet = pallets[mainMenu["pallet"].getCurrentVal()]
-            displayMode = "Raw output"
-            
-            if displayMode =="Edges":
-                # Converts an image to grayscale and computes the threshold values
-                # for the cv2.Canny function. Then applies canny edge detection 
-                # before converting the image into RGB.
-                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                
-                if edgeDetectMode == "Auto":
-                    median = np.median(frame)
-                    lowerThreshold = int(max(0, 0.66 * median))
-                    upperThreshold = int(min(255, 1.33 * median))
-                else:
-                    lowerThreshold = mainMenu["edgeSensitivityLower"].getCurrentVal()
-                    upperThreshold = mainMenu["edgeSensitivityUpper"].getCurrentVal()
-
-                edges = cv2.Canny(frame, lowerThreshold, upperThreshold)
-                img = recolorImage(edges, curPallet)
-
-            elif displayMode == "Cutoff":
-                # Converts the image into grayscale, computes the threshold for the
-                # bottom percentage of pixels then sets them to 0.
-                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                threshold = np.max(frame) * (mainMenu["cutoff"].getCurrentVal()/100)
-                for i in range(len(frame)):
-                    frame[i][frame[i] < threshold] = 0
-
-                img = recolorImage(frame, curPallet)
-
-            elif displayMode == "Full image":
-                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                img = recolorImage(frame, curPallet)
-
-            elif displayMode == "Raw output":
-                #img = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                img = frame
-
-            self.frame = img
+            # Gets the FPS.
             curTime = time.time()
             self.fps = 1/(curTime - prevTime)
             prevTime = curTime
@@ -335,6 +270,11 @@ try:
             count = 0
             if not itemSelected:
                 logger.debug("Item isn't selected")
+                # Handles the actual rendering of each menu item.
+                # As we don't want to display items with dependencies when
+                # Those conditions aren't met, it loops through ever item
+                # Until it finds the next one to display.
+
                 if incrementFlag == True:
                     curMenuIndex += 1
                     incrementFlag = False
@@ -393,16 +333,13 @@ try:
                     logger.debug("Sub-item decrement handled fine!")
 
                 if doChange and curMenuKey in associatedCommands.keys():
-                    cmdName = associatedCommands[curMenuKey]["command"]
-                    #if cmdName == "SETPallet":
-                     #   data = associatedCommands[curMenuKey][mainMenu[curMenuKey].getCurrentVal()]
-                    #else: Leaving this here in case I want to set the pallet
-                    # on the camera later
-                    data = bytes([mainMenu[curMenuKey].getCurrentVal()])
+                    # If we need to send some command to the camera.
+                    cmdName = str(associatedCommands[curMenuKey]["command"])
+                    subCommand = mainMenu[curMenuKey].getCurrentVal()
                     UARTController.sendCommand(
                         cameraControl,
                         cmdName,
-                        data
+                        subCommand
                     )
                     logger.debug("Command sent fine.")
                 
@@ -427,6 +364,7 @@ try:
         display.blit(txt, (0,0))
         display.blit(txt2, (0, 35))
         pygame.display.update()
+
 except Exception as e:
     print(e)
     traceback.print_exc()
