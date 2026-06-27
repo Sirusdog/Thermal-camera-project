@@ -277,5 +277,6 @@ class UARTController:
             if expectedCRC != recievedCRC:
                 logger.warning("Command " + commandClass + " did not ")
                 print(("Command " + commandClass + " did not "))
+            print(response)
 
 print("Helpers loaded.")
