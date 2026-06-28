@@ -113,6 +113,8 @@ mainMenu = {
         "High Contrast", "Low Contrast"
     ]),
 
+    "record": MenuItem("Record", "record", "toggle"),
+
     "digitalZoom": MenuItem("Digital zoom", "digitalZoom", "float", 1, 1, 2.5, 
         numSteps = 4),
 
@@ -160,54 +162,7 @@ else:
 
 curDisplayMode = mainMenu["display"].getCurrentVal()
 
-class CameraHandler:
-    # Taking implementation from https://pyimagesearch.com/2015/12/28/increasing-raspberry-pi-fps-with-python-and-opencv/
-    def __init__(self):
-        self.cam = cv2.VideoCapture(0)
-        #self.cam.set_controls({'AeEnable': False})
-        #config = self.cam.create_still_configuration(
-        #    buffer_count = 2,
-        #    controls={"Framerate": 50}
-        #)
-        #self.cam.start()
-        #self.stopped = False
 
-        ret, frame = self.cam.read()
-        #f = np.rot90(f)
-        #frame = cv2.flip(f, 1)
-
-        self.frame = frame # cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        self.fps = 0
-
-    def startThread(self):
-        Thread(target=self.updateThread, args=()).start()
-        return self
-
-    def updateThread(self):
-        prevTime = 0
-        while not self.stopped:
-            ret, frame = self.cam.read()
-            #f = np.rot90(f)
-            #frame = cv2.flip(f, 1)
-            self.frame = frame
-
-            # Gets the FPS.
-            curTime = time.time()
-            self.fps = 1/(curTime - prevTime)
-            prevTime = curTime
-
-        if self.stopped:
-            self.cam.stop()
-            return
-
-    def read(self) -> np.typing.NDArray:
-        return self.frame
-
-    def stop(self):
-        self.stopped = True
-
-    def getFPS(self):
-        return self.fps
 
 print("Initialisations complete, running main body.")
 # Main --------------------------------------------------------------------

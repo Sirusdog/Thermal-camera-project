@@ -8,6 +8,7 @@ from concurrent.futures import ThreadPoolExecutor as tpe
 import logging
 import serial
 from crc import Calculator, Crc16
+import os
 logger = logging.getLogger(__name__)
 
 if not cython.compiled:
@@ -128,6 +129,80 @@ class MenuItem:
         elif self.itemType == "exit":
             pass
 
+
+#---------------------------------------------------------------------------
+#VIDEO HANDLING
+
+class CameraHandler:
+    # Taking implementation from https://pyimagesearch.com/2015/12/28/increasing-raspberry-pi-fps-with-python-and-opencv/
+
+    fourcc = cv2.VideoWriter_fourcc(*"DIVX")
+
+    def __init__(self):
+        self.cam = cv2.VideoCapture(0)
+        #self.cam.set_controls({'AeEnable': False})
+        #config = self.cam.create_still_configuration(
+        #    buffer_count = 2,
+        #    controls={"Framerate": 50}
+        #)
+        #self.cam.start()
+        #self.stopped = False
+
+        ret, frame = self.cam.read()
+        #f = np.rot90(f)
+        #frame = cv2.flip(f, 1)
+
+        self.frame = frame # cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        self.fps = 0
+        self.record = False
+        self.recorder = None
+
+    def startThread(self):
+        Thread(target=self.updateThread, args=()).start()
+        return self
+
+    def updateThread(self):
+        prevTime = 0
+        while not self.stopped:
+            ret, frame = self.cam.read()
+            #f = np.rot90(f)
+            #frame = cv2.flip(f, 1)
+            self.frame = frame
+
+            # Gets the FPS.
+            curTime = time.time()
+            self.fps = 1/(curTime - prevTime)
+            prevTime = curTime
+
+        if self.stopped:
+            self.cam.stop()
+            return
+
+    def read(self) -> np.typing.NDArray:
+        return self.frame
+
+    def stop(self):
+        self.stopped = True
+
+    def getFPS(self):
+        return self.fps
+
+
+    def startRecording(self):
+        count = str(len(os.listdir(".\\Videos")))
+        self.recorder = cv2.VideoWriter(
+            "ThermalCamVideo " + count, fourcc, 50, (256, 192)
+            )
+        self.record = True
+        Thread(target = self.recordThread, args = ()).start()
+
+    def recordThread(self):
+        while self.record and not self.stopped:
+            self.recorder.write(self.frame)
+        return
+
+    def stopRecording(self):
+        self.record = False
 
 #---------------------------------------------------------------------------
 #SERIAL COMMUNICATION
@@ -261,11 +336,13 @@ class UARTController:
         else:
             byteString = list(curCommand.items())[subCommand][1]
         serialOBJ.write(byteString)
-        response = serialOBJ.read(23)
+        responseHeader = serialOBJ.read(4)
+
+        response = serialOBJ.read(int.from_bytes(responseHeader[2:], "big"))
         ret = {}
 
-        expectedCRC = byteString[-2:]
-        recievedCRC = response[5:-2]
+        expectedCRC = response[-4:-2]
+        recievedCRC = response[5:-4]
 
         if subCommand == "Get":
             print(response)
