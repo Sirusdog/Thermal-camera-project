@@ -118,7 +118,7 @@ mainMenu = {
         "High Contrast", "Low Contrast"
     ]),
 
-    "record": MenuItem("Record", "record", "toggle"),
+    "record": MenuItem("Record", "record", "toggle", False),
 
     "digitalZoom": MenuItem("Digital zoom", "digitalZoom", "float", 1, 1, 2.5, 
         numSteps = 4),
