@@ -316,7 +316,7 @@ try:
                 showMenu = False
                 itemSelected = False
             elif list(mainMenu.items())[curMenuIndex][1].getName() == "record" and itemSelected:
-                
+                pass
         tNew = time.time()
         fps = 1/(tNew - tPrev)
         tPrev = tNew
