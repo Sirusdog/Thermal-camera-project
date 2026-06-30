@@ -5,6 +5,7 @@ After=multi-user.target
 [Service]
 Type=simple
 WorkingDirectory=/home/sirus/Thermal-camera-project/
+User=sirus
 ExecStart=sudo python3 /home/sirus/Thermal-camera-project/run.py
 KillSignal=SIGINT
 
