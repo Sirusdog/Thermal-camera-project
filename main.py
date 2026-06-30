@@ -10,6 +10,7 @@ import time # FPS displays.
 from threading import Thread # Speeding up camera input.
 import cython
 import traceback # Properly prints errors.
+import signal
 
 from trapdoor import Trapdoor # Handles settings file
 
@@ -20,7 +21,12 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(filename='main.log', encoding='utf-8')
 logger.setLevel(logging.WARNING)
 
-
+def handler(signum, frame):
+    pass
+try:
+    signal.signal(signal.SIGHUP, handler)
+except AttributeError:
+    pass
 
 if not cython.compiled:
     print("Main is not cythonized. Re-run the build script to speed things up.")
