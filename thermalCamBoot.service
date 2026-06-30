@@ -7,4 +7,4 @@ Type=idle
 ExecStart=/user.bin/python3 /home/sirus/Thermal-camera-project/run.py
 
 [Install]
-WantedBy=
+WantedBy=multi-user.target
