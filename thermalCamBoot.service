@@ -1,0 +1,10 @@
+[Unit]
+Description=Start the thermal camera program
+After=multi-user.target
+
+[Service]
+Type=idle
+ExecStart=/user.bin/python3 /home/sirus/Thermal-camera-project/run.py
+
+[Install]
+WantedBy=

@@ -1,4 +1,4 @@
-from picamera2 import Picamera2
+from picamera2 import Picamera2 # Deprecated.
 from threading import Thread
 import cv2
 import numpy as np

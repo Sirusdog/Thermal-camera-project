@@ -1,21 +1,26 @@
-import serial
+import serial # For communicating with the camera.
 from helpers import *
-import numpy as np 
-import cv2
-import pygame
-from picamera2 import Picamera2
-import sys
-from RPi_GPIO_Rotary import rotary
-import time
-from threading import Thread
+import numpy as np # Array handling.
+import cv2 # Image capture and processing.
+import pygame # Actually displaying things.
+from picamera2 import Picamera2 # Now deprecated.
+import sys # Properly exiting the program once shutdown.
+from RPi_GPIO_Rotary import rotary # For handling the rotary encoder.
+import time # FPS displays.
+from threading import Thread # Speeding up camera input.
 import cython
-import traceback
+import traceback # Properly prints errors.
+
+from trapdoor import Trapdoor # Handles settings file
+
+settings = Trapdoor("main", ".\\configs", "mainConfig.toml")
 
 import logging
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename='main.log', encoding='utf-8')
 logger.setLevel(logging.WARNING)
-logger.debug("Item isn't selected")
+
+
 
 if not cython.compiled:
     print("Main is not cythonized. Re-run the build script to speed things up.")
@@ -122,7 +127,7 @@ mainMenu = {
         0, 100
     ),
 
-    "spatialDenoise": MenuItem("Spatial Denoise", "spatialDenoise", "int", 50,
+    "spatialDenoise": MenuItem("Spatial NR", "spatialDenoise", "int", 50,
         0, 100
     ),
 
@@ -310,7 +315,8 @@ try:
             if list(mainMenu.items())[curMenuIndex][1].getName() == "exit" and itemSelected:
                 showMenu = False
                 itemSelected = False
-
+            elif list(mainMenu.items())[curMenuIndex][1].getName() == "record" and itemSelected:
+                
         tNew = time.time()
         fps = 1/(tNew - tPrev)
         tPrev = tNew
