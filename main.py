@@ -183,7 +183,6 @@ try:
         img = cam.read()
         logger.debug("Image read fine!")
 
-        curPallet = pallets[mainMenu["pallet"].getCurrentVal()]
         zoomLvl = mainMenu["digitalZoom"].getCurrentVal()
 
         img = cv2.resize(img, (int(coveredY * zoomLvl), int(coveredX * zoomLvl)), interpolation = interpolationMode)
