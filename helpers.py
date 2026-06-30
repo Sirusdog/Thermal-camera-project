@@ -2,7 +2,7 @@ from picamera2 import Picamera2 # Deprecated.
 from threading import Thread
 import cv2
 import numpy as np
-import cython
+#import cython
 import numpy.typing as npt
 from concurrent.futures import ThreadPoolExecutor as tpe
 import logging
@@ -11,8 +11,8 @@ from crc import Calculator, Crc16
 import os
 logger = logging.getLogger(__name__)
 
-if not cython.compiled:
-    print("Helpers is not cythonized. Re-run the build script to speed things up.")
+#if not cython.compiled:
+#    print("Helpers is not cythonized. Re-run the build script to speed things up.")
 
 class MenuItem:
     """

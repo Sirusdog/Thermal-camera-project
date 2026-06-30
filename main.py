@@ -8,7 +8,7 @@ import sys # Properly exiting the program once shutdown.
 from RPi_GPIO_Rotary import rotary # For handling the rotary encoder.
 import time # FPS displays.
 from threading import Thread # Speeding up camera input.
-import cython
+#import cython
 import traceback # Properly prints errors.
 import signal
 
@@ -28,8 +28,8 @@ try:
 except AttributeError:
     pass
 
-if not cython.compiled:
-    print("Main is not cythonized. Re-run the build script to speed things up.")
+#if not cython.compiled:
+#    print("Main is not cythonized. Re-run the build script to speed things up.")
 
 
 # Definitions and initialisations --------------------------------------------
