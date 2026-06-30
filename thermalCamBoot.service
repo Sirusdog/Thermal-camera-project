@@ -4,7 +4,9 @@ After=multi-user.target
 
 [Service]
 Type=idle
-ExecStart=/user/bin/python3 /home/sirus/Thermal-camera-project/run.py
+WorkingDirectory=/home/sirus/Thermal-camera-project/
+ExecStart=sudo python3 /home/sirus/Thermal-camera-project/run.py
+KillSignal=SIGINT
 
 [Install]
 WantedBy=multi-user.target
