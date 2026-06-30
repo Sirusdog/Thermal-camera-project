@@ -114,7 +114,7 @@ mainMenu = {
         "Red Hot", "Jungle", "Medical", "Golden Red"
     ]),
     "display": MenuItem("Display mode", "display", "text", *[
-        "General", "Outline". "Low Temperature Highlight", "Linear Stretch",
+        "General", "Outline", "Low Temperature Highlight", "Linear Stretch",
         "High Contrast", "Low Contrast"
     ]),
 
