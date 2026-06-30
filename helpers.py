@@ -156,6 +156,7 @@ class CameraHandler:
         self.fps = 0
         self.record = False
         self.recorder = None
+        self.stopped = False
 
     def startThread(self):
         Thread(target=self.updateThread, args=()).start()
