@@ -3,7 +3,7 @@ Description=Start the thermal camera program
 After=multi-user.target
 
 [Service]
-Type=idle
+Type=simple
 WorkingDirectory=/home/sirus/Thermal-camera-project/
 ExecStart=sudo python3 /home/sirus/Thermal-camera-project/run.py
 KillSignal=SIGINT
