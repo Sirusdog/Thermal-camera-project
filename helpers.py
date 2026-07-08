@@ -2,7 +2,7 @@ from picamera2 import Picamera2 # Deprecated.
 from threading import Thread
 import cv2
 import numpy as np
-#import cython
+import cython
 import numpy.typing as npt
 from concurrent.futures import ThreadPoolExecutor as tpe
 import logging
@@ -11,26 +11,26 @@ from crc import Calculator, Crc16
 import os
 logger = logging.getLogger(__name__)
 
-#if not cython.compiled:
-#    print("Helpers is not cythonized. Re-run the build script to speed things up.")
+if not cython.compiled:
+    print("Helpers is not cythonized. Re-run the build script to speed things up.")
 
 class MenuItem:
     """
     Class for each individual menu item.
     """
-    def __init__(self, displayText: str, name: str, itemType: str, *data: list,
+    def __init__(self, displayText: str, name: str, itemType: str, default, data: list,
                 numSteps = 20, dependsOn = None):
         
         self.displayText = displayText
         self.defaultDisplayText = displayText
         self.name = name
         self.itemType = itemType
-        self.currentVal = data[0]
+        self.currentVal = default
         self.dependency = dependsOn
 
 
         if itemType == "text":
-            self.possibleValues = data 
+            self.possibleValues = data[1:]
             self.currentVal = 0
 
         elif itemType == "int":
@@ -309,7 +309,7 @@ class UARTController:
         'Max Temperature': {
             'Get': rb'\x55\x43\x49\x12\x00\x10\x10\x92\x00\x00\x00\x00\x00\x00\x01\xC0\x00\x0e\x00\x00\x00\xce\xa0'
         },
-         'Zoom': {
+        'Zoom': {
             '1': rb'\x55\x43\x49\x12\x00\x01\x31\x42\x00\x00\x0A\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x06\x0A',
             '2': rb'\x55\x43\x49\x12\x00\x01\x31\x42\x00\x00\x14\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x41\x0C',
             '3': rb'\x55\x43\x49\x12\x00\x01\x31\x42\x00\x00\x1E\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7C\x0E',

@@ -8,7 +8,7 @@ import sys # Properly exiting the program once shutdown.
 from RPi_GPIO_Rotary import rotary # For handling the rotary encoder.
 import time # FPS displays.
 from threading import Thread # Speeding up camera input.
-#import cython
+import cython
 import traceback # Properly prints errors.
 import signal
 
@@ -28,8 +28,8 @@ try:
 except AttributeError:
     pass
 
-#if not cython.compiled:
-#    print("Main is not cythonized. Re-run the build script to speed things up.")
+if not cython.compiled:
+    print("Main is not cythonized. Re-run the build script to speed things up.")
 
 
 # Definitions and initialisations --------------------------------------------
@@ -50,12 +50,13 @@ thermalCameraResX = 256
 thermalCameraResY = 192
 
 # Get these from the cameras spec sheet
-camFovX = 17.6
-camFovY = 13.2
+camFovX = float(settings.get("camSettings.camFovX"))
+camFovY = float(settings.get("camSettings.camFovY"))
 
 # Computed value based off of the camera FoV and the screen FoV.
-coveredX = 1000
-coveredY = int(coveredX * (thermalCameraResY/thermalCameraResX))
+coveredX = int(settings.get("displaySettings.coveredX"))
+coveredY = int(settings.get("displaySettings.coveredY"))
+
 # Maintains aspect ratio. Will work with a predefined value but 
 # the image may become stretched.
 
@@ -113,63 +114,67 @@ rotaryEncoder.register(increment = incrementFlagCallback,
                        )
 rotaryEncoder.start()
 
+enabledModules = settings.get("enabledModules")
 
 mainMenu = {
-    "pallet": MenuItem("Colour Pallet", "pallet", "text", *[
-        "White Hot", "Black Hot", "Ironbow", "Rainbow", "Night", "Aurora",
-        "Red Hot", "Jungle", "Medical", "Golden Red"
-    ]),
-    "display": MenuItem("Display mode", "display", "text", *[
-        "General", "Outline", "Low Temperature Highlight", "Linear Stretch",
-        "High Contrast", "Low Contrast"
-    ]),
+    "pallet": MenuItem("Colour Pallet", "pallet", "text", 
+        settings.get("current.pallet"), 
+        settings.get("camSettings.enabledPallets").split(", ")
+    ),
+
+    "display": MenuItem("Display mode", "display", "text", 
+        settings.get("current.display"), 
+        settings.get("camSettings.enabledModes").split(", ")
+    ),
 
     "record": MenuItem("Record", "record", "toggle", False),
 
     "digitalZoom": MenuItem("Digital zoom", "digitalZoom", "float", 1, 1, 2.5, 
         numSteps = 4),
 
-    "contrast": MenuItem("Image Enhancement", "imageEnhancement", "int", 50,
-        0, 100
+    "contrast": MenuItem("Image Enhancement", "imageEnhancement", "int", 
+        int(settings.get("current.contrast")), 0, 100
     ),
 
-    "spatialDenoise": MenuItem("Spatial NR", "spatialDenoise", "int", 50,
-        0, 100
+    "spatialNR": MenuItem("Spatial NR", "spatialNR", "int", 
+        int(settings.get("current.spatialNR")), 0, 100
     ),
 
-    "temporalNR": MenuItem("Temporal Noise Reduction", "temporalNR", "int",
-        50,  0, 100
+    "temporalNR": MenuItem("Temporal NR", "temporalNR", "int",
+        int(settings.get("current.temporalNR")),  0, 100
     ),
+
+    "xShift": MenuItem("Alignment shift X", "xShift", "int", 0, -400, 400, 
+        numSteps = 800),
+
+    "yShift": MenuItem("Alignment shift Y", "yShift", "int", 0, -400, 400, 
+        numSteps = 800),
 
     "exit": MenuItem("Exit menu", "exit", "exit", None)
 }
 
+if "map" in enabledModules and not "3dMap" in enabledModules:
+    mainMenu["map"] = MenuItem("Show Map", "map", "toggle", False)
+if "compass" in enabledModules:
+    mainMenu["compass"] = MenuItem("Show Compass", "compass", "toggle", False)
+if "waypoints" in enabledmodules and not "3dWaypoints" in enabledModules:
+    mainMenu["waypoints"] = MenuItem("Show waypoints", "waypoints", "toggle", False)
+
 
 associatedCommands = {
-    "pallet": {
-        "command": "Pallet"
-        },
-    "staticDenoise": {
-        "command": ""
-    },
-    "dynamicDenoise": {
-        "command": "SETDynamicDenoise"
-    },
-    "imageEnhancement": {
-        "command": "SETStaticDenoise"
-    },
-    "contrast": {
-        "command": "SETContrast"
-    }
-    }
+    "pallet": "Pallet",
+    "spatialNR": "Spatial Noise Reduction"
+    "temporalNR": "Temporal Noise Reduction"
+    "imageEnhancement": "Detail Enhancement"
+    "contrast": "Contrast"
+}
+
+toStore = [
+    "pallet", "display", "contrast", "spatialNR", "temporalNR", "xShift", 
+    "yShift", "map", "waypoints", "compass"
+] # Values that are stored/kept the same on reboot.
 
 curMenuIndex = 0
-
-if usbCam:
-    cam = cv2.VideoCapture(0)
-else:
-    pass
-
 
 curDisplayMode = mainMenu["display"].getCurrentVal()
 
@@ -191,15 +196,24 @@ try:
 
         zoomLvl = mainMenu["digitalZoom"].getCurrentVal()
 
-        img = cv2.resize(img, (int(coveredY * zoomLvl), int(coveredX * zoomLvl)), interpolation = interpolationMode)
+        img = cv2.resize(
+            img, (int(coveredY * zoomLvl), int(coveredX * zoomLvl)), 
+            interpolation = interpolationMode
+        )
 
-        xBuffer = int(screenResX/2 - int(coveredX * zoomLvl)/2)
-        yBuffer = int(screenResY/2 - int(coveredY * zoomLvl)/2)
+        xBuffer = int(screenResX/2 - int(coveredX * zoomLvl)/2) + (
+            mainMenu["xShift"].getCurrentVal()
+        )
+        
+        yBuffer = int(screenResY/2 - int(coveredY * zoomLvl)/2) + (
+            mainMenu["yShift"].getCurrentVal()
+        )
 
         surf = pygame.surfarray.make_surface(img)
         display.blit(surf, (int(xBuffer/(zoomLvl**2)), int(yBuffer/(zoomLvl**2))))
         logger.debug("Wrote to display surface fine!")
-        # Handle pygame & keypress inputs
+
+        # Handle pygame & keypress inputs. These are for debugging.
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 mainLoop = False 
@@ -281,10 +295,11 @@ try:
                     logger.debug("Decrement handled fine!")
                 mainMenu[list(mainMenu.keys())[curMenuIndex]].reset()
 
-            else:
+            else: # If the item is selected and the menu is shown:
                 curMenuKey = list(mainMenu.keys())[curMenuIndex]
                 mainMenu[curMenuKey].updateDisplayText(mainMenu[curMenuKey].getCurrentVal())
 
+                # If a increment/decrement was triggered:
                 doChange = False
                 if incrementFlag:
                     mainMenu[curMenuKey].incrementCurrentVal()
@@ -307,6 +322,13 @@ try:
                         subCommand
                     )
                     logger.debug("Command sent fine.")
+
+                if curMenuKey in toStore: 
+                    # If we want to store a value for later.
+                    settings.set(
+                        "current." + curMenuKey, 
+                        mainMenu[curMenuKey].getCurrentVal()
+                    )
                 
             # Render the menu
             mainItem = list(mainMenu.items())[curMenuIndex][1].getDisplayText()
@@ -316,12 +338,19 @@ try:
             display.blit(textBoxSurf, (displayX/2 - textBoxX/2, displayY/2 - textBoxY/2))
 
             logger.debug("Rendering went fine!")
-            # Handle what to do with those inputs
+
+            # Handle what to do with certain inputs
             if list(mainMenu.items())[curMenuIndex][1].getName() == "exit" and itemSelected:
                 showMenu = False
                 itemSelected = False
             elif list(mainMenu.items())[curMenuIndex][1].getName() == "record" and itemSelected:
-                pass
+                itemSelected = False
+                if mainMenu["record"].getCurrentVal():
+                    cam.startRecording()
+                else:
+                    cam.stopRecording()
+
+
         tNew = time.time()
         fps = 1/(tNew - tPrev)
         tPrev = tNew
