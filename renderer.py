@@ -118,7 +118,7 @@ while DISPLAY.loop_running():
     except Exception as e:
         print(e, " has occured.")
     cam.rotate(*rot)
-    sprite.draw()
+    ball.draw()
     k = mykeys.read()
     if k == 27:
         mykeys.close()
