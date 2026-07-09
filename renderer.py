@@ -115,10 +115,10 @@ while DISPLAY.loop_running():
         rot = np.degrees(np.acos(unit/alpha)[:3])
     except KeyError:
         rot = last
-        pass
     except OSError:
         rot = last
-        pass
+    except IndexError:
+        rot = last
 
     cam.rotate(*rot)
     ball.draw()
