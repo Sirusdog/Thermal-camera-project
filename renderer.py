@@ -4,7 +4,6 @@ import time
 import numpy as np
 import math
 """ Example showing what can be left out. ESC to quit"""
-import demo
 import pi3d
 # From https://github.com/henriberisha/gps_location/blob/main/gps.py
 """
