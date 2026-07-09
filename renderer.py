@@ -115,6 +115,8 @@ while DISPLAY.loop_running():
 
     except Exception as e:
         print(e, " has occured.")
+        mykeys.close()
+        DISPLAY.destroy()
     cam.rotate(*rot)
     ball.draw()
     k = mykeys.read()
@@ -122,3 +124,6 @@ while DISPLAY.loop_running():
         mykeys.close()
         DISPLAY.destroy()
         break
+
+mykeys.close()
+DISPLAY.destroy()
