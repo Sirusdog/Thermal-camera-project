@@ -101,6 +101,7 @@ DISPLAY = pi3d.Display.create(w=800, h=500, frames_per_second=50, background=(0.
 cam = pi3d.Camera()
 ball = pi3d.Sphere(radius = 5, x = 20)
 mykeys = pi3d.Keyboard()
+rot = [0,0,0]
 while DISPLAY.loop_running():
     try:
         # Implementation taken from
@@ -113,9 +114,11 @@ while DISPLAY.loop_running():
         alpha = math.sin(a/2)
         rot = np.degrees(np.acos(unit/alpha)[:3])
     except KeyError:
-        rot = [0,0,0]
+        rot = last
         pass
-
+    except OSError:
+        rot = last
+        pass
 
     cam.rotate(*rot)
     ball.draw()
@@ -124,6 +127,7 @@ while DISPLAY.loop_running():
         mykeys.close()
         DISPLAY.destroy()
         break
+    last = rot
 
 mykeys.close()
 DISPLAY.destroy()
