@@ -113,13 +113,9 @@ while DISPLAY.loop_running():
         a = 2*math.acos(unit[3]) # Simple angle
         alpha = math.sin(a/2)
         rot = np.degrees(np.acos(unit/alpha)[:3])
-    except KeyError:
+        print(rot)
+    except Exception:
         rot = last
-    except OSError:
-        rot = last
-    except IndexError:
-        rot = last
-
     cam.rotate(*rot)
     ball.draw()
     k = mykeys.read()
