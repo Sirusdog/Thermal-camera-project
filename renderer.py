@@ -96,10 +96,10 @@ bno.enable_feature(BNO_REPORT_MAGNETOMETER)
 bno.enable_feature(BNO_REPORT_ROTATION_VECTOR)
 
 
-DISPLAY = pi3d.Display.create(w=800, h=500, frames_per_second=10, background=(0.1, 0.1, 0.0, 0.0),
+DISPLAY = pi3d.Display.create(w=800, h=500, frames_per_second=50, background=(0.1, 0.1, 0.0, 0.0),
                 display_config=pi3d.DISPLAY_CONFIG_HIDE_CURSOR | pi3d.DISPLAY_CONFIG_MAXIMIZED, use_glx=True)
 cam = pi3d.Camera()
-ball = pi3d.Sphere(radius = 10, x = 10)
+ball = pi3d.Sphere(radius = 5, x = 20)
 mykeys = pi3d.Keyboard()
 while DISPLAY.loop_running():
     try:
@@ -113,8 +113,6 @@ while DISPLAY.loop_running():
         alpha = math.sin(a/2)
         rot = np.degrees(np.acos(unit/alpha)[:3])
 
-
-        time.sleep(0.1)
     except Exception as e:
         print(e, " has occured.")
     cam.rotate(*rot)
