@@ -112,12 +112,11 @@ while DISPLAY.loop_running():
         a = 2*math.acos(unit[3]) # Simple angle
         alpha = math.sin(a/2)
         rot = np.degrees(np.acos(unit/alpha)[:3])
-
-    rot = [0,0,0]
     except Exception as e:
         print(e, " has occured.")
         mykeys.close()
         DISPLAY.destroy()
+    rot = [0,0,0]
     cam.rotate(*rot)
     ball.draw()
     k = mykeys.read()
