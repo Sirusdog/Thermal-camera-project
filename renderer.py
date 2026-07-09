@@ -95,7 +95,7 @@ bno.enable_feature(BNO_REPORT_ROTATION_VECTOR)
 while True:
     # Implementation taken from
     # https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_angles_(in_ZYX_sequence)_conversion
-    quat = np.list(bno.quaternion)
+    quat = np.array([*bno.quaternion])
     print(quat, end=" : ")
     mag = np.linalg.norm(quat)
     unit = quat/mag
