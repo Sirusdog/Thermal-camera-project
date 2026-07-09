@@ -93,15 +93,19 @@ bno.enable_feature(BNO_REPORT_MAGNETOMETER)
 bno.enable_feature(BNO_REPORT_ROTATION_VECTOR)
 
 while True:
-    # Implementation taken from
-    # https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_angles_(in_ZYX_sequence)_conversion
-    quat = np.array([*bno.quaternion])
-    print(quat, end=" : ")
-    mag = np.linalg.norm(quat)
-    unit = quat/mag
-    a = 2*math.acos(unit[3]) # Simple angle
-    alpha = math.sin(a/2)
-    rot = np.acos(unit/alpha)[:2]
-    print(rot)
+    try:
+        # Implementation taken from
+        # https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_angles_(in_ZYX_sequence)_conversion
+        quat = np.array([*bno.quaternion])
+        print(quat, end=" : ")
+        mag = np.linalg.norm(quat)
+        unit = quat/mag
+        a = 2*math.acos(unit[3]) # Simple angle
+        alpha = math.sin(a/2)
+        rot = np.degrees(np.acos(unit/alpha)[:3])
+        print(rot)
 
-    time.sleep(0.5)
+        time.sleep(0.5)
+    except Exception as e:
+        print(e, " has occured.")
+    
