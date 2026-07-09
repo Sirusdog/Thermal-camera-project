@@ -99,9 +99,9 @@ while True:
     print(quat, end=" : ")
     mag = np.linalg.norm(quat)
     unit = quat/mag
-    a = 2*math.arccos(unit[3]) # Simple angle
+    a = 2*math.acos(unit[3]) # Simple angle
     alpha = math.sin(a/2)
-    rot = np.arccos(unit/alpha)[:2]
+    rot = np.acos(unit/alpha)[:2]
     print(rot)
 
     time.sleep(0.5)
