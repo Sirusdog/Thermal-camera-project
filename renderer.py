@@ -1,7 +1,9 @@
 import serial
 import time
+import numpy as np
+import math
 # From https://github.com/henriberisha/gps_location/blob/main/gps.py
-
+"""
 def get_longitude(in_long, hemisphere):
 	if in_long == '':
 		print("LONGITUDE: no GPS lock")
@@ -26,7 +28,7 @@ def get_latitude(in_lat, hemisphere):
 		print("LATITUDE: {}°{}'{}{}  {}".format(degree, minute, seconds, '"', hemisphere))
 
 
-try: ser = serial.Serial(port='/dev/ttyUSB0', baudrate = 4800) #raises exception if device is not found
+try: ser = serial.Serial(port='/dev/ttyAMC0', baudrate = 4800) #raises exception if device is not found
 except:
 	print("USB_GPS device not found at /'dev/ttyUSB0'\n"
 	      "Device may not be plugged, or mapped at different file under '/dev' directory")
@@ -70,4 +72,36 @@ while 1:
    		get_longitude(sentence[4], sentence[5])
    		print("\n")
    ser.flush()
-   
+"""
+import board
+import busio
+
+from adafruit_bno08x import (
+    BNO_REPORT_ACCELEROMETER,
+    BNO_REPORT_GYROSCOPE,
+    BNO_REPORT_MAGNETOMETER,
+    BNO_REPORT_ROTATION_VECTOR,
+)
+from adafruit_bno08x.i2c import BNO08X_I2C
+
+i2c = busio.I2C(board.SCL, board.SDA, frequency=400000)
+bno = BNO08X_I2C(i2c)
+
+bno.enable_feature(BNO_REPORT_ACCELEROMETER)
+bno.enable_feature(BNO_REPORT_GYROSCOPE)
+bno.enable_feature(BNO_REPORT_MAGNETOMETER)
+bno.enable_feature(BNO_REPORT_ROTATION_VECTOR)
+
+while True:
+    # Implementation taken from
+    # https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_angles_(in_ZYX_sequence)_conversion
+    quat = np.list(bno.quaternion)
+    print(quat, end=" : ")
+    mag = np.linalg.norm(quat)
+    unit = quat/mag
+    a = 2*math.arccos(unit[3]) # Simple angle
+    alpha = math.sin(a/2)
+    rot = np.arccos(unit/alpha)[:2]
+    print(rot)
+
+    time.sleep(0.5)

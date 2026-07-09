@@ -136,7 +136,7 @@ class MenuItem:
 class CameraHandler:
     # Taking implementation from https://pyimagesearch.com/2015/12/28/increasing-raspberry-pi-fps-with-python-and-opencv/
 
-    fourcc = cv2.VideoWriter_fourcc(*"DIVX")
+    fourcc = cv2.VideoWriter_fourcc("DIVX")
 
     def __init__(self):
         self.cam = cv2.VideoCapture(0)
@@ -212,7 +212,7 @@ class CameraHandler:
 
 class UARTController:
     """
-    Helper class for handling the sending and interpretation? of commands.
+    Helper class for handling the sending and interpretation of UART commands.
     """
     commands = {
         'Pallet': {
@@ -356,5 +356,33 @@ class UARTController:
                 logger.warning("Command " + commandClass + " did not ")
                 print(("Command " + commandClass + " did not "))
             print(response)
+
+#---------------------------------------------------------------------------
+#GPS HANDLING
+class GPSReciever:
+    def __init__(self):
+        self.ser = serial.Serial(port='/dev/ttyAMC0', baudrate = 115200)
+        self.time = 0
+        self.longitude = 0
+        self.latitude = 0
+        self.latHemisphere = "N"
+        self.longHemisphere = "W"
+
+    def getLongitude(self):
+        return self.longitude
+    def getLatitude(self):
+        return self.latitude
+
+    def startGPS(self):
+        Thread(target = self.gpsThread, args = ()).start()
+
+    def gpsThread(self):
+        ...
+
+#---------------------------------------------------------------------------
+#IMU HANDLING
+class IMUHandler:
+    def __init__(self):
+        self.
 
 print("Helpers loaded.")
