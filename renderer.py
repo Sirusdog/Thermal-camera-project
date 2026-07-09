@@ -102,20 +102,16 @@ cam = pi3d.Camera()
 ball = pi3d.Sphere(radius = 5, x = 20)
 mykeys = pi3d.Keyboard()
 while DISPLAY.loop_running():
-    try:
-        # Implementation taken from
-        # https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_angles_(in_ZYX_sequence)_conversion
-        quat = np.array([*bno.quaternion])
-        print(quat, end=" : ")
-        mag = np.linalg.norm(quat)
-        unit = quat/mag
-        a = 2*math.acos(unit[3]) # Simple angle
-        alpha = math.sin(a/2)
-        rot = np.degrees(np.acos(unit/alpha)[:3])
-    except Exception as e:
-        print(e, " has occured.")
-        mykeys.close()
-        DISPLAY.destroy()
+    # Implementation taken from
+    # https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_angles_(in_ZYX_sequence)_conversion
+    quat = np.array([*bno.quaternion])
+    print(quat, end=" : ")
+    mag = np.linalg.norm(quat)
+    unit = quat/mag
+    a = 2*math.acos(unit[3]) # Simple angle
+    alpha = math.sin(a/2)
+    rot = np.degrees(np.acos(unit/alpha)[:3])
+
     rot = [0,0,0]
     cam.rotate(*rot)
     ball.draw()
