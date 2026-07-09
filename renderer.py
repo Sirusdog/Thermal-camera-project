@@ -113,6 +113,7 @@ while DISPLAY.loop_running():
         alpha = math.sin(a/2)
         rot = np.degrees(np.acos(unit/alpha)[:3])
 
+    rot = [0,0,0]
     except Exception as e:
         print(e, " has occured.")
         mykeys.close()
