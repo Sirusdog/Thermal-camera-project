@@ -1,9 +1,8 @@
+from __future__ import absolute_import, division, print_function, unicode_literals
 import serial
 import time
 import numpy as np
 import math
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 """ Example showing what can be left out. ESC to quit"""
 import demo
 import pi3d
