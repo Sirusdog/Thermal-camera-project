@@ -98,7 +98,7 @@ bno.enable_feature(BNO_REPORT_ROTATION_VECTOR)
 
 DISPLAY = pi3d.Display.create(w=800, h=500, frames_per_second=10, background=(0.1, 0.1, 0.0, 0.0),
                 display_config=pi3d.DISPLAY_CONFIG_HIDE_CURSOR | pi3d.DISPLAY_CONFIG_MAXIMIZED, use_glx=True)
-cam = pi3d.Camera.Camera()
+cam = pi3d.Camera()
 ball = pi3d.Sphere(radius = 10, x = 10)
 mykeys = pi3d.Keyboard()
 while DISPLAY.loop_running():
