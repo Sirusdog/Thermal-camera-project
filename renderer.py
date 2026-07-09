@@ -2,6 +2,11 @@ import serial
 import time
 import numpy as np
 import math
+from __future__ import absolute_import, division, print_function, unicode_literals
+
+""" Example showing what can be left out. ESC to quit"""
+import demo
+import pi3d
 # From https://github.com/henriberisha/gps_location/blob/main/gps.py
 """
 def get_longitude(in_long, hemisphere):
@@ -92,7 +97,13 @@ bno.enable_feature(BNO_REPORT_GYROSCOPE)
 bno.enable_feature(BNO_REPORT_MAGNETOMETER)
 bno.enable_feature(BNO_REPORT_ROTATION_VECTOR)
 
-while True:
+
+DISPLAY = pi3d.Display.create(w=800, h=500, frames_per_second=10, background=(0.1, 0.1, 0.0, 0.0),
+                display_config=pi3d.DISPLAY_CONFIG_HIDE_CURSOR | pi3d.DISPLAY_CONFIG_MAXIMIZED, use_glx=True)
+cam = pi3d.Camera.Camera()
+ball = pi3d.Sphere(radius = 10, x = 10)
+mykeys = pi3d.Keyboard()
+while DISPLAY.loop_running():
     try:
         # Implementation taken from
         # https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_angles_(in_ZYX_sequence)_conversion
@@ -103,9 +114,15 @@ while True:
         a = 2*math.acos(unit[3]) # Simple angle
         alpha = math.sin(a/2)
         rot = np.degrees(np.acos(unit/alpha)[:3])
-        print(rot)
 
-        time.sleep(0.5)
+
+        time.sleep(0.1)
     except Exception as e:
         print(e, " has occured.")
-    
+    cam.rotate(*rot)
+    sprite.draw()
+    k = mykeys.read()
+    if k == 27:
+        mykeys.close()
+        DISPLAY.destroy()
+        break
