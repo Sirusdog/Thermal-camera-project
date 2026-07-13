@@ -127,7 +127,7 @@ mainMenu = {
         settings.get("camSettings.enabledModes").split(", ")
     ),
 
-    "record": MenuItem("Record", "record", "toggle", False),
+    "record": MenuItem("Record", "record", "toggle", False, None),
 
     "digitalZoom": MenuItem("Digital zoom", "digitalZoom", "float", 1, 1, 2.5, 
         numSteps = 4),
@@ -150,7 +150,7 @@ mainMenu = {
     "yShift": MenuItem("Alignment shift Y", "yShift", "int", 0, -400, 400, 
         numSteps = 800),
 
-    "exit": MenuItem("Exit menu", "exit", "exit", None)
+    "exit": MenuItem("Exit menu", "exit", "exit", None, None)
 }
 
 if "map" in enabledModules and not "3dMap" in enabledModules:
