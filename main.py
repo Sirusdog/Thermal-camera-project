@@ -190,6 +190,7 @@ cam = CameraHandler()
 cam.startThread()
 time.sleep(0.5)
 
+
 try:
     while mainLoop:
         img = cam.read()
@@ -315,7 +316,7 @@ try:
 
                 if doChange and curMenuKey in associatedCommands.keys():
                     # If we need to send some command to the camera.
-                    cmdName = str(associatedCommands[curMenuKey]["command"])
+                    cmdName = str(associatedCommands[curMenuKey])
                     subCommand = mainMenu[curMenuKey].getCurrentVal()
                     UARTController.sendCommand(
                         cameraControl,
