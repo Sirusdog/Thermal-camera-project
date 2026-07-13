@@ -18,8 +18,8 @@ t.set("camSettings.enabledModes", """General, Outline,
 t.set("camSettings.camFovX", "17.6") # Float, get from camera datasheet
 t.set("camSettings.camFovY", "13.2") # Float, get from camera datasheet
 
-t.set("display.coveredX", "1000") # Int, from 0 to the screen size.
-t.set("display.coveredY", "1500") # Int, from 0 to the screen size.
+t.set("displaySettings.coveredX", "1000") # Int, from 0 to the screen size.
+t.set("displaySettings.coveredY", "1500") # Int, from 0 to the screen size.
 # Reccommend you compute coveredY based off of your camera's aspect ratio.
 # You are able to force this to be square, though it's not recomended.
 
