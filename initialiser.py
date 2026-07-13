@@ -15,8 +15,8 @@ t.set("camSettings.enabledModes", """General, Outline,
 # Series of values seperated by a comma and a space
 # UARTControllers command variable for modes then it *will* crash.
 
-t.set("cam.camFovX", "17.6") # Float, get from camera datasheet
-t.set("cam.camFovY", "13.2") # Float, get from camera datasheet
+t.set("camSettings.camFovX", "17.6") # Float, get from camera datasheet
+t.set("camSettings.camFovY", "13.2") # Float, get from camera datasheet
 
 t.set("display.coveredX", "1000") # Int, from 0 to the screen size.
 t.set("display.coveredY", "1500") # Int, from 0 to the screen size.
