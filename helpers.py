@@ -167,8 +167,8 @@ class CameraHandler:
         prevTime = 0
         while not self.stopped:
             ret, frame = self.cam.read()
-            f = np.rot90(f)
-            frame = cv2.flip(f, 1)
+            frame = np.rot90(frame)
+            frame = cv2.flip(frame, 1)
             self.frame = frame
 
             # Gets the FPS.
