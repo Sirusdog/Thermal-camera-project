@@ -136,7 +136,7 @@ class MenuItem:
 class CameraHandler:
     # Taking implementation from https://pyimagesearch.com/2015/12/28/increasing-raspberry-pi-fps-with-python-and-opencv/
 
-    fourcc = cv2.VideoWriter_fourcc("DIVX")
+    fourcc = cv2.VideoWriter_fourcc(*"DIVX")
 
     def __init__(self):
         self.cam = cv2.VideoCapture(0)
