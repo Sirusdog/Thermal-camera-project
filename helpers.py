@@ -9,6 +9,7 @@ import logging
 import serial
 from crc import Calculator, Crc16
 import os
+import time
 logger = logging.getLogger(__name__)
 
 if not cython.compiled:
