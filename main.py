@@ -195,7 +195,7 @@ try:
         img = cam.read()
         logger.debug("Image read fine!")
 
-        zoomLvl = 1 #mainMenu["digitalZoom"].getCurrentVal()
+        zoomLvl = mainMenu["digitalZoom"].getCurrentVal()
 
         img = cv2.resize(
             img, (int(coveredY * zoomLvl), int(coveredX * zoomLvl)), 
