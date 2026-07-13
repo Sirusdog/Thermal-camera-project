@@ -118,16 +118,16 @@ enabledModules = settings.get("enabledModules")
 
 mainMenu = {
     "pallet": MenuItem("Colour Pallet", "pallet", "text", 
-        settings.get("current.pallet"), 
-        settings.get("camSettings.enabledPallets").split(", ")
+        [settings.get("current.pallet"), 
+        *settings.get("camSettings.enabledPallets").split(", ")]
     ),
 
     "display": MenuItem("Display mode", "display", "text", 
-        settings.get("current.display"), 
-        settings.get("camSettings.enabledModes").split(", ")
+        [settings.get("current.display"), 
+        *settings.get("camSettings.enabledModes").split(", ")]
     ),
 
-    "record": MenuItem("Record", "record", "toggle", False, None),
+    "record": MenuItem("Record", "record", "toggle", [False, None]),
 
     #"digitalZoom": MenuItem("Digital zoom", "digitalZoom", "float", 1, 1, 2.5, 
     #    numSteps = 4),
@@ -150,7 +150,7 @@ mainMenu = {
     "yShift": MenuItem("Alignment shift Y", "yShift", "int", [0, -400, 400], 
         numSteps = 800),
 
-    "exit": MenuItem("Exit menu", "exit", "exit", None, None)
+    "exit": MenuItem("Exit menu", "exit", "exit", [None, None])
 }
 # TODO: Take in default x and y shifts.
 if "map" in enabledModules and not "3dMap" in enabledModules:
