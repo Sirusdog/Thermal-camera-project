@@ -34,7 +34,7 @@ if not cython.compiled:
 
 # Definitions and initialisations --------------------------------------------
 cameraControl = serial.Serial(
-    port = "/dev/usb/hiddev0", #"/dev/serial0", 
+    port = "/dev/serial0", 
     baudrate = 115200, 
     parity=serial.PARITY_NONE,
     stopbits=serial.STOPBITS_ONE, 
