@@ -357,6 +357,8 @@ class UARTController:
                 print(("Command " + commandClass + " did not "))
             print(response)
 
+        # TODO: Implement command recieving.
+
 #---------------------------------------------------------------------------
 #GPS HANDLING
 class GPSReciever:
@@ -377,12 +379,18 @@ class GPSReciever:
         Thread(target = self.gpsThread, args = ()).start()
 
     def gpsThread(self):
-        ...
+        try:
+            data = self.ser.readline()
+        except Exception as e:
+            logger.warn("The following error occured when reading the GPS data")
+            logger.warn(e)
+        
 
 #---------------------------------------------------------------------------
 #IMU HANDLING
 class IMUHandler:
     def __init__(self):
-        self.
+        #self.
+        pass
 
 print("Helpers loaded.")

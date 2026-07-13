@@ -3,7 +3,7 @@ import serial
 import time
 import numpy as np
 import math
-""" Example showing what can be left out. ESC to quit"""
+from geopy import distance
 import pi3d
 # From https://github.com/henriberisha/gps_location/blob/main/gps.py
 """
@@ -31,7 +31,7 @@ def get_latitude(in_lat, hemisphere):
 		print("LATITUDE: {}°{}'{}{}  {}".format(degree, minute, seconds, '"', hemisphere))
 
 
-try: ser = serial.Serial(port='/dev/ttyAMC0', baudrate = 4800) #raises exception if device is not found
+try:  #raises exception if device is not found
 except:
 	print("USB_GPS device not found at /'dev/ttyUSB0'\n"
 	      "Device may not be plugged, or mapped at different file under '/dev' directory")
@@ -95,29 +95,31 @@ bno.enable_feature(BNO_REPORT_GYROSCOPE)
 bno.enable_feature(BNO_REPORT_MAGNETOMETER)
 bno.enable_feature(BNO_REPORT_ROTATION_VECTOR)
 
+def quatToEuler(quaternion):
+	mag = np.linalg.norm(quaternion)
+	unit = quaternion/mag
+	a = 2*math.acos(unit[3]) # Simple angle
+	alpha = math.sin(a/2)
+	return np.degrees(np.acos(unit/alpha)[:3])
+
 
 DISPLAY = pi3d.Display.create(w=800, h=500, frames_per_second=50, background=(0.1, 0.1, 0.0, 0.0),
                 display_config=pi3d.DISPLAY_CONFIG_HIDE_CURSOR | pi3d.DISPLAY_CONFIG_MAXIMIZED, use_glx=True)
 cam = pi3d.Camera()
-ball = pi3d.Sphere(radius = 5, x = 20)
+cube = pi3d.Cuboid(w = 10, h = 5, l = 20, x = 30)
 mykeys = pi3d.Keyboard()
 rot = [0,0,0]
 while DISPLAY.loop_running():
     try:
         # Implementation taken from
         # https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_angles_(in_ZYX_sequence)_conversion
-        quat = np.array([*bno.quaternion])
-        print(quat, end=" : ")
-        mag = np.linalg.norm(quat)
-        unit = quat/mag
-        a = 2*math.acos(unit[3]) # Simple angle
-        alpha = math.sin(a/2)
-        rot = np.degrees(np.acos(unit/alpha)[:3])
+		rot = quatToEuler(bno.quaternion)
         print(rot)
     except Exception:
         rot = last
-    cam.rotate(*rot)
-    ball.draw()
+
+    cube.rotate(*rot)
+    cube.draw()
     k = mykeys.read()
     if k == 27:
         mykeys.close()

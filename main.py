@@ -163,9 +163,10 @@ if "waypoints" in enabledmodules and not "3dWaypoints" in enabledModules:
 
 associatedCommands = {
     "pallet": "Pallet",
-    "spatialNR": "Spatial Noise Reduction"
-    "temporalNR": "Temporal Noise Reduction"
-    "imageEnhancement": "Detail Enhancement"
+    "display": "Mode",
+    "spatialNR": "Spatial Noise Reduction",
+    "temporalNR": "Temporal Noise Reduction",
+    "imageEnhancement": "Detail Enhancement",
     "contrast": "Contrast"
 }
 
