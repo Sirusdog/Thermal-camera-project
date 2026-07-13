@@ -76,6 +76,7 @@ while 1:
    		print("\n")
    ser.flush()
 """
+"""
 import board
 import busio
 
@@ -129,3 +130,17 @@ while DISPLAY.loop_running():
 
 mykeys.close()
 DISPLAY.destroy()
+"""
+import helpers
+
+cameraControl = serial.Serial(
+    port = "/dev/serial0", 
+    baudrate = 115200, 
+    parity=serial.PARITY_NONE,
+    stopbits=serial.STOPBITS_ONE, 
+    timeout=1
+)
+
+helpers.UARTController.sendCommand(cameraControl, "Mode", "Outline")
+helpers.UARTController.sendCommand(cameraControl, "Pallet", "Aurora")
+print("Done!")
