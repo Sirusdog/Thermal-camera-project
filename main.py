@@ -40,7 +40,7 @@ cameraControl = serial.Serial(
     stopbits=serial.STOPBITS_ONE, 
     timeout=1
     )
-
+UARTController.sendCommand(cameraControl, "Save", "Parameter Restore")
 pygame.init()
 
 usbCam = True

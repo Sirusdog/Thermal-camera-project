@@ -142,5 +142,7 @@ cameraControl = serial.Serial(
 )
 
 helpers.UARTController.sendCommand(cameraControl, "Mode", "Outline")
+helpers.UARTController.sendCommand(cameraControl, "Save", "Parameter Save")
 helpers.UARTController.sendCommand(cameraControl, "Pallet", "Aurora")
+helpers.UARTController.sendCommand(cameraControl, "Save", "Parameter Save")
 print("Done!")
