@@ -133,26 +133,26 @@ mainMenu = {
     #    numSteps = 4),
 
     "contrast": MenuItem("Image Enhancement", "imageEnhancement", "int", 
-        int(settings.get("current.contrast")), 0, 100
+        [int(settings.get("current.contrast")), 0, 100]
     ),
 
     "spatialNR": MenuItem("Spatial NR", "spatialNR", "int", 
-        int(settings.get("current.spatialNR")), 0, 100
+        [int(settings.get("current.spatialNR")),  0, 100]
     ),
 
     "temporalNR": MenuItem("Temporal NR", "temporalNR", "int",
-        int(settings.get("current.temporalNR")),  0, 100
+        [int(settings.get("current.temporalNR")),  0, 100]
     ),
 
-    "xShift": MenuItem("Alignment shift X", "xShift", "int", 0, -400, 400, 
+    "xShift": MenuItem("Alignment shift X", "xShift", "int", [0, -400, 400], 
         numSteps = 800),
 
-    "yShift": MenuItem("Alignment shift Y", "yShift", "int", 0, -400, 400, 
+    "yShift": MenuItem("Alignment shift Y", "yShift", "int", [0, -400, 400], 
         numSteps = 800),
 
     "exit": MenuItem("Exit menu", "exit", "exit", None, None)
 }
-
+# TODO: Take in default x and y shifts.
 if "map" in enabledModules and not "3dMap" in enabledModules:
     mainMenu["map"] = MenuItem("Show Map", "map", "toggle", False)
 if "compass" in enabledModules:
