@@ -4,7 +4,7 @@
 
 from trapdoor import Trapdoor
 
-t = Trapdoor("main", ".\\configs", "mainConfig.toml")
+t = Trapdoor("main", "./configs", "mainConfig.toml")
 t.set("camSettings.enabledPallets", """White Hot, Black Hot, Ironbow, 
     Rainbow, Night, Aurora, Red Hot, Jungle, Medical, Golden Red""") 
 # Series of values seperated by a comma and a space 

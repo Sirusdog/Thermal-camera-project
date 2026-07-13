@@ -14,7 +14,7 @@ import signal
 
 from trapdoor import Trapdoor # Handles settings file
 
-settings = Trapdoor("main", ".\\configs", "mainConfig.toml")
+settings = Trapdoor("main", "./configs", "mainConfig.toml")
 
 import logging
 logger = logging.getLogger(__name__)
