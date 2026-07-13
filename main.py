@@ -157,7 +157,7 @@ if "map" in enabledModules and not "3dMap" in enabledModules:
     mainMenu["map"] = MenuItem("Show Map", "map", "toggle", False)
 if "compass" in enabledModules:
     mainMenu["compass"] = MenuItem("Show Compass", "compass", "toggle", False)
-if "waypoints" in enabledmodules and not "3dWaypoints" in enabledModules:
+if "waypoints" in enabledModules and not "3dWaypoints" in enabledModules:
     mainMenu["waypoints"] = MenuItem("Show waypoints", "waypoints", "toggle", False)
 
 
