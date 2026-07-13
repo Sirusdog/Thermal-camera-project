@@ -177,7 +177,6 @@ class CameraHandler:
             prevTime = curTime
 
         if self.stopped:
-            self.cam.stop()
             return
 
     def read(self) -> np.typing.NDArray:
