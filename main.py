@@ -130,7 +130,7 @@ mainMenu = {
     "record": MenuItem("Record", "record", "toggle", False, None),
 
     #"digitalZoom": MenuItem("Digital zoom", "digitalZoom", "float", 1, 1, 2.5, 
-        numSteps = 4),
+    #    numSteps = 4),
 
     "contrast": MenuItem("Image Enhancement", "imageEnhancement", "int", 
         int(settings.get("current.contrast")), 0, 100
