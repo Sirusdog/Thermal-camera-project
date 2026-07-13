@@ -129,7 +129,7 @@ mainMenu = {
 
     "record": MenuItem("Record", "record", "toggle", False, None),
 
-    "digitalZoom": MenuItem("Digital zoom", "digitalZoom", "float", 1, 1, 2.5, 
+    #"digitalZoom": MenuItem("Digital zoom", "digitalZoom", "float", 1, 1, 2.5, 
         numSteps = 4),
 
     "contrast": MenuItem("Image Enhancement", "imageEnhancement", "int", 
@@ -195,7 +195,7 @@ try:
         img = cam.read()
         logger.debug("Image read fine!")
 
-        zoomLvl = mainMenu["digitalZoom"].getCurrentVal()
+        zoomLvl = 1 #mainMenu["digitalZoom"].getCurrentVal()
 
         img = cv2.resize(
             img, (int(coveredY * zoomLvl), int(coveredX * zoomLvl)), 
