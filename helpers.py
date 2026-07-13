@@ -190,7 +190,7 @@ class CameraHandler:
 
 
     def startRecording(self):
-        count = str(len(os.listdir(".\\Videos")))
+        count = str(len(os.listdir("./Videos")))
         self.recorder = cv2.VideoWriter(
             "ThermalCamVideo " + count, fourcc, 50, (256, 192)
             )
