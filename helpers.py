@@ -18,14 +18,14 @@ class MenuItem:
     """
     Class for each individual menu item.
     """
-    def __init__(self, displayText: str, name: str, itemType: str, default, data: list,
+    def __init__(self, displayText: str, name: str, itemType: str,  data: list,
                 numSteps = 20, dependsOn = None):
         
         self.displayText = displayText
         self.defaultDisplayText = displayText
         self.name = name
         self.itemType = itemType
-        self.currentVal = default
+        self.currentVal = data[0]
         self.dependency = dependsOn
 
 
