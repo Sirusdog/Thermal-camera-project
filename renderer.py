@@ -125,9 +125,7 @@ while DISPLAY.loop_running():
 		# https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_angles_(in_ZYX_sequence)_conversion
 	except Exception:
 		rot = last
-	cube.rotateToX(rot[0])
-	cube.rotateToY(rot[1])
-	cube.rotateToZ(rot[2])
+	cam.rotate(*rot)
 	cube.draw()
 
 	# From https://github.com/paddywwoof/pi3d_book/blob/master/programs/strings01.py
