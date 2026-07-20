@@ -118,12 +118,12 @@ rot = [0,0,0]
 last_tm = 0
 while DISPLAY.loop_running():
     try:
-        # Implementation taken from
-        # https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_angles_(in_ZYX_sequence)_conversion
+    	# Implementation taken from
+    	# https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_angles_(in_ZYX_sequence)_conversion
 		rot = quatToEuler(bno.quaternion)
-        print(rot)
+    	print(rot)
     except Exception:
-        rot = last
+    	rot = last
 
     cube.rotate(*rot)
     cube.draw()
