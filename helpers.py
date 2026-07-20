@@ -323,7 +323,13 @@ class UARTController:
         }
     }
 
-    #responsesGeneral = {v: k for k, v in commands.items()}
+    responses = {}
+    for cmdSet, cmds in commands.items():
+        for k, v in cmds.items():
+            responsesGeneral[v] = [cmdSet, v]
+    # Turns commands inside out
+
+    numericResponses = ["Module Temperature", "Max Temperature"]
 
     crcCalculator = Calculator(Crc16.XMODEM)
 
@@ -332,32 +338,42 @@ class UARTController:
         ):
 
         curCommand = UARTController.commands[commandClass]
-        if type(subCommand) == str:
-            byteString = curCommand[subCommand]
-        else:
-            byteString = list(curCommand.items())[subCommand][1]
+        byteString = list(curCommand.items())[subCommand][1]
         serialOBJ.write(byteString)
-        responseHeader = serialOBJ.read(4)
+        responseHeader = serialOBJ.read(5)
+        successFlag = responseHeader[4]
 
-        response = serialOBJ.read(int.from_bytes(responseHeader[2:], "big"))
+        response = serialOBJ.read(int.from_bytes(responseHeader[2:-1], "big"))
         ret = {}
-
+        
         expectedCRC = response[-4:-2]
-        recievedCRC = response[5:-4]
+        data = response[:-4]
+        recievedCRC = crcCalculator.checksum(data)
 
-        if subCommand == "Get":
-            print(response)
-        else:
-            if response == b"":
-                logger.warning("No response recieved. Cable is likely disconnected.")
-                print("No response, cable likely disconnected.")
+        if response == b"":
+            logger.warning("No response recieved. Cable is likely disconnected.")
+            print("No response, cable likely disconnected.")
+            ret["success"] = False
+        if expectedCRC != recievedCRC:
+            logger.warning("Command " + commandClass + ": CRC check failed.")
+            print(("Command " + commandClass + ": CRC check failed. "))
+        if successFlag != b"\x00":
+            logger.warning("Command " + commandClass + ": Status abnormal.")
+            logger.warning(str(response))
+
+        if commandClass not in numericResponses:
+            try:
+                responseClass, name = responses[data]
+                logger.debug("Command " + commandClass + ": Returned " + responseClass + name)
+                ret["success"] = True
+                ret["responseClass"] = responseClass
+                ret["name"] = name
+            except KeyError:
+                logger.warning("Command " + commandClass + ": Returned an invalid value.")
                 ret["success"] = False
-            if expectedCRC != recievedCRC:
-                logger.warning("Command " + commandClass + " did not ")
-                print(("Command " + commandClass + " did not "))
-            print(response)
 
-        # TODO: Implement command recieving.
+
+
 
 #---------------------------------------------------------------------------
 #GPS HANDLING
