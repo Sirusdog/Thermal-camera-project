@@ -81,10 +81,10 @@ import board
 import busio
 
 from adafruit_bno08x import (
-    BNO_REPORT_ACCELEROMETER,
-    BNO_REPORT_GYROSCOPE,
-    BNO_REPORT_MAGNETOMETER,
-    BNO_REPORT_ROTATION_VECTOR,
+	BNO_REPORT_ACCELEROMETER,
+	BNO_REPORT_GYROSCOPE,
+	BNO_REPORT_MAGNETOMETER,
+	BNO_REPORT_ROTATION_VECTOR,
 )
 from adafruit_bno08x.i2c import BNO08X_I2C
 
@@ -141,8 +141,7 @@ while DISPLAY.loop_running():
 			DISPLAY.destroy()
 			break
 		last = rot
-	except TabError:
-		print("FUCK YOU PYTHON")
+
 mykeys.close()
 DISPLAY.destroy()
 
