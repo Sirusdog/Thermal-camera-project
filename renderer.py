@@ -124,6 +124,7 @@ string2.draw()
 cube = pi3d.Cuboid(camera=cam, w = 10, h = 5, d = 20, x = 30)
 mykeys = pi3d.Keyboard()
 rot = [0,0,0]
+last = rot
 last_tm = 0
 while DISPLAY.loop_running():
 	try:
