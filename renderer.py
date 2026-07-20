@@ -118,10 +118,10 @@ rot = [0,0,0]
 last_tm = 0
 while DISPLAY.loop_running():
     try:
-    	# Implementation taken from
-    	# https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_angles_(in_ZYX_sequence)_conversion
 		rot = quatToEuler(bno.quaternion)
-    	print(rot)
+		print(rot)
+		# Implementation taken from
+		# https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_angles_(in_ZYX_sequence)_conversion
     except Exception:
     	rot = last
 
