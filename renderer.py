@@ -113,7 +113,7 @@ fps = "0"
 string2 = pi3d.String(camera=cam2D, is_3d=False, font=font, string=fps, 
 	x=-DISPLAY.width / 2 + 200, y=DISPLAY.height / 2 - 75, z=1.0)
 
-cube = pi3d.Cuboid(w = 10, h = 5, l = 20, x = 30, camera=cam)
+cube = pi3d.Cuboid(camera=cam, w = 10, h = 5, d = 20, x = 30)
 mykeys = pi3d.Keyboard()
 rot = [0,0,0]
 last_tm = 0
