@@ -107,11 +107,11 @@ def quatToEuler(quaternion):
 DISPLAY = pi3d.Display.create(w=800, h=500, frames_per_second=50, background=(0.1, 0.1, 0.0, 0.0),
 	display_config=pi3d.DISPLAY_CONFIG_HIDE_CURSOR | pi3d.DISPLAY_CONFIG_MAXIMIZED, use_glx=True)
 cam = pi3d.Camera()
-font = pi3d.Font("fonts/FreeSans.ttf", color="#FF8010")
-string2 = pi3d.String(camera=CAMERA2D, is_3d=False, font=font, string=fps, 
+cam2D = pi3d.Camera(is_3d=False)
+font = pi3d.Font("../pi3d_demos/fonts/FreeSans.ttf", color="#FF8010")
+string2 = pi3d.String(camera=cam2D, is_3d=False, font=font, string=fps, 
 	x=-DISPLAY.width / 2 + 200, y=DISPLAY.height / 2 - 75, z=1.0)
 
-cam2D = pi3d.Camera(is_3d=False)
 cube = pi3d.Cuboid(w = 10, h = 5, l = 20, x = 30)
 mykeys = pi3d.Keyboard()
 rot = [0,0,0]
