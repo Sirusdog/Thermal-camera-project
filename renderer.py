@@ -132,7 +132,7 @@ while DISPLAY.loop_running():
 
 	# From https://github.com/paddywwoof/pi3d_book/blob/master/programs/strings01.py
 	tm = time.time()
-	fps = "{:6.2f}FPS".format(i / (tm - last_tm))
+	fps = "{:6.2f}FPS".format(1 / (tm - last_tm))
 	string2.quick_change(fps)
 	last_tm = tm
 	string2.draw()
