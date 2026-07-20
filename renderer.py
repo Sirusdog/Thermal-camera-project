@@ -118,29 +118,28 @@ rot = [0,0,0]
 last_tm = 0
 while DISPLAY.loop_running():
 	try:
-		try:
-			rot = quatToEuler(bno.quaternion)
-			print(rot)
-			# Implementation taken from
-			# https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_angles_(in_ZYX_sequence)_conversion
-		except Exception:
-			rot = last
-		cube.rotate(*rot)
-		cube.draw()
+		rot = quatToEuler(bno.quaternion)
+		print(rot)
+		# Implementation taken from
+		# https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Quaternion_to_angles_(in_ZYX_sequence)_conversion
+	except Exception:
+		rot = last
+	cube.rotate(*rot)
+	cube.draw()
 
-		# From https://github.com/paddywwoof/pi3d_book/blob/master/programs/strings01.py
-		tm = time.time()
-		fps = "{:6.2f}FPS".format(i / (tm - last_tm))
-		string2.quick_change(fps)
-		last_tm = tm
-		string2.draw()
+	# From https://github.com/paddywwoof/pi3d_book/blob/master/programs/strings01.py
+	tm = time.time()
+	fps = "{:6.2f}FPS".format(i / (tm - last_tm))
+	string2.quick_change(fps)
+	last_tm = tm
+	string2.draw()
 
-		k = mykeys.read()
-		if k == 27:
-			mykeys.close()
-			DISPLAY.destroy()
-			break
-		last = rot
+	k = mykeys.read()
+	if k == 27:
+		mykeys.close()
+		DISPLAY.destroy()
+		break
+	last = rot
 
 mykeys.close()
 DISPLAY.destroy()
