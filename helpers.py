@@ -361,7 +361,7 @@ class UARTController:
             logger.warning("Command " + commandClass + ": Status abnormal.")
             logger.warning(str(response))
 
-        if commandClass not in numericResponses:
+        if commandClass not in UARTController.numericResponses:
             try:
                 responseClass, name = responses[data]
                 logger.debug("Command " + commandClass + ": Returned " + responseClass + name)
