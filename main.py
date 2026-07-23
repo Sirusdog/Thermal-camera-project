@@ -178,8 +178,9 @@ toStore = [
 curMenuIndex = 0
 
 curDisplayMode = mainMenu["display"].getCurrentVal()
-
-
+print("Setting frame rate")
+UARTController.sendCommand(cameraControl, "Frame Rate", "50")
+UARTController.sendCommand(cameraControl, "Data Source", "YUV")
 
 print("Initialisations complete, running main body.")
 # Main --------------------------------------------------------------------
