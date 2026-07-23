@@ -360,7 +360,7 @@ class UARTController:
         if successFlag != b"\x00":
             logger.warning("Command " + commandClass + ": Status abnormal.")
             logger.warning(str(response))
-
+"""
         if commandClass not in UARTController.numericResponses:
             try:
                 responseClass, name = response[data]
@@ -371,7 +371,7 @@ class UARTController:
             except KeyError:
                 logger.warning("Command " + commandClass + ": Returned an invalid value.")
                 ret["success"] = False
-
+"""
 
 
 
