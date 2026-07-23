@@ -338,7 +338,7 @@ class UARTController:
         ):
 
         curCommand = UARTController.commands[commandClass]
-        byteString = list(curCommand.items())[subCommand][1]
+        byteString = list(curCommand[subCommand])
         serialOBJ.write(byteString)
         responseHeader = serialOBJ.read(5)
         successFlag = responseHeader[4]
