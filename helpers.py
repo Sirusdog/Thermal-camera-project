@@ -348,7 +348,7 @@ class UARTController:
         
         expectedCRC = response[-4:-2]
         data = response[:-4]
-        recievedCRC = crcCalculator.checksum(data)
+        recievedCRC = UARTController.crcCalculator.checksum(data)
 
         if response == b"":
             logger.warning("No response recieved. Cable is likely disconnected.")
