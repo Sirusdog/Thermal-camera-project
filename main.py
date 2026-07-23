@@ -323,6 +323,11 @@ try:
                         cmdName,
                         subCommand
                     )
+                    UARTController.sendCommand(
+                        cameraControl,
+                        "Save",
+                        "Parameter Save"
+                    )
                     logger.debug("Command sent fine.")
 
                 if curMenuKey in toStore: 
