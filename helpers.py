@@ -322,7 +322,7 @@ class UARTController:
             'Parameter Restore': rb'\x55\x43\x49\x12\x00\x10\x10\x52\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0A\x76'
         }
     }
-
+    responsesGeneral = {}
     responses = {}
     for cmdSet, cmds in commands.items():
         for k, v in cmds.items():
