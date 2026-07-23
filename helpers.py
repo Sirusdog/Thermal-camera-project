@@ -363,7 +363,7 @@ class UARTController:
 
         if commandClass not in UARTController.numericResponses:
             try:
-                responseClass, name = responses[data]
+                responseClass, name = response[data]
                 logger.debug("Command " + commandClass + ": Returned " + responseClass + name)
                 ret["success"] = True
                 ret["responseClass"] = responseClass
