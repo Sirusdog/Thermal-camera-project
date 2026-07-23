@@ -345,7 +345,7 @@ class UARTController:
 
         response = serialOBJ.read(int.from_bytes(responseHeader[2:-1], "big"))
         ret = {}
-        
+        print(response)
         expectedCRC = response[-4:-2]
         data = response[:-4]
         recievedCRC = UARTController.crcCalculator.checksum(data)
