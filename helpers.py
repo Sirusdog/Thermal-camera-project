@@ -364,9 +364,9 @@ class UARTController:
         if expectedCRC != recievedCRC:
             logger.warning("Command " + commandClass + ": CRC check failed.")
             print(("Command " + commandClass + ": CRC check failed. "))
-        if successFlag != b"\x00":
+        """if successFlag != b"\x00":
             logger.warning("Command " + commandClass + ": Status abnormal.")
-            logger.warning(str(response))
+            logger.warning(str(response))"""
 """
         if commandClass not in UARTController.numericResponses:
             try:
