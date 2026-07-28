@@ -348,7 +348,7 @@ class UARTController:
         byteString = list(curCommand[subCommand])
         serialOBJ.write(byteString)
         responseHeader = serialOBJ.read(5)
-        successFlag = responseHeader[4]
+        #successFlag = responseHeader[4]
 
         response = serialOBJ.read(int.from_bytes(responseHeader[2:-1], "big"))
         ret = {}
