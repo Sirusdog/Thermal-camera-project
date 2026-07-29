@@ -172,7 +172,7 @@ class CameraHandler:
             ret, frame = self.cam.read()
             frame = np.rot90(frame)
             frame = cv2.flip(frame, 1)
-            frame = cv2.resize(img, (int(500), int(300)), interpolation = cv2.INTER_NEAREST)
+            frame = cv2.resize(frame, (int(500), int(300)), interpolation = cv2.INTER_NEAREST)
             self.frame = frame
 
             # Gets the FPS.
