@@ -158,6 +158,7 @@ class CameraHandler:
         self.record = False
         self.recorder = None
         self.stopped = False
+        self.pastFpses = [0]
 
     def startThread(self):
         Thread(target=self.updateThread, args=()).start()
@@ -165,6 +166,7 @@ class CameraHandler:
 
     def updateThread(self):
         prevTime = 0
+        count = 0
         while not self.stopped:
             ret, frame = self.cam.read()
             frame = np.rot90(frame)
@@ -173,9 +175,13 @@ class CameraHandler:
 
             # Gets the FPS.
             curTime = time.time()
-            self.fps = 1/(curTime - prevTime)
+            self.fps = round(1/(curTime - prevTime), 2)
             prevTime = curTime
-
+            pastFpses[count] = self.fps
+            if count <= 100:
+                count = 0
+            else:
+                count += 1
         if self.stopped:
             return
 
@@ -186,7 +192,7 @@ class CameraHandler:
         self.stopped = True
 
     def getFPS(self):
-        return self.fps
+        return f"Cur: {self.fps}, Min: {min(pastFpses)}, Max: {max(pastFpses)}, Avg {sum(pastFpses)/100})
 
 
     def startRecording(self):

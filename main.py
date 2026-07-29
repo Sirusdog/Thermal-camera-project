@@ -365,7 +365,7 @@ try:
         fps = 1/(tNew - tPrev)
         tPrev = tNew
         txt = font.render(str(round(fps)), 1, (255,255, 255), (0,0,0))
-        txt2 = font.render(f"{str(round(cam.getFPS())):2}", 1, (255, 255, 255), (0,0,0))
+        txt2 = font.render(f"{str(round(cam.getFPS()))}", 1, (255, 255, 255), (0,0,0))
         display.blit(txt, (0,0))
         display.blit(txt2, (0, 35))
         pygame.display.update()
