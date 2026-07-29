@@ -177,7 +177,7 @@ class CameraHandler:
             curTime = time.time()
             self.fps = round(1/(curTime - prevTime), 2)
             prevTime = curTime
-            pastFpses[count] = self.fps
+            self.pastFpses[count] = self.fps
             if count <= 100:
                 count = 0
             else:
@@ -192,6 +192,7 @@ class CameraHandler:
         self.stopped = True
 
     def getFPS(self):
+        pastFpses = self.pastFpses
         return f"Cur: {self.fps}, Min: {min(pastFpses)}, Max: {max(pastFpses)}, Avg {sum(pastFpses)/100})"
 
 
