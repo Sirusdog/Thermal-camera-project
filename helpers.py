@@ -187,8 +187,7 @@ class CameraHandler:
         self.stopped = True
 
     def getFPS(self):
-        pastFpses = self.pastFpses
-
+        return self.fps
 
 
     def startRecording(self):
