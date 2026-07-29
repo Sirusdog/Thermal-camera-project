@@ -192,7 +192,7 @@ class CameraHandler:
         self.stopped = True
 
     def getFPS(self):
-        return f"Cur: {self.fps}, Min: {min(pastFpses)}, Max: {max(pastFpses)}, Avg {sum(pastFpses)/100})
+        return f"Cur: {self.fps}, Min: {min(pastFpses)}, Max: {max(pastFpses)}, Avg {sum(pastFpses)/100})"
 
 
     def startRecording(self):
