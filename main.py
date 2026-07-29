@@ -41,7 +41,9 @@ cameraControl = serial.Serial(
     timeout=1
     )
 UARTController.sendCommand(cameraControl, "Save", "Parameter Restore")
+
 pygame.init()
+clock = pygame.time.Clock()
 
 usbCam = True
 mainLoop = True
@@ -367,6 +369,7 @@ try:
         display.blit(txt, (0,0))
         display.blit(txt2, (0, 35))
         pygame.display.update()
+        clock.tick(50)
 
 except Exception as e:
     print(e)
