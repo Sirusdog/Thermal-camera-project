@@ -139,6 +139,7 @@ class CameraHandler:
 
     fourcc = cv2.VideoWriter_fourcc(*"DIVX")
 
+
     def __init__(self):
         self.cam = cv2.VideoCapture(0)
         #self.cam.set_controls({'AeEnable': False})
@@ -171,6 +172,7 @@ class CameraHandler:
             ret, frame = self.cam.read()
             frame = np.rot90(frame)
             frame = cv2.flip(frame, 1)
+            frame = cv2.resize(img, (int(500), int(300)), interpolation = cv2.INTER_NEAREST)
             self.frame = frame
 
             # Gets the FPS.

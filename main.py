@@ -201,11 +201,6 @@ try:
 
         zoomLvl = mainMenu["digitalZoom"].getCurrentVal()
 
-        img = cv2.resize(
-            img, (int(coveredY * zoomLvl), int(coveredX * zoomLvl)), 
-            interpolation = interpolationMode
-        )
-
         xBuffer = int(screenResX/2 - int(coveredX * zoomLvl)/2) + (
             mainMenu["xShift"].getCurrentVal()
         )
