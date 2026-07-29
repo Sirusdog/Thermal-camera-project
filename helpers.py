@@ -178,7 +178,7 @@ class CameraHandler:
             self.fps = round(1/(curTime - prevTime), 2)
             prevTime = curTime
             self.pastFpses[count] = self.fps
-            if count <= 1000:
+            if count >= 1000:
                 count = 0
             else:
                 count += 1
