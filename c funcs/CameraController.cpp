@@ -43,6 +43,9 @@ void CameraController::captureLoop() {
         // Continuously reads in frames.
         locked = true;
         cap.read(rawFrame);
+        if (rawFrame.empty()) {
+            cout << "Capture not found!" << endl;
+        }
         // Mode 0 = Direct camera output.
         // Mode 1 = Edge detection mode
         // Mode 2 = 
