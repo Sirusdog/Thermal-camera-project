@@ -11,12 +11,34 @@ from threading import Thread # Speeding up camera input.
 import cython
 import traceback # Properly prints errors.
 import signal
-
+import ctypes
 from trapdoor import Trapdoor # Handles settings file
+import logging
 
 settings = Trapdoor("main", "./configs", "mainConfig.toml")
 
-import logging
+if ctypes.windll:
+    camdll = ctypes.CDLL("./CameraController.dll")
+else:
+    camdll = cytpes.CDLL("./libCameraController.so")
+
+
+camdll.CameraController_create.argtypes = [ctypes.c_int, ctypes.c_int]
+camdll.CameraController_create.restypes = ctypes.c_void_p
+
+camdll.CameraController_destroy.argtypes = [ctypes.c_void_p]
+camdll.CameraController_destroy.restypes = None
+
+camdll.CameraController_StartLoop.argtypes = [ctypes.c_void_p]
+camdll.CameraController_StartLoop.restypes = None
+
+camdll.CameraController_getFrame.argtypes = [ctypes.c_void_p]
+camdll.CameraController_getFrame.restypes = ctypes.c_void_p
+
+camdll.CameraController_StopLoop.argtypes = [ctypes.c_void_p]
+camdll.CameraController_StopLoop.restypes = None
+
+
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename='main.log', encoding='utf-8')
 logger.setLevel(logging.WARNING)
