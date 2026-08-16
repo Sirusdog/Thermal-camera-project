@@ -8,6 +8,7 @@ using namespace cv;
 
 
 int main() {
+    cout << "Running!" << endl;
     CameraController camController(400, 400);
     while (true) {
         imshow("Test", camController.getFrame());

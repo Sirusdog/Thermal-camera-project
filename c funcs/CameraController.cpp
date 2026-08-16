@@ -12,7 +12,7 @@ using namespace cv;
 
 CameraController::CameraController(int x, int y){
     isRunning = true;
-    locked = false;
+    locked = true;
     deviceID = 0;
     apiID = cv::CAP_ANY;
     xSize = x;
@@ -22,7 +22,7 @@ CameraController::CameraController(int x, int y){
     bPal = 1.0;
     brightness = 1.0;
     scale = 1.0;
-    mode = 0;
+    mode = 1;
 };
 
 
