@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.31)
 project( ThermalCamera )
+set(SOURCE_FILES 
+    main.cpp
+    CameraController.cpp)
 find_package( OpenCV REQUIRED )
 include_directories( ${OpenCV_INCLUDE_DIRS} )
-add_executable( ThermalCamera main.cpp )
-target_link_libraries( main ${OpenCV_LIBS})
+add_executable( ${PROJECT_NAME} ${SOURCE_FILES} )
+target_link_libraries( ${PROJECT_NAME} ${OpenCV_LIBS})
