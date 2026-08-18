@@ -18,9 +18,9 @@ int main() {
     CameraController cam = CameraController(400, 400);
     while (!WindowShouldClose()) {
         BeginDrawing();
-        ClearBackground(RAYWHITE);
+        ClearBackground(raylib::RAYWHITE);
         Texture2D imgTex = LoadTextureFromImage(cam.getFrame());
-        DrawTexture(imgTex, 0, 0, WHITE);
+        DrawTexture(imgTex, 0, 0, raylib::WHITE);
     };
     return 0;
 }
