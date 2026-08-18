@@ -19,7 +19,7 @@ int main() {
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(raylib::RAYWHITE);
-        Texture2D imgTex = LoadTextureFromImage(cam.getFrame());
+        raylib::Texture2D imgTex = LoadTextureFromImage(cam.getFrame());
         DrawTexture(imgTex, 0, 0, raylib::WHITE);
     };
     return 0;
