@@ -4,8 +4,9 @@ set(SOURCE_FILES
     main.cpp
     CameraController.cpp)
 find_package( OpenCV REQUIRED )
+find_package( raylib REQUIRED)
 include_directories( ${OpenCV_INCLUDE_DIRS} )
-include_directories( ~/raylib/src)
+include_directories( ${raylib_INCLUDE_DIRS} )
 add_executable( ${PROJECT_NAME} ${SOURCE_FILES} )
 target_link_libraries( ${PROJECT_NAME} ${OpenCV_LIBS})
-target_link_libraries( ${PROJECT_NAME} raylib)
+target_link_libraries( ${PROJECT_NAME} ${raylib_LIBS})
