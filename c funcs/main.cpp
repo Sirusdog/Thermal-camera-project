@@ -5,7 +5,7 @@
 #include <raylib-cpp.hpp>
 
 using namespace std;
-using namespace cv;
+using namespace raylib;
 
 
 int main() {
@@ -13,14 +13,14 @@ int main() {
     int screenX = GetScreenWidth();
     int screenY = GetScreenHeight();
 
-    raylib::InitWindow(screenX, screenY, "Thermal Cam Render");
+    InitWindow(screenX, screenY, "Thermal Cam Render");
 
     CameraController cam = CameraController(400, 400);
-    while (!raylib::WindowShouldClose()) {
-        raylib::BeginDrawing();
-        raylib::ClearBackground(raylib::RAYWHITE);
-        raylib::Texture2D imgTex = raylib::LoadTextureFromImage(cam.getFrame());
-        raylib::DrawTexture(imgTex, 0, 0, raylib::WHITE);
+    while (!WindowShouldClose()) {
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
+        Texture2D imgTex = LoadTextureFromImage(cam.getFrame());
+        DrawTexture(imgTex, 0, 0, WHITE);
     };
     return 0;
 }
