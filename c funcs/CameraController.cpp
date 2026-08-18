@@ -52,7 +52,7 @@ void CameraController::captureLoop() {
         // Mode 2 = 
         switch (mode) {
             case 0:
-                cvtColor(fmFrame, mFrame, cv::COLOR_BGR2RGB);
+                cvtColor(mFrame, mFrame, cv::COLOR_BGR2RGB);
             case 1:
                 cvtColor(mFrame, greyFrame, cv::COLOR_BGR2GRAY);
 
