@@ -35,15 +35,14 @@ void CameraController::captureLoop() {
         return;
     }
 
-    Mat rawFrame;
     Mat greyFrame;
     Mat blur;
 
     while (isRunning) {
         // Continuously reads in frames.
         locked = true;
-        cap.read(rawFrame);
-        if (rawFrame.empty()) {
+        cap.read(mFrame);
+        if (frame.empty()) {
             cout << "Capture not found!" << endl;
         }
         // Mode 0 = Direct camera output.
@@ -51,18 +50,31 @@ void CameraController::captureLoop() {
         // Mode 2 = 
         switch (mode) {
             case 0:
-                cvtColor(rawFrame, frame, cv::COLOR_BGR2RGB);
+                cvtColor(fmFrame, mFrame, cv::COLOR_BGR2RGB);
             case 1:
-                cvtColor(rawFrame, greyFrame, cv::COLOR_BGR2GRAY);
+                cvtColor(mFrame, greyFrame, cv::COLOR_BGR2GRAY);
 
                 GaussianBlur(greyFrame, blur, cv::Size(5, 5), 1.4);
             
-                Canny(blur, frame, 100, 200);
+                Canny(blur, mFrame, 100, 200);
+
+                cvtColor(greyFrame, mFrame, cv::COLOR_GRAY2RGB);
             default:
-                cvtColor(rawFrame, frame, cv::COLOR_BGR2RGB);
+                cvtColor(mFrame, mFrame, cv::COLOR_BGR2RGB);
         }
-        resize(frame, frame, cv::Size(xSize, ySize));
+        resize(mFrame, mFrame, cv::Size(xSize, ySize));
+
+        // Conversion taken from DarkMaster007's post at 
+        // https://www.reddit.com/r/raylib/comments/ztegqk/convert_mat_format_form_opencv_to_image_format/
+
+        frame.data =  mFrame.ptr();
+        frame.height = mFrame.rows;
+        frame.width = mFrame.cols;
+        frame.format = 4;
+        frame.mipmaps = 1;
+
         locked = false;
+        lastFrame = frame;
     }
     return;
 };
@@ -75,9 +87,13 @@ void CameraController::stopCaptureLoop() {
     isRunning = false;
 }
 
-Mat CameraController::getFrame() {
-    while (locked) {}
-    return frame;
+Image CameraController::getFrame() {
+    if (!locked) {
+        return frame;
+    }
+    else {
+        return lastFrame;
+    }
 };
 
 void CameraController::setScale(float newScale) {

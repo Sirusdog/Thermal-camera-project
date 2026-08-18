@@ -1,6 +1,7 @@
 #include <opencv2/core.hpp>
 #include <opencv2/videoio.hpp>
 #include <opencv2/highgui.hpp>
+#include <raylib.h>
 #include <iostream>
 #include <stdio.h>
 
@@ -16,22 +17,24 @@ class CameraController {
 
         int deviceID;
         int apiID;
-        int xSize; // Scaled screen size
-        int ySize; // Scaled screen size
+
+        int xSize, ySize // Scaled cam size
+
         float rPal, gPal, bPal, brightness, scale; // Pallet modifiers
         int mode; // Mode selection
-        bool locked; // Is locked? for protecting frame.
+        volatile bool locked; // Is locked? for protecting frame.
 
     public:
         volatile bool isRunning;
-        Mat frame;
+        Image frame;
+        Image lastFrame;
 
     private:
         void captureLoop();
 
     public:
         CameraController(int x, int y);
-        Mat getFrame();
+        Image getFrame();
         void startCaptureLoop();
         void stopCaptureLoop();
         void setScale(float newScale);
