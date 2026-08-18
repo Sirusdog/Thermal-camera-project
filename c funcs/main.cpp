@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <opencv2/opencv.hpp>
 #include "CameraController.hpp"
-#include <raylib.h>
+#include "~/raylib-cpp/include/raylib-cpp.hpp"
 
 using namespace std;
 using namespace cv;
