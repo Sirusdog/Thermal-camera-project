@@ -19,8 +19,8 @@ int main() {
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(RAYWHITE);
-        Texture2D imgTex = LoadTextureFromImage(cam.getFrame())
-        DrawTexture(imgTex, 0, 0, WHITE)
+        Texture2D imgTex = LoadTextureFromImage(cam.getFrame());
+        DrawTexture(imgTex, 0, 0, WHITE);
     };
     return 0;
 }
