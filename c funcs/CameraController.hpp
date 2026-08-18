@@ -18,7 +18,7 @@ class CameraController {
         int deviceID;
         int apiID;
 
-        int xSize, ySize // Scaled cam size
+        int xSize, ySize; // Scaled cam size
 
         float rPal, gPal, bPal, brightness, scale; // Pallet modifiers
         int mode; // Mode selection

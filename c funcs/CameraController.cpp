@@ -37,12 +37,14 @@ void CameraController::captureLoop() {
 
     Mat greyFrame;
     Mat blur;
+    Mat mFrame;
 
     while (isRunning) {
         // Continuously reads in frames.
         locked = true;
+
         cap.read(mFrame);
-        if (frame.empty()) {
+        if (mFrame.empty()) {
             cout << "Capture not found!" << endl;
         }
         // Mode 0 = Direct camera output.
@@ -101,20 +103,20 @@ void CameraController::setScale(float newScale) {
     ySize = static_cast <int>(round(xSize * newScale));
 }
 
-extern "C" {
-    CameraController* CameraController_create(int x, int y) {
-        return new CameraController(x, y);
-    }
-    void CameraController_destroy(CameraController* instance) {
-        delete instance;
-    }
-    void CameraController_StartLoop(CameraController* instance) {
-        instance->startCaptureLoop();
-    }
-    Mat CameraController_getFrame(CameraController* instance) {
-        return instance->getFrame();
-    }
-    void CameraController_StopLoop(CameraController* instance) {
-        instance->stopCaptureLoop();
-    }
-}
+//extern "C" {
+//    CameraController* CameraController_create(int x, int y) {
+//        return new CameraController(x, y);
+//    }
+//    void CameraController_destroy(CameraController* instance) {
+//        delete instance;
+//    }
+//    void CameraController_StartLoop(CameraController* instance) {
+//        instance->startCaptureLoop();
+//    }
+//    Mat CameraController_getFrame(CameraController* instance) {
+//        return instance->getFrame();
+//    }
+//    void CameraController_StopLoop(CameraController* instance) {
+//        instance->stopCaptureLoop();
+//    }
+//}
