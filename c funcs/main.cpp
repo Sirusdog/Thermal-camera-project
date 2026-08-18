@@ -15,7 +15,7 @@ int main() {
 
     InitWindow(screenX, screenY, "Thermal Cam Render");
 
-    CameraController cam = camController(400, 400);
+    CameraController cam = CameraController(400, 400);
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(RAYWHITE);
