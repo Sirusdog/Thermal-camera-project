@@ -36,24 +36,20 @@ endif()
 unset(PLATFORM)
 
 # opencv
-find_package(opencv)
-if (NOT opencv_FOUND)
-    include(FetchContent)
-    FetchContent_Declare(  
-        opencv  
-        GIT_REPOSITORY https://github.com/opencv/opencv.git
-        GIT_TAG 4.14.0
-    )
-    FetchContent_MakeAvailable(opencv)
-endif()
-
+#find_package(opencv)
+#if (NOT opencv_FOUND)
+include(FetchContent)
+FetchContent_Declare(  
+    opencv  
+    GIT_REPOSITORY https://github.com/opencv/opencv.git
+    GIT_TAG 4.14.0
+)
+FetchContent_MakeAvailable(opencv)
+#endif()
+include_directories(${OpenCV_INCLUDE_DIRS})
 
 add_executable( ${PROJECT_NAME} ${SOURCE_FILES} )
+find_package(opencv)
 
-target_include_directories(${PROJECT_NAME} PRIVATE
-        ${OPENCV_CONFIG_FILE_INCLUDE_DIR}
-        ${OPENCV_MODULE_opencv_core_LOCATION}/include
-        ${OPENCV_MODULE_opencv_highgui_LOCATION}/include
-)
 target_link_libraries( ${PROJECT_NAME} PUBLIC raylib raylib-cpp) 
 target_link_libraries( ${PROJECT_NAME} ${OpenCV_LIBS} )
