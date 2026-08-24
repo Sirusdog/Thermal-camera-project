@@ -5,7 +5,7 @@ set(SOURCE_FILES
     CameraController.cpp)
 
 #Taken from https://github.com/RobLoach/raylib-cpp/blob/master/projects/CMake/CMakeLists.txt
-set(PLATFORM PlATFORM_DRM)
+set(PLATFORM DRM)
 find_package(raylib)
 if (NOT raylib_FOUND)
     include(FetchContent)
@@ -17,10 +17,9 @@ if (NOT raylib_FOUND)
     )
     FetchContent_MakeAvailable(raylib)
 endif()
-unset(PLATFORM)
-# raylib-cpp
 
-set(PLATFORM DRM)
+
+# raylib-cpp
 find_package(raylib_cpp)
 if (NOT raylib_cpp_FOUND)
     if (NOT DEFINED RAYLIB_CPP_VERSION)
