@@ -49,5 +49,11 @@ endif()
 
 
 add_executable( ${PROJECT_NAME} ${SOURCE_FILES} )
+
+target_include_directories(${PROJECT_NAME} PRIVATE
+        ${OPENCV_CONFIG_FILE_INCLUDE_DIR}
+        ${OPENCV_MODULE_opencv_core_LOCATION}/include
+        ${OPENCV_MODULE_opencv_highgui_LOCATION}/include
+)
 target_link_libraries( ${PROJECT_NAME} PUBLIC raylib raylib-cpp) 
 target_link_libraries( ${PROJECT_NAME} ${OpenCV_LIBS} )
