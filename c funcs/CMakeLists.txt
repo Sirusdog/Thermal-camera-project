@@ -39,7 +39,7 @@ if (NOT opencv_FOUND)
     FetchContent_Declare(  
         opencv  
         GIT_REPOSITORY https://github.com/opencv/opencv.git
-        GIT_TAG        master
+        GIT_TAG 5.0.0
     )
     FetchContent_MakeAvailable(opencv)
 endif()
