@@ -4,50 +4,50 @@ set(SOURCE_FILES
     main.cpp
     CameraController.cpp)
 
-#Taken from https://github.com/RobLoach/raylib-cpp/blob/master/projects/CMake/CMakeLists.txt
-set(PLATFORM DRM)
-find_package(raylib)
-if (NOT raylib_FOUND)
-    include(FetchContent)
-    FetchContent_Declare(
-        raylib
-        GIT_REPOSITORY https://github.com/raysan5/raylib.git
-        GIT_TAG 6.0
-        GIT_SHALLOW 1
-    )
-    FetchContent_MakeAvailable(raylib)
-endif()
-
-
-# raylib-cpp
-find_package(raylib_cpp)
-if (NOT raylib_cpp_FOUND)
-    if (NOT DEFINED RAYLIB_CPP_VERSION)
-        set(RAYLIB_CPP_VERSION v6.0.0)
-    endif()
-    include(FetchContent)
-    FetchContent_Declare(
-        raylib_cpp
-        GIT_REPOSITORY https://github.com/RobLoach/raylib-cpp.git
-        GIT_TAG ${RAYLIB_CPP_VERSION}
-    )
-    FetchContent_MakeAvailable(raylib_cpp)
-endif()
-unset(PLATFORM)
+##Taken from https://github.com/RobLoach/raylib-cpp/blob/master/projects/CMake/CMakeLists.txt
+#set(PLATFORM DRM)
+#find_package(raylib)
+#if (NOT raylib_FOUND)
+#    include(FetchContent)
+#    FetchContent_Declare(
+#        raylib
+#        GIT_REPOSITORY https://github.com/raysan5/raylib.git
+#        GIT_TAG 6.0
+#        GIT_SHALLOW 1
+#    )
+#    FetchContent_MakeAvailable(raylib)
+#endif()
+#
+#
+## raylib-cpp
+#find_package(raylib_cpp)
+#if (NOT raylib_cpp_FOUND)
+#    if (NOT DEFINED RAYLIB_CPP_VERSION)
+#        set(RAYLIB_CPP_VERSION v6.0.0)
+#    endif()
+#    include(FetchContent)
+#    FetchContent_Declare(
+#        raylib_cpp
+#        GIT_REPOSITORY https://github.com/RobLoach/raylib-cpp.git
+#        GIT_TAG ${RAYLIB_CPP_VERSION}
+#    )
+#    FetchContent_MakeAvailable(raylib_cpp)
+#endif()
+#unset(PLATFORM)
 
 # opencv
-#find_package(opencv)
-#if (NOT opencv_FOUND)
-#include(FetchContent)
-#FetchContent_Declare(  
-#    opencv  
-#    GIT_REPOSITORY https://github.com/opencv/opencv.git
-#    GIT_TAG 4.14.0
-#)
-#FetchContent_MakeAvailable(opencv)
-##endif()
-#find_package(opencv)
-#include_directories(${OpenCV_INCLUDE_DIRS})
+find_package(opencv)
+if (NOT opencv_FOUND)
+include(FetchContent)
+FetchContent_Declare(  
+    opencv  
+    GIT_REPOSITORY https://github.com/opencv/opencv.git
+    GIT_TAG 4.14.0
+)
+FetchContent_MakeAvailable(opencv)
+#endif()
+find_package(opencv)
+include_directories(${OpenCV_INCLUDE_DIRS})
 
 
 #add_executable( ${PROJECT_NAME} ${SOURCE_FILES} )
