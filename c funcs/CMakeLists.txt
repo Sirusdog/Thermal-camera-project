@@ -37,7 +37,7 @@ unset(PLATFORM)
 
 # opencv
 find_package(opencv)
-if (NOT opencv_FOUND)
+#if (NOT opencv_FOUND)
 include(FetchContent)
 FetchContent_Declare(  
     opencv  
