@@ -37,7 +37,7 @@ unset(PLATFORM)
 
 # opencv
 
-find_package(opencv REQUIRED) 
+find_package(opencvD) 
 # For the life of me I couldn't get opencv to compile using Cmake
 
 if (NOT opencv_FOUND)
