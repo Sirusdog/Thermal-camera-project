@@ -57,3 +57,4 @@ add_executable( ${PROJECT_NAME} ${SOURCE_FILES} )
 
 target_link_libraries( ${PROJECT_NAME} PUBLIC raylib raylib-cpp) 
 target_link_libraries( ${PROJECT_NAME} ${OpenCV_LIBS} )
+target_include_directories(${PROJECT_NAME} PRIVATE ${OpenCV_INCLUDE_DIRS})
