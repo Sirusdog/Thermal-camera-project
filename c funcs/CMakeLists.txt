@@ -46,7 +46,22 @@ if (NOT opencv_FOUND)
         opencv  
         GIT_REPOSITORY https://github.com/opencv/opencv.git
         GIT_TAG 4.14.0
-    )
+        CMAKE_ARGS
+            -DBUILD_DOCS=FALSE
+            -DBUILD_EXAMPLES=FALSE
+            -DBUILD_TESTS=FALSE
+            -DBUILD_opencv_apps=FALSE
+            -DBUILD_SHARED_LIBS=TRUE
+            -DWITH_CUDA=FALSE
+            -DBUILD_JAVA=FALSE
+            -DBUILD_opencv_python3=FALSE
+            -DWITH_FFMPEG=FALSE
+            -DBUILD_PERF_TESTS=FALSE
+            -DOPENCV_ENABLE_NONFREE=TRUE
+            -DBUILD_opencv_java=OFF
+            -DCMAKE_INSTALL_PREFIX=${OpenCV_INSTALL_DIR}
+        )
+        # Taken from wissem chiha's answer at https://stackoverflow.com/a/79280683
     FetchContent_MakeAvailable(opencv)
 endif()
 message(STATUS "OpenCV found: ${OpenCV_DIR}")
