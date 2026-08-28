@@ -1,6 +1,6 @@
 #include <iostream>
 #include <stdio.h>
-#include <build/opencv2/opencv.hpp>
+#include "opencv2/opencv.hpp"
 #include "CameraController.hpp"
 #include <raylib-cpp.hpp>
 
