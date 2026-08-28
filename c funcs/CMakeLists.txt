@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.31)
+cmake_minimum_required(VERSION 3.5)
 project( ThermalCamera )
 set(SOURCE_FILES 
     main.cpp
@@ -50,7 +50,7 @@ if (NOT opencv_FOUND)
     FetchContent_MakeAvailable(opencv)
 endif()
 message(STATUS "OpenCV found: ${OpenCV_DIR}")
-include_directories(${OpenCV_INCLUDE_DIRS})
+include_directories( ${OpenCV_INCLUDE_DIRS} )
 
 
 add_executable( ${PROJECT_NAME} ${SOURCE_FILES} )
