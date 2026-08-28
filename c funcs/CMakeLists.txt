@@ -37,10 +37,11 @@ unset(PLATFORM)
 
 # opencv
 
-find_package(opencvD) 
-# For the life of me I couldn't get opencv to compile using Cmake
 
+# For the life of me I couldn't get opencv to compile using Cmake
+find_package(opencv) 
 if (NOT opencv_FOUND)
+    message(STATUS "OpenCV not found.")
     include(FetchContent)
     FetchContent_Declare(  
         opencv  
@@ -63,6 +64,7 @@ if (NOT opencv_FOUND)
         )
         # Taken from wissem chiha's answer at https://stackoverflow.com/a/79280683
     FetchContent_MakeAvailable(opencv)
+    find_package(opencv) 
 endif()
 message(STATUS "OpenCV found: ${OpenCV_DIR}")
 
