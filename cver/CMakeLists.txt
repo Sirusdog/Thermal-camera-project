@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.31)
 project( ThermalCamera )
 set(SOURCE_FILES 
-    main.cpp
-    CameraController.cpp)
+    src/main.cpp
+    src/CameraController.cpp)
 
 #Taken from https://github.com/RobLoach/raylib-cpp/blob/master/projects/CMake/CMakeLists.txt
 set(PLATFORM DRM)
