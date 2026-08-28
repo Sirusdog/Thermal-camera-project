@@ -37,12 +37,9 @@ unset(PLATFORM)
 
 # opencv
 
-find_package(
-    opencv
-    HINTS ~/OpenCV
-)
-# For the life of me I couldn't get opencv to compile using Cmake in the folder.
-# I already had it installed in the above directory, so I'm searching there first.
+find_package(opencv)
+# For the life of me I couldn't get opencv to compile using Cmake
+
 if (NOT opencv_FOUND)
     include(FetchContent)
     FetchContent_Declare(  
@@ -56,7 +53,7 @@ endif()
 include_directories(${OpenCV_INCLUDE_DIRS})
 
 
-#add_executable( ${PROJECT_NAME} ${SOURCE_FILES} )
+add_executable( ${PROJECT_NAME} ${SOURCE_FILES} )
 
-#target_link_libraries( ${PROJECT_NAME} PUBLIC raylib raylib-cpp) 
-#target_link_libraries( ${PROJECT_NAME} ${OpenCV_LIBS} )
+target_link_libraries( ${PROJECT_NAME} PUBLIC raylib raylib-cpp) 
+target_link_libraries( ${PROJECT_NAME} ${OpenCV_LIBS} )
