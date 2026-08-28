@@ -36,17 +36,23 @@ endif()
 unset(PLATFORM)
 
 # opencv
-find_package(opencv)
-#if (NOT opencv_FOUND)
-include(FetchContent)
-FetchContent_Declare(  
-    opencv  
-    GIT_REPOSITORY https://github.com/opencv/opencv.git
-    GIT_TAG 4.14.0
+
+find_package(
+    opencv
+    HINTS ~/OpenCV
 )
-FetchContent_MakeAvailable(opencv)
-#endif()
-find_package(opencv)
+# For the life of me I couldn't get opencv to compile using Cmake in the folder.
+# I already had it installed in the above directory, so I'm searching there first.
+if (NOT opencv_FOUND)
+    include(FetchContent)
+    FetchContent_Declare(  
+        opencv  
+        GIT_REPOSITORY https://github.com/opencv/opencv.git
+        GIT_TAG 4.14.0
+    )
+    FetchContent_MakeAvailable(opencv)
+endif()
+
 include_directories(${OpenCV_INCLUDE_DIRS})
 
 
