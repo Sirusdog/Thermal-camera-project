@@ -43,6 +43,7 @@ set( opencv_DIR /usr/local/include/opencv5/opencv2 )
 find_package(
     opencv
 )
+message(STATUS "OpenCV found: ${opencv_DIR}")
 if (NOT opencv_FOUND)
     message(STATUS "OpenCV not found.")
     include(FetchContent)
@@ -69,7 +70,7 @@ if (NOT opencv_FOUND)
     FetchContent_MakeAvailable(opencv)
     #find_package(opencv) 
 endif()
-message(STATUS "OpenCV found: ${OpenCV_DIR}")
+
 
 add_executable( ${PROJECT_NAME} ${SOURCE_FILES} )
 
