@@ -42,8 +42,9 @@ unset(PLATFORM)
 set( opencv_DIR /usr/local/include/opencv5/opencv2 )
 find_package(
     opencv
+    REQUIRED
 )
-message(STATUS "OpenCV found: ${opencv_DIR}")
+message(STATUS "OpenCV found: ${opencv__DIR}")
 if (NOT opencv_FOUND)
     message(STATUS "OpenCV not found.")
     include(FetchContent)
