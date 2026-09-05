@@ -39,7 +39,7 @@ unset(PLATFORM)
 
 
 # For the life of me I couldn't get opencv to compile using Cmake
-set( opencv_DIR /usr/local/include/opencv5 )
+set( opencv_DIR /usr/local/include/opencv5/opencv2 )
 find_package(
     opencv
 )
