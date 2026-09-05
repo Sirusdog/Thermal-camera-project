@@ -39,10 +39,10 @@ unset(PLATFORM)
 
 
 # For the life of me I couldn't get opencv to compile using Cmake
+set( opencv_DIR /usr/local/include/opencv5 )
 find_package(
     opencv
-    HINTS /usr/local/include/opencv5
-    ) 
+)
 if (NOT opencv_FOUND)
     message(STATUS "OpenCV not found.")
     include(FetchContent)
