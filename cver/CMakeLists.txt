@@ -39,7 +39,7 @@ unset(PLATFORM)
 
 
 # For the life of me I couldn't get opencv to compile using Cmake
-set( opencv_DIR /usr/local/include/opencv5/opencv2 )
+set( CMAKE_MODULE_PATH "~/opencv/cmake")
 find_package(
     opencv
     REQUIRED
@@ -71,7 +71,7 @@ if (NOT opencv_FOUND)
     FetchContent_MakeAvailable(opencv)
     #find_package(opencv) 
 endif()
-
+unset( CMAKE_MODULE_PATH  )
 
 add_executable( ${PROJECT_NAME} ${SOURCE_FILES} )
 
