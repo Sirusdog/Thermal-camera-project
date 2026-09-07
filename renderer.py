@@ -191,7 +191,7 @@ class renderer(helpers.CameraHandler):
 
 		self.run = True
 
-		self.cam.startThread()
+		self.startThread()
 		time.sleep(0.5)
 		self.texture = pi3d.Texture(self.frame)
 
