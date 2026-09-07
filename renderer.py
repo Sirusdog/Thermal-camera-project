@@ -199,6 +199,7 @@ class renderer(helpers.CameraHandler):
 		self.screen = pi3d.shape.Cuboid(camera = self.vcam2D, w = 10, h = 10, x = self.screenDist)
 		self.screen.set_texture(self.texture)
 		self.screen.draw()
+		self.startRendering()
 
 	def startRendering():
 		Thread(target=self.renderFunc, args=()).start()
