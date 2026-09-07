@@ -69,13 +69,13 @@ interpolationMode = cv2.INTER_AREA if coveredX < thermalCameraResX else cv2.INTE
 #pygame.mouse.set_visible(False)
 #font = pygame.font.SysFont(None, 30)
 
-screenResX = display.get_width()
-screenResY = display.get_height()
+#screenResX = display.get_width()
+#screenResY = display.get_height()
 
-xBuffer = int(screenResX/2 - coveredX/2)
-yBuffer = int(screenResY/2 - coveredY/2)
+#xBuffer = int(screenResX/2 - coveredX/2)
+#yBuffer = int(screenResY/2 - coveredY/2)
 
-print("Using display of dimensions:", display.get_width(), display.get_height())
+#print("Using display of dimensions:", display.get_width(), display.get_height())
 
 buttonFlag = False
 incrementFlag = False
@@ -95,7 +95,7 @@ def decrementFlagCallback():
     global decrementFlag
     decrementFlag = True
 
-def textBox(textIn: str, selected: bool) -> pygame.Surface:
+"""def textBox(textIn: str, selected: bool) -> pygame.Surface:
     # Dynamically draws a border around some given text.
     text = font.render(textIn, 1, (255,255, 255))
     width, height = font.size(textIn)
@@ -107,7 +107,7 @@ def textBox(textIn: str, selected: bool) -> pygame.Surface:
     pygame.draw.rect(boxSurf, color, coords, width = 5)
     boxSurf.blit(text, (10, 10))
 
-    return boxSurf
+    return boxSurf"""
 
 
 rotaryEncoder = rotary.Rotary(23, 24, 25, 2)
