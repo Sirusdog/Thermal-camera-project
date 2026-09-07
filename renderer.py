@@ -182,8 +182,8 @@ class renderer(helpers.CameraHandler):
 		self.vcam2D = pi3d.Camera(is_3d=False)
 		self.font = pi3d.Font("~/pi3d_demos/fonts/FreeSans.ttf", color="#FF8010")
 		self.fps = "0"
-		self.string2 = pi3d.String(camera=self.vcam2D, is_3d=False, font=font, string=fps, 
-			x=-DISPLAY.width / 2 + 200, y=DISPLAY.height / 2 - 75, z=1.0)
+		self.string2 = pi3d.String(camera=self.vcam2D, is_3d=False, font=self.font, string=self.fps, 
+			x=-self.DISPLAY.width / 2 + 200, y=self.DISPLAY.height / 2 - 75, z=1.0)
 		self.string2.draw()
 	
 		self.keys = pi3d.Keyboard()
