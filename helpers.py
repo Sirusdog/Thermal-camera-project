@@ -141,6 +141,7 @@ class CameraHandler:
 
 
     def __init__(self):
+        print("init called")
         for i in range(0, 10):
             print("Trying camera")
             self.cam = cv2.VideoCapture(i)
@@ -155,7 +156,10 @@ class CameraHandler:
         #    controls={"Framerate": 50}
         #)
 
-        _, self.frame = self.cam.read()
+        reading, self.frame = self.cam.read()
+        if not reading:
+            print("Camera failed to read")
+            raise Exception("ono")
         #f = np.rot90(f)
         #frame = cv2.flip(f, 1)
         # cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
