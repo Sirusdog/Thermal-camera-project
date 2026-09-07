@@ -190,7 +190,7 @@ class renderer(helpers.CameraHandler):
 		self.waypoints = {}
 
 		self.run = True
-
+		super().__init__()
 		self.startThread()
 		time.sleep(0.5)
 		self.texture = pi3d.Texture(self.frame)
