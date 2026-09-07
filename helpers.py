@@ -146,6 +146,8 @@ class CameraHandler:
             if self.cam.isOpened():
                 print("Using cam port", i)
                 break
+        if not self.cam.isOpened():
+            raise Exception("Valid camera could not be found.")
         #self.cam.set_controls({'AeEnable': False})
         #config = self.cam.create_still_configuration(
         #    buffer_count = 2,
