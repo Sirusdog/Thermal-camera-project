@@ -141,7 +141,7 @@ class CameraHandler:
 
 
     def __init__(self):
-        self.cam = cv2.VideoCapture(0)
+        self.cam = cv2.VideoCapture(1)
         #self.cam.set_controls({'AeEnable': False})
         #config = self.cam.create_still_configuration(
         #    buffer_count = 2,
