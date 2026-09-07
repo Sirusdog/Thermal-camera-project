@@ -176,6 +176,7 @@ print("Done!")
 
 class renderer(helpers.CameraHandler):
 	def __init__(self, screenResolution: tuple[int, int], camResolution: tuple[int, int], targetFOVs: tuple[int, int]):
+		super().__init__()
 		self.DISPLAY = pi3d.Display.create(w=800, h=500, frames_per_second=50, background=(0.1, 0.1, 0.0, 0.0),
 				display_config=pi3d.DISPLAY_CONFIG_HIDE_CURSOR | pi3d.DISPLAY_CONFIG_MAXIMIZED, use_glx=True)
 		self.vcam = pi3d.Camera()
@@ -190,7 +191,6 @@ class renderer(helpers.CameraHandler):
 		self.waypoints = {}
 
 		self.run = True
-		super().__init__()
 		self.startThread()
 		time.sleep(0.5)
 		self.texture = pi3d.Texture(self.frame)
