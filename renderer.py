@@ -174,7 +174,7 @@ helpers.UARTController.sendCommand(cameraControl, "Save", "Parameter Save")
 print("Done!")
 """
 
-class renderer(CameraHandler):
+class renderer(helpers.CameraHandler):
 	def __init__(self, screenResolution: tuple[int, int], camResolution: tuple[int, int], targetFOVs: tuple[int, int]):
 		self.DISPLAY = pi3d.Display.create(w=800, h=500, frames_per_second=50, background=(0.1, 0.1, 0.0, 0.0),
 				display_config=pi3d.DISPLAY_CONFIG_HIDE_CURSOR | pi3d.DISPLAY_CONFIG_MAXIMIZED, use_glx=True)
