@@ -142,6 +142,7 @@ class CameraHandler:
 
     def __init__(self):
         for i in range(0, 10):
+            print("Trying camera")
             self.cam = cv2.VideoCapture(i)
             if self.cam.isOpened():
                 print("Using cam port", i)
