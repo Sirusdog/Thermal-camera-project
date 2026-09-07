@@ -149,7 +149,7 @@ class CameraHandler:
                 print("Using cam port", i)
                 break
         if not self.cam.isOpened():
-            raise Exception("Valid camera could not be found.")
+            exit("Exited at self.cam.isopened()")
         #self.cam.set_controls({'AeEnable': False})
         #config = self.cam.create_still_configuration(
         #    buffer_count = 2,
@@ -159,7 +159,7 @@ class CameraHandler:
         reading, self.frame = self.cam.read()
         if not reading:
             print("Camera failed to read")
-            raise Exception("ono")
+            exit("Exited at not reading")
         #f = np.rot90(f)
         #frame = cv2.flip(f, 1)
         # cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
