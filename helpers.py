@@ -147,8 +147,6 @@ class CameraHandler:
         #    buffer_count = 2,
         #    controls={"Framerate": 50}
         #)
-        #self.cam.start()
-        #self.stopped = False
 
         _, self.frame = self.cam.read()
         #f = np.rot90(f)

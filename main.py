@@ -17,27 +17,6 @@ import logging
 
 settings = Trapdoor("main", "./configs", "mainConfig.toml")
 
-if ctypes.windll:
-    camdll = ctypes.CDLL("./CameraController.dll")
-else:
-    camdll = cytpes.CDLL("./libCameraController.so")
-
-
-camdll.CameraController_create.argtypes = [ctypes.c_int, ctypes.c_int]
-camdll.CameraController_create.restypes = ctypes.c_void_p
-
-camdll.CameraController_destroy.argtypes = [ctypes.c_void_p]
-camdll.CameraController_destroy.restypes = None
-
-camdll.CameraController_StartLoop.argtypes = [ctypes.c_void_p]
-camdll.CameraController_StartLoop.restypes = None
-
-camdll.CameraController_getFrame.argtypes = [ctypes.c_void_p]
-camdll.CameraController_getFrame.restypes = ctypes.c_void_p
-
-camdll.CameraController_StopLoop.argtypes = [ctypes.c_void_p]
-camdll.CameraController_StopLoop.restypes = None
-
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename='main.log', encoding='utf-8')
@@ -86,9 +65,9 @@ coveredY = int(settings.get("displaySettings.coveredY"))
 
 interpolationMode = cv2.INTER_AREA if coveredX < thermalCameraResX else cv2.INTER_NEAREST
 
-display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-pygame.mouse.set_visible(False)
-font = pygame.font.SysFont(None, 30)
+#display = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+#pygame.mouse.set_visible(False)
+#font = pygame.font.SysFont(None, 30)
 
 screenResX = display.get_width()
 screenResY = display.get_height()
@@ -211,14 +190,15 @@ print("Initialisations complete, running main body.")
 tPrev = 0
 tNew = 0
 
-cam = CameraHandler()
-cam.startThread()
-time.sleep(0.5)
+#cam = CameraHandler()
+#cam.startThread()
+#time.sleep(0.5)
 
-
+display = renderer((800, 500), (1,1), (1,1))
+"""
 try:
     while mainLoop:
-        img = cam.read()
+        #img = cam.read()
         logger.debug("Image read fine!")
 
         zoomLvl = mainMenu["digitalZoom"].getCurrentVal()
@@ -231,9 +211,9 @@ try:
             mainMenu["yShift"].getCurrentVal()
         )
 
-        surf = pygame.surfarray.make_surface(img)
-        display.blit(surf, (int(xBuffer/(zoomLvl**2)), int(yBuffer/(zoomLvl**2))))
-        logger.debug("Wrote to display surface fine!")
+        #surf = pygame.surfarray.make_surface(img)
+        #display.blit(surf, (int(xBuffer/(zoomLvl**2)), int(yBuffer/(zoomLvl**2))))
+        #logger.debug("Wrote to display surface fine!")
 
         # Handle pygame & keypress inputs. These are for debugging.
         for event in pygame.event.get():
@@ -395,3 +375,4 @@ finally:
     cam.stop()
     pygame.quit()
     sys.exit()
+"""

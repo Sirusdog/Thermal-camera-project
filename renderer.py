@@ -5,6 +5,8 @@ import numpy as np
 import math
 from geopy import distance
 import pi3d
+from threading import Thread
+import helpers
 # From https://github.com/henriberisha/gps_location/blob/main/gps.py
 """
 def get_longitude(in_long, hemisphere):
@@ -76,7 +78,7 @@ while 1:
    		print("\n")
    ser.flush()
 """
-
+"""
 import board
 import busio
 
@@ -110,7 +112,7 @@ def quatToEuler(quaternion):
 	a = 2*math.acos(unit[3]) # Simple angle
 	alpha = math.sin(a/2)
 	return np.degrees(np.acos(unit/alpha)[:3])
-
+"""
 
 DISPLAY = pi3d.Display.create(w=800, h=500, frames_per_second=50, background=(0.1, 0.1, 0.0, 0.0),
 	display_config=pi3d.DISPLAY_CONFIG_HIDE_CURSOR | pi3d.DISPLAY_CONFIG_MAXIMIZED, use_glx=True)
@@ -171,3 +173,50 @@ helpers.UARTController.sendCommand(cameraControl, "Pallet", "Aurora")
 helpers.UARTController.sendCommand(cameraControl, "Save", "Parameter Save")
 print("Done!")
 """
+
+class renderer(CameraHandler):
+	def __init__(self, screenResolution: tuple[int, int], camResolution: tuple[int, int], targetFOVs: tuple[int, int]):
+		self.DISPLAY = pi3d.Display.create(w=800, h=500, frames_per_second=50, background=(0.1, 0.1, 0.0, 0.0),
+				display_config=pi3d.DISPLAY_CONFIG_HIDE_CURSOR | pi3d.DISPLAY_CONFIG_MAXIMIZED, use_glx=True)
+		self.vcam = pi3d.Camera()
+		self.vcam2D = pi3d.Camera(is_3d=False)
+		self.font = pi3d.Font("~/pi3d_demos/fonts/FreeSans.ttf", color="#FF8010")
+		self.fps = "0"
+		self.string2 = pi3d.String(camera=vcam2D, is_3d=False, font=font, string=fps, 
+			x=-DISPLAY.width / 2 + 200, y=DISPLAY.height / 2 - 75, z=1.0)
+		self.string2.draw()
+	
+		self.keys = pi3d.Keyboard()
+		self.waypoints = {}
+
+		self.run = True
+
+		self.cam.startThread()
+		time.sleep(0.5)
+		self.texture = pi3d.Texture(self.frame)
+
+		self.screenDist = 10
+		self.screen = pi3d.shape.Cuboid(camera = vcam2D, w = 10, h = 10, x = screenDist)
+		self.screen.set_texture(self.texture)
+		self.screen.draw()
+
+
+	def startRendering():
+		Thread(target=self.renderFunc, args=()).start()
+        return self
+
+	
+	def renderFunc():
+		last_tm = 0
+		while self.run:
+			self.texture.update_ndarray(self.frame, 0)
+			self.screen.draw()
+			tm = time.time()
+			fps = "{:6.2f}FPS".format(1 / (tm - last_tm))
+			self.string2.quick_change(fps)
+			last_tm = tm
+			string2.draw()
+
+	def stop():
+		self.run = False
+		self.stopped = True
