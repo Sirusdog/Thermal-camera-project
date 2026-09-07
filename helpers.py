@@ -151,6 +151,8 @@ class CameraHandler:
         _, self.frame = self.cam.read()
         if self.frame != None:
             print("Frame is here?")
+        else:
+            print("FUCK")
         #f = np.rot90(f)
         #frame = cv2.flip(f, 1)
         # cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
