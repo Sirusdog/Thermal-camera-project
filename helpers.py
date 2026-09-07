@@ -149,10 +149,6 @@ class CameraHandler:
         #)
 
         _, self.frame = self.cam.read()
-        if self.frame != None:
-            print("Frame is here?")
-        else:
-            print("FUCK")
         #f = np.rot90(f)
         #frame = cv2.flip(f, 1)
         # cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -170,20 +166,20 @@ class CameraHandler:
         prevTime = 0
         count = 0
         while not self.stopped:
-            ret, frame = self.cam.read()
-            if self.frame != None:
-                print("Frame is here?")
-            else:
-                print("FUCK")
-            frame = np.rot90(frame)
-            frame = cv2.flip(frame, 1)
-            frame = cv2.resize(frame, (int(500), int(300)), interpolation = cv2.INTER_NEAREST)
-            self.frame = frame
+            try:
+                ret, frame = self.cam.read()
+                
+                frame = np.rot90(frame)
+                frame = cv2.flip(frame, 1)
+                frame = cv2.resize(frame, (int(500), int(300)), interpolation = cv2.INTER_NEAREST)
+                self.frame = frame
 
-            # Gets the FPS.
-            curTime = time.time()
-            self.fps = round(1/(curTime - prevTime), 2)
-            prevTime = curTime
+                # Gets the FPS.
+                curTime = time.time()
+                self.fps = round(1/(curTime - prevTime), 2)
+                prevTime = curTime
+            finally:
+                pass
         if self.stopped:
             return
 
