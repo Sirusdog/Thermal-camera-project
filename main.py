@@ -14,6 +14,7 @@ import signal
 import ctypes
 from trapdoor import Trapdoor # Handles settings file
 import logging
+from renderer import renderer
 
 settings = Trapdoor("main", "./configs", "mainConfig.toml")
 
