@@ -141,7 +141,11 @@ class CameraHandler:
 
 
     def __init__(self):
-        self.cam = cv2.VideoCapture(1)
+        for i in range(0, 10):
+            self.cam = cv2.VideoCapture(i)
+            if self.cam.isOpened():
+                print("Using cam port", i)
+                break
         #self.cam.set_controls({'AeEnable': False})
         #config = self.cam.create_still_configuration(
         #    buffer_count = 2,
