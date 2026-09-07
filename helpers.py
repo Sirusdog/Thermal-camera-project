@@ -171,6 +171,10 @@ class CameraHandler:
         count = 0
         while not self.stopped:
             ret, frame = self.cam.read()
+            if self.frame != None:
+                print("Frame is here?")
+            else:
+                print("FUCK")
             frame = np.rot90(frame)
             frame = cv2.flip(frame, 1)
             frame = cv2.resize(frame, (int(500), int(300)), interpolation = cv2.INTER_NEAREST)
