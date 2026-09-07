@@ -200,12 +200,11 @@ class renderer(CameraHandler):
 		self.screen.set_texture(self.texture)
 		self.screen.draw()
 
-
 	def startRendering():
 		Thread(target=self.renderFunc, args=()).start()
-        return self
+		return self
 
-	
+
 	def renderFunc():
 		last_tm = 0
 		while self.run:
