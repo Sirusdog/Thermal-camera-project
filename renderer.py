@@ -113,7 +113,7 @@ def quatToEuler(quaternion):
 	alpha = math.sin(a/2)
 	return np.degrees(np.acos(unit/alpha)[:3])
 """
-
+"""
 DISPLAY = pi3d.Display.create(w=800, h=500, frames_per_second=50, background=(0.1, 0.1, 0.0, 0.0),
 	display_config=pi3d.DISPLAY_CONFIG_HIDE_CURSOR | pi3d.DISPLAY_CONFIG_MAXIMIZED, use_glx=True)
 cam = pi3d.Camera()
@@ -156,7 +156,7 @@ while DISPLAY.loop_running():
 mykeys.close()
 DISPLAY.destroy()
 
-"""
+""""""
 import helpers
 
 cameraControl = serial.Serial(
@@ -215,6 +215,11 @@ class renderer(CameraHandler):
 			self.string2.quick_change(fps)
 			last_tm = tm
 			string2.draw()
+			k = mykeys.read()
+			if k == 27:
+				self.keys.close()
+				self.DISPLAY.destroy()
+				self.stop()
 
 	def stop():
 		self.run = False
