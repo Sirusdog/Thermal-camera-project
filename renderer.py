@@ -181,13 +181,12 @@ print("Done!")
 """
 
 class renderer(helpers.CameraHandler):
-	def __init__(self, screenResolution: tuple[int, int], camResolution: tuple[int, int], targetFOVs: tuple[int, int]):
+	def __init__(self, screenResolution: tuple[int, int], camResolution: tuple[int, int], targetFOVs: tuple[int, int], displayObject):
 		try:
 			logger.warning("Screen init being called")
 			super().__init__()
 			logger.warning("Super init has been called")
-			self.DISPLAY = pi3d.Display.create(w=800, h=500, frames_per_second=50, background=(0.1, 0.1, 0.0, 0.0),
-					display_config=pi3d.DISPLAY_CONFIG_HIDE_CURSOR | pi3d.DISPLAY_CONFIG_MAXIMIZED, use_glx=True)
+			self.DISPLAY = displayObject
 			self.vcam = pi3d.Camera()
 			self.vcam2D = pi3d.Camera(is_3d=False)
 			self.font = pi3d.Font("~/pi3d_demos/fonts/FreeSans.ttf", color="#FF8010")
