@@ -200,7 +200,7 @@ try:
 					display_config=pi3d.DISPLAY_CONFIG_HIDE_CURSOR | pi3d.DISPLAY_CONFIG_MAXIMIZED, use_glx=True)
     display = renderer((800, 500), (1,1), (1,1), a)
 except Exception as e:
-    print(e)
+    logger.warning("fucker exited with "+ e)
 """
 try:
     while mainLoop:
