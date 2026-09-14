@@ -217,22 +217,29 @@ class renderer(helpers.CameraHandler):
 
 	def renderFunc():
 		last_tm = 0
-		while self.run:
-			self.texture.update_ndarray(self.frame, 0)
-			self.screen.draw()
-			tm = time.time()
-			fps = "{:6.2f}FPS".format(1 / (tm - last_tm))
-			self.string2.quick_change(fps)
-			last_tm = tm
-			string2.draw()
-			k = mykeys.read()
-			self.DISPLAY.set_background(255, 255, 255, 1)
-			if k == 27:
-				self.keys.close()
-				self.DISPLAY.destroy()
-				self.stop()
-			self.vcam.rotateX(1)
-			logger.warn("Camera rotated")
+		try:
+			while self.run:
+				self.texture.update_ndarray(self.frame, 0)
+				self.screen.draw()
+				tm = time.time()
+				fps = "{:6.2f}FPS".format(1 / (tm - last_tm))
+				self.string2.quick_change(fps)
+				last_tm = tm
+				string2.draw()
+				k = mykeys.read()
+				self.DISPLAY.set_background(255, 255, 255, 1)
+				if k == 27:
+					self.keys.close()
+					self.DISPLAY.destroy()
+					self.stop()
+				self.vcam.rotateX(1)
+				logger.warn("Camera rotated")
+
+		except Exception as e:
+			print(e)
+			logger.warning("Program exited with error" + e)
+			self.keys.close()
+			self.DISPLAY.destroy()
 
 	def stop():
 		self.run = False
