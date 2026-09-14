@@ -7,6 +7,11 @@ from geopy import distance
 import pi3d
 from threading import Thread
 import helpers
+import logging
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(filename='main.log', encoding='utf-8')
+logger.setLevel(logging.WARNING)
 # From https://github.com/henriberisha/gps_location/blob/main/gps.py
 """
 def get_longitude(in_long, hemisphere):
@@ -203,6 +208,7 @@ class renderer(helpers.CameraHandler):
 		self.startRendering()
 
 	def startRendering():
+		logger.warn("Starting rendering")
 		Thread(target=self.renderFunc, args=()).start()
 		return self
 
@@ -223,6 +229,7 @@ class renderer(helpers.CameraHandler):
 				self.DISPLAY.destroy()
 				self.stop()
 			self.vcam.rotateX(1)
+			logger.warn("Camera rotated")
 
 	def stop():
 		self.run = False
