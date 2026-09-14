@@ -9,7 +9,7 @@ from threading import Thread
 import helpers
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("Renderer_log")
 logging.basicConfig(filename='main.log', encoding='utf-8')
 logger.setLevel(logging.WARNING)
 # From https://github.com/henriberisha/gps_location/blob/main/gps.py
