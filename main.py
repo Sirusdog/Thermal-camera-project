@@ -196,9 +196,7 @@ tNew = 0
 #cam.startThread()
 #time.sleep(0.5)
 try:
-    a = pi3d.Display.create(w=800, h=500, frames_per_second=50, background=(0.1, 0.1, 0.0, 0.0),
-					display_config=pi3d.DISPLAY_CONFIG_HIDE_CURSOR | pi3d.DISPLAY_CONFIG_MAXIMIZED, use_glx=True)
-    display = renderer((800, 500), (1,1), (1,1), a)
+    display = renderer((800, 500), (1,1), (1,1))
 except Exception as e:
     logger.warning("fucker exited with "+ e)
 """
