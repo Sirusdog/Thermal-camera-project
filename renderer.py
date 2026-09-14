@@ -197,7 +197,7 @@ class renderer(helpers.CameraHandler):
 		self.texture = pi3d.Texture(self.frame)
 
 		self.screenDist = 10
-		self.screen = pi3d.shape.Cuboid(camera = self.vcam2D, w = 10, h = 10, x = self.screenDist)
+		self.screen = pi3d.shape.Cuboid(camera = self.vcam, w = 10, h = 10, x = self.screenDist)
 		self.screen.set_texture(self.texture)
 		self.screen.draw()
 		self.startRendering()
@@ -222,6 +222,7 @@ class renderer(helpers.CameraHandler):
 				self.keys.close()
 				self.DISPLAY.destroy()
 				self.stop()
+			self.vcam.rotateX(1)
 
 	def stop():
 		self.run = False
