@@ -145,7 +145,8 @@ class CameraHandler:
         for i in range(0, 10):
             print("Trying camera")
             self.cam = cv2.VideoCapture(i)
-            if self.cam.isOpened():
+            reading, self.frame = self.cam.read()
+            if reading:
                 print("Using cam port", i)
                 break
         if not self.cam.isOpened():
@@ -157,9 +158,6 @@ class CameraHandler:
         #)
 
         reading, self.frame = self.cam.read()
-        if not reading:
-            print("Camera failed to read")
-            exit("Exited at not reading")
         #f = np.rot90(f)
         #frame = cv2.flip(f, 1)
         # cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -185,7 +183,7 @@ class CameraHandler:
                 frame = cv2.resize(frame, (int(500), int(300)), interpolation = cv2.INTER_NEAREST)
                 self.frame = frame
 
-                # Gets the FPS.
+                # Gets the FPS.https://discord.com/channels/1203225122828328960/1455342763980755156
                 curTime = time.time()
                 self.fps = round(1/(curTime - prevTime), 2)
                 prevTime = curTime
