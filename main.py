@@ -194,8 +194,10 @@ tNew = 0
 #cam = CameraHandler()
 #cam.startThread()
 #time.sleep(0.5)
-
-display = renderer((800, 500), (1,1), (1,1))
+try:
+    display = renderer((800, 500), (1,1), (1,1))
+except Exception as e:
+    print(e)
 """
 try:
     while mainLoop:
