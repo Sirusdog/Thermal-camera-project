@@ -182,32 +182,35 @@ print("Done!")
 
 class renderer(helpers.CameraHandler):
 	def __init__(self, screenResolution: tuple[int, int], camResolution: tuple[int, int], targetFOVs: tuple[int, int]):
-		logger.warning("Screen init being called")
-		super().__init__()
-		logger.warning("Super init has been called")
-		self.DISPLAY = pi3d.Display.create(w=800, h=500, frames_per_second=50, background=(0.1, 0.1, 0.0, 0.0),
-				display_config=pi3d.DISPLAY_CONFIG_HIDE_CURSOR | pi3d.DISPLAY_CONFIG_MAXIMIZED, use_glx=True)
-		self.vcam = pi3d.Camera()
-		self.vcam2D = pi3d.Camera(is_3d=False)
-		self.font = pi3d.Font("~/pi3d_demos/fonts/FreeSans.ttf", color="#FF8010")
-		self.fps = "0"
-		self.string2 = pi3d.String(camera=self.vcam2D, is_3d=False, font=self.font, string=self.fps, 
-			x=-self.DISPLAY.width / 2 + 200, y=self.DISPLAY.height / 2 - 75, z=1.0)
-		self.string2.draw()
-	
-		self.keys = pi3d.Keyboard()
-		self.waypoints = {}
+		try:
+			logger.warning("Screen init being called")
+			super().__init__()
+			logger.warning("Super init has been called")
+			self.DISPLAY = pi3d.Display.create(w=800, h=500, frames_per_second=50, background=(0.1, 0.1, 0.0, 0.0),
+					display_config=pi3d.DISPLAY_CONFIG_HIDE_CURSOR | pi3d.DISPLAY_CONFIG_MAXIMIZED, use_glx=True)
+			self.vcam = pi3d.Camera()
+			self.vcam2D = pi3d.Camera(is_3d=False)
+			self.font = pi3d.Font("~/pi3d_demos/fonts/FreeSans.ttf", color="#FF8010")
+			self.fps = "0"
+			self.string2 = pi3d.String(camera=self.vcam2D, is_3d=False, font=self.font, string=self.fps, 
+				x=-self.DISPLAY.width / 2 + 200, y=self.DISPLAY.height / 2 - 75, z=1.0)
+			self.string2.draw()
+		
+			self.keys = pi3d.Keyboard()
+			self.waypoints = {}
 
-		self.run = True
-		self.startThread()
-		time.sleep(0.5)
-		self.texture = pi3d.Texture(self.frame)
+			self.run = True
+			self.startThread()
+			time.sleep(0.5)
+			self.texture = pi3d.Texture(self.frame)
 
-		self.screenDist = 10
-		self.screen = pi3d.shape.Cuboid(camera = self.vcam, w = 10, h = 10, x = self.screenDist)
-		self.screen.set_texture(self.texture)
-		self.screen.draw()
-		self.startRendering()
+			self.screenDist = 10
+			self.screen = pi3d.shape.Cuboid(camera = self.vcam, w = 10, h = 10, x = self.screenDist)
+			self.screen.set_texture(self.texture)
+			self.screen.draw()
+			self.startRendering()
+		except Exception as e:
+			logger.warning(e)
 
 	def startRendering():
 		logger.warn("Starting rendering")
