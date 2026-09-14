@@ -13,6 +13,7 @@ logger = logging.getLogger("renderer")
 logging.basicConfig(filename='renderer.log', encoding='utf-8')
 logger.setLevel(logging.WARNING)
 # From https://github.com/henriberisha/gps_location/blob/main/gps.py
+logger.warning("Renderer called and set up")
 """
 def get_longitude(in_long, hemisphere):
 	if in_long == '':
@@ -181,8 +182,9 @@ print("Done!")
 
 class renderer(helpers.CameraHandler):
 	def __init__(self, screenResolution: tuple[int, int], camResolution: tuple[int, int], targetFOVs: tuple[int, int]):
+		logger.warning("Screen init being called")
 		super().__init__()
-		print("Super init has been called")
+		logger.warning("Super init has been called")
 		self.DISPLAY = pi3d.Display.create(w=800, h=500, frames_per_second=50, background=(0.1, 0.1, 0.0, 0.0),
 				display_config=pi3d.DISPLAY_CONFIG_HIDE_CURSOR | pi3d.DISPLAY_CONFIG_MAXIMIZED, use_glx=True)
 		self.vcam = pi3d.Camera()
@@ -224,6 +226,7 @@ class renderer(helpers.CameraHandler):
 			last_tm = tm
 			string2.draw()
 			k = mykeys.read()
+			self.DISPLAY.set_background(255, 255, 255, 1)
 			if k == 27:
 				self.keys.close()
 				self.DISPLAY.destroy()
