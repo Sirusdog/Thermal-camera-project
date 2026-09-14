@@ -15,6 +15,7 @@ import ctypes
 from trapdoor import Trapdoor # Handles settings file
 import logging
 from renderer import renderer
+import pi3d
 
 settings = Trapdoor("main", "./configs", "mainConfig.toml")
 
