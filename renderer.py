@@ -188,27 +188,36 @@ class renderer(helpers.CameraHandler):
 			logger.warning("Super init has been called")
 			self.DISPLAY = pi3d.Display.create(w=800, h=500, frames_per_second=50, background=(0.1, 0.1, 0.0, 0.0),
 					display_config=pi3d.DISPLAY_CONFIG_HIDE_CURSOR | pi3d.DISPLAY_CONFIG_MAXIMIZED, use_glx=True)
+			logger.warning("Display has been created!")
 			self.vcam = pi3d.Camera()
+
 			self.vcam2D = pi3d.Camera(is_3d=False)
+			logger.warning("Cam has been created!")
 			self.font = pi3d.Font("~/pi3d_demos/fonts/FreeSans.ttf", color="#FF8010")
+			logger.warning("Cam has been created!")
 			self.fps = "0"
 			self.string2 = pi3d.String(camera=self.vcam2D, is_3d=False, font=self.font, string=self.fps, 
 				x=-self.DISPLAY.width / 2 + 200, y=self.DISPLAY.height / 2 - 75, z=1.0)
+			logger.warning("String2 has been created!")
 			self.string2.draw()
 		
 			self.keys = pi3d.Keyboard()
 			self.waypoints = {}
-
+			logger.warning("Keys has been created!")
 			self.run = True
 			self.startThread()
+			logger.warning("Start thread ran!")
 			time.sleep(0.5)
 			self.texture = pi3d.Texture(self.frame)
+			logger.warning("Texture has been created!")
 
 			self.screenDist = 10
 			self.screen = pi3d.shape.Cuboid(camera = self.vcam, w = 10, h = 10, x = self.screenDist)
+			logger.warning("Cuboid has been created!")
 			self.screen.set_texture(self.texture)
 			self.screen.draw()
 			self.startRendering()
+			logger.warning("Renderer has started!")
 		except Exception as e:
 			logger.warning(e)
 
