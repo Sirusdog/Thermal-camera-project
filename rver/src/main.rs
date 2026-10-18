@@ -14,12 +14,13 @@ fn main() -> Result<()> {
 	}
 	loop {
 		let mut frame_pp = Mat::default();
-        //let mut frame = Mat::default();
+        let mut frame = Mat::default();
 
 		cam.read(&mut frame_pp)?;
 		if frame_pp.size()?.width > 0 {
-            //frame_pp.resize(1800);
-			highgui::imshow(window, &frame_pp)?;
+            imgproc::gaussian_blur(&frame_pp, frame_pp, core::Size(5, 5), 1.4);
+            imgproc::canny(&frame_pp, frame);
+			highgui::imshow(window, &frame);
 		}
 		let key = highgui::wait_key(10)?;
 		if key > 0 && key != 255 {
