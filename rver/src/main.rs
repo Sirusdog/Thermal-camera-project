@@ -18,7 +18,7 @@ fn main() -> Result<()> {
 
 		cam.read(&mut frame_pp)?;
 		if frame_pp.size()?.width > 0 {
-            frame_pp.resize(1800);
+            //frame_pp.resize(1800);
 			highgui::imshow(window, &frame_pp)?;
 		}
 		let key = highgui::wait_key(10)?;
