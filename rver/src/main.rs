@@ -1,7 +1,7 @@
 // Base code taken from https://github.com/twistedfall/opencv-rust/blob/master/examples/video_capture.rs
 // By twistedfall
 use opencv::prelude::*;
-use opencv::{Result, highgui, videoio, imgproc};
+use opencv::{Result, highgui, videoio, imgproc, core};
 
 
 
@@ -21,7 +21,7 @@ fn main() -> Result<()> {
 
 		cam.read(&mut frame_pp)?;
 		if frame_pp.size()?.width > 0 {
-            imgproc::gaussian_blur(&frame_pp, frame_pp, Size(width: 5, height: 5), 1, 1, 4, core::BORDER_DEFAULT, core::ALGO_HINT_DEFAULT);
+            imgproc::gaussian_blur(&frame_pp, frame_pp, Size{width: 5, height: 5}, 1.0, 1.0, 4);
             imgproc::canny(&frame_pp, &mut frame, 100.0, 200.0, 3, false);
 			highgui::imshow(window, &frame);
 		}
