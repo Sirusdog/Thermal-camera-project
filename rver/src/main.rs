@@ -12,10 +12,12 @@ fn main() -> Result<()> {
 		panic!("Unable to open default camera!");
 	}
 	loop {
-		let mut frame = Mat::default();
-		cam.read(&mut frame)?;
-		if frame.size()?.width > 0 {
-            frame.resize(2);
+		let mut frame_pp = Mat::default();
+        let mut frame = Mat::default();
+
+		cam.read(&mut frame_pp)?;
+		if frame_pp.size()?.width > 0 {
+            imgproc::resize(frame_pp, frame, core::Size(600, 450));
 			highgui::imshow(window, &frame)?;
 		}
 		let key = highgui::wait_key(10)?;
