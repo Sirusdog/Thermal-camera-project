@@ -24,8 +24,8 @@ fn main() -> Result<()> {
 		if frame_pp.size()?.width > 0 {
             imgproc::gaussian_blur(&frame_pp, frame_i, core::Size{width: 5, height: 5}, 1.0, 1.0, 4);
             imgproc::canny(&frame_i, &mut frame, 100.0, 200.0, 3, false);
-            let fps: String = (1 / now.elapsed()).to_string();
-            imgproc::put_text(&frame, &fps, core::Point{10, 10}, 0, 5.0, core::{256.0, 256.0, 256.0, 256.0}, 5, -1, false)
+            let fps: String = (1.0 / now.elapsed()).to_string();
+            imgproc::put_text(&frame, &fps, core::Point{x: 10, y: 10}, 0, 5.0, core::Scalar{256.0, 256.0, 256.0, 256.0}, 5, -1, false);
 			highgui::imshow(window, &frame);
 		}
 		let key = highgui::wait_key(10)?;
