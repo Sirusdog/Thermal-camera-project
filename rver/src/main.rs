@@ -14,14 +14,15 @@ fn main() -> Result<()> {
 	if !opened {
 		panic!("Unable to open default camera!");
 	}
+
 	loop {
 		let mut frame_pp = Mat::default();
         let mut frame = Mat::default();
 
 		cam.read(&mut frame_pp)?;
 		if frame_pp.size()?.width > 0 {
-            imgproc::gaussian_blur(&frame_pp, frame_pp, Size(width: 6, height: 5), 1.4);
-            imgproc::canny(&frame_pp, frame);
+            //imgproc::gaussian_blur(&frame_pp, frame_pp, Size(width: 6, height: 5), 1.4);
+            imgproc::canny(&frame_pp, &mut frame, 100.0, 200.0, 3, false);
 			highgui::imshow(window, &frame);
 		}
 		let key = highgui::wait_key(10)?;
