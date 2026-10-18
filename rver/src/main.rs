@@ -3,10 +3,7 @@
 use opencv::prelude::*;
 use opencv::{Result, highgui, videoio, imgproc};
 
-pub struct Size {
-    pub width: i32,
-    pub height: i32,
-}
+
 
 fn main() -> Result<()> {
 	let window = "video capture";
@@ -23,7 +20,7 @@ fn main() -> Result<()> {
 
 		cam.read(&mut frame_pp)?;
 		if frame_pp.size()?.width > 0 {
-            imgproc::gaussian_blur(&frame_pp, frame_pp, Size(5, 5), 1.4);
+            imgproc::gaussian_blur(&frame_pp, frame_pp, Size(width: 6, height: 5), 1.4);
             imgproc::canny(&frame_pp, frame);
 			highgui::imshow(window, &frame);
 		}
