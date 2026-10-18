@@ -13,12 +13,12 @@ fn main() -> Result<()> {
 	}
 	loop {
 		let mut frame_pp = Mat::default();
-        let mut frame = Mat::default();
+        //let mut frame = Mat::default();
 
 		cam.read(&mut frame_pp)?;
 		if frame_pp.size()?.width > 0 {
-            imgproc::resize(frame_pp, frame, core::Size_(600, 450), 0, 0, 1);
-			highgui::imshow(window, &frame)?;
+            frame_pp.resize(600);
+			highgui::imshow(window, &frame_pp)?;
 		}
 		let key = highgui::wait_key(10)?;
 		if key > 0 && key != 255 {
