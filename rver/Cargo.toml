@@ -3,5 +3,5 @@ name = "thermal_cam_firmware"
 version = "0.0.1"
 edition = "2024"
 
-[dependancies]
+[dependencies]
 opencv = "0.101.1"

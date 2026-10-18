@@ -1,18 +1,11 @@
-//use opencv::prelude::*;
-//use opencv::{Result, highgui, imgproc, videoio};
-//
-//fn main() {
-//    println!("Running!");
-//    let vidCap: VideoCapture;
-//}
-
-// From https://github.com/twistedfall/opencv-rust/blob/master/examples/video_capture.rs
+// Base code taken from https://github.com/twistedfall/opencv-rust/blob/master/examples/video_capture.rs
+// By twistedfall
 use opencv::prelude::*;
 use opencv::{Result, highgui, videoio};
 
 fn main() -> Result<()> {
 	let window = "video capture";
-	highgui::named_window(window, highgui::WINDOW_AUTOSIZE)?;
+	highgui::named_window(window, highgui::WINDOW_AUTOSIZE, highgui::WINDOW_GUI_NORMAL)?;
 	let mut cam = videoio::VideoCapture::new(0, videoio::CAP_ANY)?; // 0 is the default camera
 	let opened = videoio::VideoCapture::is_opened(&cam)?;
 	if !opened {
@@ -22,6 +15,7 @@ fn main() -> Result<()> {
 		let mut frame = Mat::default();
 		cam.read(&mut frame)?;
 		if frame.size()?.width > 0 {
+            frame.resize(600, 450);
 			highgui::imshow(window, &frame)?;
 		}
 		let key = highgui::wait_key(10)?;
