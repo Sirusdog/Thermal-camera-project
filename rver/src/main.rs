@@ -15,7 +15,7 @@ fn main() -> Result<()> {
 		let mut frame = Mat::default();
 		cam.read(&mut frame)?;
 		if frame.size()?.width > 0 {
-            resize(frame, frame, core::Size(600, 450), 2, 2, imgproc::INTER_LINEAR);
+            frame.resize(frame, core::Size(600, 450), 2, 2, imgproc::INTER_LINEAR);
 			highgui::imshow(window, &frame)?;
 		}
 		let key = highgui::wait_key(10)?;
