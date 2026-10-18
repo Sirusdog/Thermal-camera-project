@@ -2,7 +2,7 @@
 // By twistedfall
 use opencv::prelude::*;
 use opencv::{Result, highgui, videoio, imgproc, core};
-
+use std::time::SystemTime;
 
 
 fn main() -> Result<()> {
@@ -19,11 +19,13 @@ fn main() -> Result<()> {
 		let mut frame_pp = Mat::default();
         let mut frame_i = Mat::default()
         let mut frame = Mat::default();
-
+        let now = SystemTime::now();
 		cam.read(&mut frame_pp)?;
 		if frame_pp.size()?.width > 0 {
             imgproc::gaussian_blur(&frame_pp, frame_i, core::Size{width: 5, height: 5}, 1.0, 1.0, 4);
             imgproc::canny(&frame_i, &mut frame, 100.0, 200.0, 3, false);
+            let fps: String = (1 / now.elapsed()).to_string();
+            imgproc::put_text(&frame, &fps, core::Point{10, 10}, 0, 5.0, core::{256.0, 256.0, 256.0, 256.0}, 5, -1, false)
 			highgui::imshow(window, &frame);
 		}
 		let key = highgui::wait_key(10)?;
