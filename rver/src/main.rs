@@ -1,7 +1,7 @@
 // Base code taken from https://github.com/twistedfall/opencv-rust/blob/master/examples/video_capture.rs
 // By twistedfall
 use opencv::prelude::*;
-use opencv::{Result, highgui, videoio};
+use opencv::{Result, highgui, videoio, imgproc};
 
 fn main() -> Result<()> {
 	let window = "video capture";
@@ -15,7 +15,7 @@ fn main() -> Result<()> {
 		let mut frame = Mat::default();
 		cam.read(&mut frame)?;
 		if frame.size()?.width > 0 {
-            resize(frame, frame, Size(), 2, 2, imgproc::INTER_LINEAR);
+            resize(frame, frame, core::Size(600, 450), 2, 2, imgproc::INTER_LINEAR);
 			highgui::imshow(window, &frame)?;
 		}
 		let key = highgui::wait_key(10)?;
