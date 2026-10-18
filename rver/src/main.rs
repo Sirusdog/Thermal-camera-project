@@ -6,7 +6,7 @@ use opencv::{Result, highgui, videoio, imgproc};
 fn main() -> Result<()> {
 	let window = "video capture";
 	highgui::named_window(window, highgui::WINDOW_GUI_NORMAL)?;
-    highgui::set_window_property(window, highgui::WND_PROP_FULLSCREEN, highgui::WINDOW_FULLSCREEN);
+    highgui::set_window_property(window, highgui::WND_PROP_FULLSCREEN, 1.0);
 	let mut cam = videoio::VideoCapture::new(0, videoio::CAP_ANY)?; // 0 is the default camera
 	let opened = videoio::VideoCapture::is_opened(&cam)?;
 	if !opened {
