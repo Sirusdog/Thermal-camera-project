@@ -21,7 +21,7 @@ fn main() -> Result<()> {
 
 		cam.read(&mut frame_pp)?;
 		if frame_pp.size()?.width > 0 {
-            imgproc::gaussian_blur(&frame_pp, &mut frame_pp, core::Size{width: 5, height: 5}, 1.0, 1.0, 4);
+            imgproc::gaussian_blur(&mut frame_pp, &mut frame_pp, core::Size{width: 5, height: 5}, 1.0, 1.0, 4);
             imgproc::canny(&frame_pp, &mut frame, 100.0, 200.0, 3, false);
 			highgui::imshow(window, &frame);
 		}
