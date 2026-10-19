@@ -8,3 +8,4 @@ cython
 setuptools
 serial
 trapdoor
+pi3d

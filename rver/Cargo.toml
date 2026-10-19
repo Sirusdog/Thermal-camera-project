@@ -1,0 +1,7 @@
+[package]
+name = "thermal_cam_firmware"
+version = "0.0.1"
+edition = "2024"
+
+[dependencies]
+opencv = "0.101.1"
