@@ -15,9 +15,16 @@ fn main() -> Result<()> {
 		panic!("Unable to open default camera!");
 	}
 
+
+	let mut vis_mode = 0;
+	let mut pallet = 0;
+	
+	struct MenuItem
+
+
 	loop {
 		let mut frame_pp = Mat::default();
-        let mut frame_i = Mat::default()
+        let mut frame_i = Mat::default();
         let mut frame = Mat::default();
         let now = SystemTime::now();
 		cam.read(&mut frame_pp)?;
@@ -25,6 +32,7 @@ fn main() -> Result<()> {
             imgproc::gaussian_blur(&frame_pp, frame_i, core::Size{width: 5, height: 5}, 1.0, 1.0, 4);
             imgproc::canny(&frame_i, &mut frame, 100.0, 200.0, 3, false);
             let fps: String = (1.0 / now.elapsed()).to_string();
+			println!(fps);
             imgproc::put_text(&frame, &fps, core::Point{x: 10, y: 10}, 0, 5.0, core::Scalar{256.0, 256.0, 256.0, 256.0}, 5, -1, false);
 			highgui::imshow(window, &frame);
 		}
