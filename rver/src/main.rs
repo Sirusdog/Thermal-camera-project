@@ -22,7 +22,7 @@ fn main() -> Result<()> {
 
 	loop {
 		let mut frame: Mat = Mat::default();
-		cam.read(mut &frame);
+		cam.read(&mut frame);
 		let frame_final: &Mat = pp_frame(&frame, imgproc::ColorMapTypes::COLORMAP_JET, VisMode::VIS_RAW);
         highgui::imshow(window, &frame);
 		let key = highgui::wait_key(10)?;
