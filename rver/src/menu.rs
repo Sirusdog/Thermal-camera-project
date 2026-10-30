@@ -30,7 +30,7 @@ trait GSI {
 
     fn decrement(mut self);
 
-    fn get(mut self);
+    fn get(mut self) -> ArbitraryType;
 
     fn set(mut self, val: Option<T>);
 
@@ -184,8 +184,12 @@ pub struct MenuBool {
 }
 
 impl GSI for MenuBool {
-    fn get(mut self) -> bool {
-        return self.current;
+    fn get(mut self) -> ArbitraryType {
+        ArbitraryType{
+            val: self.current.to_string(),
+            held_type: ArbitTypes::AT_BOOL,
+            data_for: self.name
+        };
     }
 
     fn set(mut self, val: bool) {
@@ -213,8 +217,12 @@ pub struct MenuExit {
 }
 
 impl GSI for MenuExit {
-    fn get(mut self) -> None {
-        return None;
+    fn get(mut self) -> ArbitraryType {
+        ArbitraryType{
+            val: 1.to_string(),
+            held_type: ArbitTypes::AT_SPECIAL_STRING,
+            data_for: self.name
+        }
     }
 
     fn set(mut self, val: bool) {
