@@ -43,7 +43,7 @@ pub struct MenuInt {
     display_text: String,
     item_type: MenuTypes = MenuTypes::MENU_INT,
     current: u32,
-    maxium: u32,
+    maximum: u32,
     minimum: u32
 }
 
@@ -51,7 +51,7 @@ impl GSI for MenuInt {
     fn get(mut self) -> ArbitraryType {
         ArbitraryType{
             val: self.current.to_string(),
-            held_type: ArbitraryTypes::AT_INT,
+            held_type: ArbitTypes::AT_INT,
             data_for: self.name
         }
     }
@@ -63,7 +63,7 @@ impl GSI for MenuInt {
     fn increment(mut self) {
         self.current = self.current + 1;
 
-        if (self.current >= self.maxium) {
+        if (self.current >= self.maximum) {
             self.current = self.minimum;
         }
     }
@@ -89,7 +89,7 @@ pub struct MenuFloat {
 
 
     current: f32,
-    maxium: f32,
+    maximum: f32,
     minimum: f32,
     step_size: f32
 }
@@ -110,7 +110,7 @@ impl GSI for MenuFloat {
     fn increment(mut self) {
         self.current = self.current + self.step_size;
 
-        if (self.current >= self.maxium) {
+        if (self.current >= self.maximum) {
             self.current = self.minimum;
         }
     }
@@ -139,7 +139,7 @@ pub struct MenuArr {
     vals: Vec<String> = vec![]
 }
 
-impl GSI for MenuFloat {
+impl GSI for MenuArr {
     fn get(mut self) -> ArbitraryType {
         ArbitraryType{
             val: self.vals[self.current],
