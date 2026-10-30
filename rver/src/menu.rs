@@ -1,4 +1,4 @@
-#![feature(default_field_values)]
+//#![feature(default_field_values)]
 use std::Vector;
 
 pub enum MenuTypes {
@@ -43,6 +43,7 @@ pub struct MenuInt {
     // Default variables shared will all menu types
     name: String,
     display_text: String,
+    #[default]
     item_type: MenuTypes = MenuTypes::MENU_INT,
     current: u32,
     maximum: u32,
@@ -87,6 +88,7 @@ pub struct MenuFloat {
     // Default variables shared will all menu types
     name: String,
     display_text: String,
+    #[default]
     item_type: MenuTypes = MenuTypes::MENU_FLOAT,
 
 
@@ -134,6 +136,7 @@ pub struct MenuArr {
     // Default variables shared will all menu types
     name: String,
     display_text: String,
+    #[default]
     item_type: MenuTypes = MenuTypes::MENU_ARR,
 
 
@@ -179,6 +182,7 @@ pub struct MenuBool {
     // Default variables shared will all menu types
     name: String,
     display_text: String,
+    #[default]
     item_type: MenuTypes = MenuTypes::MENU_BOOL,
 
     current: bool
@@ -215,6 +219,7 @@ pub struct MenuExit {
     // Default variables shared will all menu types
     name: String,
     display_text: String,
+    #[default]
     item_type: MenuTypes = MenuTypes::MENU_EXIT
 }
 
