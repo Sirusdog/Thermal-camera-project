@@ -142,7 +142,7 @@ pub struct MenuArr {
 impl GSI for MenuArr {
     fn get(mut self) -> ArbitraryType {
         ArbitraryType{
-            val: self.vals[self.current],
+            val: self.vals[self.current as usize],
             held_type: ArbitTypes::AT_STRING,
             data_for: self.name
         }
@@ -156,7 +156,7 @@ impl GSI for MenuArr {
         self.current = self.current + 1;
 
         if (self.current >= self.vals.len() as u32) {
-            self.current = self.minimum;
+            self.current = 0;
         }
     }
 
