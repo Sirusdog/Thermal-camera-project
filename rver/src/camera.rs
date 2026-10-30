@@ -19,17 +19,17 @@ pub fn pp_frame(frame_in: &Mat, pallet: u32, visual_mode: VisMode) -> &Mat {
         
         }
         else if (visual_mode == VisMode::VIS_THRESHOLD) {
-            imgproc::threshold(&frame_in, &mut frame, 127.0, 255.0, ThresholdTypes::THRES_TOZERO);
+            imgproc::threshold(&frame_in, &mut frame, 127.0, 255.0, imgproc::ThresholdTypes::THRES_TOZERO);
         }
         else if (visual_mode == VisMode::VIS_THRESHOLD_ADAPTIVE) {
-            imgproc::adaptive_threshold(&frame_in, &mut frame, 255, AdaptiveThresholdTypes::ADAPTIVE_THRESH_GAUSSIAN_C, ThresholdTypes::THRES_BINARY, 11, 2);
+            imgproc::adaptive_threshold(&frame_in, &mut frame, 255.0, imgproc::AdaptiveThresholdTypes::ADAPTIVE_THRESH_GAUSSIAN_C, ThresholdTypes::THRES_BINARY, 11, 2.0);
         }
         else {
             frame = *frame_in;
         }
         let fps: String = (1.0 / now.elapsed()).to_string();
         println!(fps);
-        imgproc::put_text(&frame, &fps, core::Point{x: 10, y: 10}, 0, 5.0, core::Scalar{0: 256.0, 1: 256.0, 2: 256.0, 3: 256.0}, 5, -1, false);
+        imgproc::put_text(mut &frame, &fps, core::Point{x: 10, y: 10}, 0, 5.0, core::Scalar{0: 256.0, 1: 256.0, 2: 256.0, 3: 256.0}, 5, -1, false);
         return &frame;
     } else {
         return &frame;
