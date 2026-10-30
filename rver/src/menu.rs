@@ -26,15 +26,15 @@ struct ArbitraryType {
 
 
 trait GSI {
-    fn increment(self);
+    fn increment(mut self);
 
-    fn decrement(self);
+    fn decrement(mut self);
 
-    fn get(self);
+    fn get(mut self);
 
-    fn set(self);
+    fn set(mut self);
 
-    fn get_type(self);
+    fn get_type(mut self);
 }
 
 pub struct MenuInt {
@@ -48,7 +48,7 @@ pub struct MenuInt {
 }
 
 impl GSI for MenuInt {
-    fn get(self) -> ArbitraryType {
+    fn get(mut self) -> ArbitraryType {
         ArbitraryType{
             val: self.current.to_string(),
             held_type: ArbitraryTypes::AT_INT,
@@ -56,11 +56,11 @@ impl GSI for MenuInt {
         }
     }
 
-    fn set(self, val: u32) {
+    fn set(mut self, val: u32) {
         self.current = val;
     }
 
-    fn increment(self) {
+    fn increment(mut self) {
         self.current = self.current + 1;
 
         if (self.current >= self.maxium) {
@@ -68,7 +68,7 @@ impl GSI for MenuInt {
         }
     }
 
-    fn decrement(self) {
+    fn decrement(mut self) {
         self.current = self.current - 1;
 
         if (self.current <= self.minimum) {
@@ -76,7 +76,7 @@ impl GSI for MenuInt {
         }
     }
 
-    fn get_type(self) -> MenuTypes{
+    fn get_type(mut self) -> MenuTypes{
         return self.item_type;
     }
 }
@@ -95,7 +95,7 @@ pub struct MenuFloat {
 }
 
 impl GSI for MenuFloat {
-    fn get(self) -> ArbitraryType {
+    fn get(mut self) -> ArbitraryType {
         ArbitraryType{
             val: self.current.to_string(),
             held_type: ArbitTypes::AT_FLOAT,
@@ -103,11 +103,11 @@ impl GSI for MenuFloat {
         }
     }
 
-    fn set(self, val: f32) {
+    fn set(mut self, val: f32) {
         self.current = val;
     }
 
-    fn increment(self) {
+    fn increment(mut self) {
         self.current = self.current + self.step_size;
 
         if (self.current >= self.maxium) {
@@ -115,7 +115,7 @@ impl GSI for MenuFloat {
         }
     }
 
-    fn decrement(self) {
+    fn decrement(mut self) {
         self.current = self.current - self.step_size;
 
         if (self.current <= self.minimum) {
@@ -123,7 +123,7 @@ impl GSI for MenuFloat {
         }
     }
 
-    fn get_type(self) -> MenuTypes{
+    fn get_type(mut self) -> MenuTypes{
         return self.item_type;
     }
 }
@@ -140,7 +140,7 @@ pub struct MenuArr {
 }
 
 impl GSI for MenuFloat {
-    fn get(self) -> ArbitraryType {
+    fn get(mut self) -> ArbitraryType {
         ArbitraryType{
             val: self.vals[self.current],
             held_type: ArbitTypes::AT_STRING,
@@ -148,11 +148,11 @@ impl GSI for MenuFloat {
         }
     }
 
-    fn set(self, val: f32) {
+    fn set(mut self, val: f32) {
         self.current = val;
     }
 
-    fn increment(self) {
+    fn increment(mut self) {
         self.current = self.current + self.step_size;
 
         if (self.current >= self.maxium) {
@@ -160,7 +160,7 @@ impl GSI for MenuFloat {
         }
     }
 
-    fn decrement(self) {
+    fn decrement(mut self) {
         self.current = self.current - self.step_size;
 
         if (self.current <= self.minimum) {
@@ -168,7 +168,7 @@ impl GSI for MenuFloat {
         }
     }
     
-    fn get_type(self) -> MenuTypes{
+    fn get_type(mut self) -> MenuTypes{
         return self.item_type;
     }
 }
@@ -184,23 +184,23 @@ pub struct MenuBool {
 }
 
 impl GSI for MenuBool {
-    fn get(self) -> bool {
+    fn get(mut self) -> bool {
         return self.current;
     }
 
-    fn set(self, val: bool) {
+    fn set(mut self, val: bool) {
         self.current = val;
     }
 
-    fn increment(self) {
+    fn increment(mut self) {
         !self.current;
     }
 
-    fn decrement(self) {
+    fn decrement(mut self) {
         !self.current;
     }
     
-    fn get_type(self) -> MenuTypes{
+    fn get_type(mut self) -> MenuTypes{
         return self.item_type;
     }
 }
@@ -213,23 +213,23 @@ pub struct MenuExit {
 }
 
 impl GSI for MenuExit {
-    fn get(self) -> None {
+    fn get(mut self) -> None {
         return None;
     }
 
-    fn set(self, val: bool) {
+    fn set(mut self, val: bool) {
 
     }
 
-    fn increment(self) {
+    fn increment(mut self) {
 
     }
 
-    fn decrement(self) {
+    fn decrement(mut self) {
 
     }
     
-    fn get_type(self) -> MenuTypes{
+    fn get_type(mut self) -> MenuTypes{
         return self.item_type;
     }
 }
