@@ -19,10 +19,10 @@ pub fn pp_frame(frame_in: &Mat, pallet: u32, visual_mode: VisMode) -> &Mat {
         
         }
         else if (visual_mode == VisMode::VIS_THRESHOLD) {
-            imgproc::threshold(&frame_in, &mut frame, 127.0, 255.0, imgproc::ThresholdTypes::THRES_TOZERO);
+            imgproc::threshold(&frame_in, &mut frame, 127.0, 255.0, imgproc::ThresholdTypes::THRESH_TOZERO);
         }
         else if (visual_mode == VisMode::VIS_THRESHOLD_ADAPTIVE) {
-            imgproc::adaptive_threshold(&frame_in, &mut frame, 255.0, imgproc::AdaptiveThresholdTypes::ADAPTIVE_THRESH_GAUSSIAN_C, ThresholdTypes::THRES_BINARY, 11, 2.0);
+            imgproc::adaptive_threshold(&frame_in, &mut frame, 255.0, imgproc::AdaptiveThresholdTypes::ADAPTIVE_THRESH_GAUSSIAN_C, imgproc::ThresholdTypes::THRES_BINARY, 11, 2.0);
         }
         else {
             frame = *frame_in;
