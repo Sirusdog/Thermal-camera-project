@@ -2,7 +2,6 @@
 // By twistedfall
 use opencv::prelude::*;
 use opencv::{Result, highgui, videoio, imgproc, core};
-use std::time::SystemTime;
 
 mod menu;
 mod camera;

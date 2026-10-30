@@ -137,7 +137,7 @@ pub struct MenuArr {
 
 
     current: u32,
-    vals: Vec<String> = vec![]
+    vals: Vec<String>
 }
 
 impl GSI for MenuArr {
