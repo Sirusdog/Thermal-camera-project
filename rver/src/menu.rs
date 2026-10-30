@@ -1,3 +1,4 @@
+#![feature(default_field_values)]
 use std::Vector;
 
 pub enum MenuTypes {
@@ -18,6 +19,7 @@ pub enum ArbitTypes {
 }
 
 struct ArbitraryType {
+    
     // get pythoned idiot
     val: String,
     held_type: ArbitTypes,
@@ -189,7 +191,7 @@ impl GSI for MenuBool {
             val: self.current.to_string(),
             held_type: ArbitTypes::AT_BOOL,
             data_for: self.name
-        };
+        }
     }
 
     fn set(mut self, val: bool) {
