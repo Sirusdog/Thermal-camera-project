@@ -39,6 +39,7 @@ trait GSI {
     fn get_type(self) -> MenuTypes;
 }
 
+#[derive(Default)]
 pub struct MenuInt {
     // Default variables shared will all menu types
     name: String,
@@ -84,6 +85,7 @@ impl GSI for MenuInt {
     }
 }
 
+#[derive(Default)]
 pub struct MenuFloat {
     // Default variables shared will all menu types
     name: String,
@@ -132,6 +134,7 @@ impl GSI for MenuFloat {
     }
 }
 
+#[derive(Default)]
 pub struct MenuArr {
     // Default variables shared will all menu types
     name: String,
@@ -178,6 +181,7 @@ impl GSI for MenuArr {
     }
 }
 
+#[derive(Default)]
 pub struct MenuBool {
     // Default variables shared will all menu types
     name: String,
@@ -215,6 +219,7 @@ impl GSI for MenuBool {
     }
 }
 
+#[derive(Default)]
 pub struct MenuExit {
     // Default variables shared will all menu types
     name: String,
