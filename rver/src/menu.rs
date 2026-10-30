@@ -1,4 +1,3 @@
-#![feature(default_field_values)]
 use std::Vector;
 
 pub enum MenuTypes {
@@ -39,13 +38,11 @@ trait GSI {
     fn get_type(self) -> MenuTypes;
 }
 
-#[derive(Default)]
 pub struct MenuInt {
     // Default variables shared will all menu types
     name: String,
     display_text: String,
-    #[default]
-    item_type: MenuTypes = MenuTypes::MENU_INT,
+    item_type: MenuTypes, // = MenuTypes::MENU_INT,
     current: u32,
     maximum: u32,
     minimum: u32
@@ -85,13 +82,11 @@ impl GSI for MenuInt {
     }
 }
 
-#[derive(Default)]
 pub struct MenuFloat {
     // Default variables shared will all menu types
     name: String,
     display_text: String,
-    #[default]
-    item_type: MenuTypes = MenuTypes::MENU_FLOAT,
+    item_type: MenuTypes, // = MenuTypes::MENU_FLOAT,
 
 
     current: f32,
@@ -134,13 +129,11 @@ impl GSI for MenuFloat {
     }
 }
 
-#[derive(Default)]
 pub struct MenuArr {
     // Default variables shared will all menu types
     name: String,
     display_text: String,
-    #[default]
-    item_type: MenuTypes = MenuTypes::MENU_ARR,
+    item_type: MenuTypes, // = MenuTypes::MENU_ARR,
 
 
     current: u32,
@@ -181,13 +174,11 @@ impl GSI for MenuArr {
     }
 }
 
-#[derive(Default)]
 pub struct MenuBool {
     // Default variables shared will all menu types
     name: String,
     display_text: String,
-    #[default]
-    item_type: MenuTypes = MenuTypes::MENU_BOOL,
+    item_type: MenuTypes, // = MenuTypes::MENU_BOOL,
 
     current: bool
 
@@ -219,13 +210,11 @@ impl GSI for MenuBool {
     }
 }
 
-#[derive(Default)]
 pub struct MenuExit {
     // Default variables shared will all menu types
     name: String,
     display_text: String,
-    #[default]
-    item_type: MenuTypes = MenuTypes::MENU_EXIT
+    item_type: MenuTypes, // = MenuTypes::MENU_EXIT
 }
 
 impl GSI for MenuExit {
