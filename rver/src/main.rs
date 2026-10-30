@@ -18,12 +18,12 @@ fn main() -> Result<()> {
 	}
 
 
-	current_menu_index = 0;
+	let mut current_menu_index: usize = 0;
 
 	loop {
 		let mut frame: Mat = Mat::default();
 		cam.read(&mut frame);
-		let frame_final: &Mat = pp_frame(&frame, imgproc::ColorMapTypes::COLORMAP_JET, VisMode::VIS_RAW);
+		let frame_final: &Mat = camera::pp_frame(&frame, imgproc::ColorMapTypes::COLORMAP_JET, camera::VisMode::VIS_RAW);
         highgui::imshow(window, &frame);
 		let key = highgui::wait_key(10)?;
 		if key > 0 && key != 255 {
