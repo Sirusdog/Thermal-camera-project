@@ -26,13 +26,13 @@ struct ArbitraryType {
 
 
 trait GSI {
-    fn increment(mut self);
+    fn increment(self);
 
-    fn decrement(mut self);
+    fn decrement(self);
 
-    fn get(mut self) -> ArbitraryType;
+    fn get(self) -> ArbitraryType;
 
-    fn set(mut self, val: Option<T>);
+    fn set(self, val: Option<T>);
 
     fn get_type(self) -> MenuTypes;
 }
