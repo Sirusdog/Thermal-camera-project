@@ -34,7 +34,7 @@ trait GSI {
 
     fn set(mut self, val: Option<T>);
 
-    fn get_type(self);
+    fn get_type(self) -> MenuTypes;
 }
 
 pub struct MenuInt {
