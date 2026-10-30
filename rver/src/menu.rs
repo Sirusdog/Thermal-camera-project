@@ -1,0 +1,235 @@
+use std::Vector;
+
+pub enum MenuTypes {
+    MENU_INT = 0,
+    MENU_ARR = 1,
+    MENU_BOOL = 2,
+    MENU_FLOAT = 3,
+    MENU_EXIT = 4,
+
+}
+
+pub enum ArbitTypes {
+    AT_INT = 0,
+    AT_BOOL = 1,
+    AT_FLOAT = 2,
+    AT_STRING = 3,
+    AT_SPECIAL_STRING = 4,
+}
+
+struct ArbitraryType {
+    // get pythoned idiot
+    val: String,
+    held_type: ArbitTypes,
+    data_for: String,
+}
+
+
+trait GSI {
+    fn increment(&self);
+
+    fn decrement(&self);
+
+    fn get(&self);
+
+    fn set(&self);
+
+    fn get_type(&self);
+}
+
+pub struct MenuInt {
+    // Default variables shared will all menu types
+    name: String,
+    display_text: String,
+    item_type: MenuTypes = MenuTypes::MENU_INT,
+    current: u32,
+    maxium: u32,
+    minimum: u32
+}
+
+impl GSI for MenuInt {
+    fn get(&self) -> ArbitraryType {
+        ArbitraryType{
+            val: self.current.to_string(),
+            held_type: ArbitraryTypes::AT_INT,
+            data_for: self.name
+        }
+    }
+
+    fn set(&self, val: u32) {
+        self.current = val;
+    }
+
+    fn increment(&self) {
+        self.current = self.current + 1;
+
+        if (self.current >= self.maxium) {
+            self.current = self.minimum;
+        }
+    }
+
+    fn decrement(&self) {
+        self.current = self.current - 1;
+
+        if (self.current <= self.minimum) {
+            self.current = self.maximum;
+        }
+    }
+
+    fn get_type(&self) -> MenuTypes{
+        return self.item_type;
+    }
+}
+
+pub struct MenuFloat {
+    // Default variables shared will all menu types
+    name: String,
+    display_text: String,
+    item_type: MenuTypes = MenuTypes::MENU_FLOAT,
+
+
+    current: f32,
+    maxium: f32,
+    minimum: f32,
+    step_size: f32
+}
+
+impl GSI for MenuFloat {
+    fn get(&self) -> ArbitraryType {
+        ArbitraryType{
+            val: self.current.to_string(),
+            held_type: ArbitTypes::AT_FLOAT,
+            data_for: self.name
+        }
+    }
+
+    fn set(&self, val: f32) {
+        self.current = val;
+    }
+
+    fn increment(&self) {
+        self.current = self.current + self.step_size;
+
+        if (self.current >= self.maxium) {
+            self.current = self.minimum;
+        }
+    }
+
+    fn decrement(&self) {
+        self.current = self.current - self.step_size;
+
+        if (self.current <= self.minimum) {
+            self.current = self.maximum;
+        }
+    }
+
+    fn get_type(&self) -> MenuTypes{
+        return self.item_type;
+    }
+}
+
+pub struct MenuArr {
+    // Default variables shared will all menu types
+    name: String,
+    display_text: String,
+    item_type: MenuTypes = MenuTypes::MENU_FLOAT,
+
+
+    current: u32,
+    vals: Vec<String> = vec![]
+}
+
+impl GSI for MenuFloat {
+    fn get(&self) -> ArbitraryType {
+        ArbitraryType{
+            val: self.vals[self.current],
+            held_type: ArbitTypes::AT_STRING,
+            data_for: self.name
+        }
+    }
+
+    fn set(&self, val: f32) {
+        self.current = val;
+    }
+
+    fn increment(&self) {
+        self.current = self.current + self.step_size;
+
+        if (self.current >= self.maxium) {
+            self.current = self.minimum;
+        }
+    }
+
+    fn decrement(&self) {
+        self.current = self.current - self.step_size;
+
+        if (self.current <= self.minimum) {
+            self.current = self.maximum;
+        }
+    }
+    
+    fn get_type(&self) -> MenuTypes{
+        return self.item_type;
+    }
+}
+
+pub struct MenuBool {
+    // Default variables shared will all menu types
+    name: String,
+    display_text: String,
+    item_type: MenuTypes = MenuTypes::MENU_BOOL,
+
+    current: bool
+
+}
+
+impl GSI for MenuBool {
+    fn get(&self) -> bool {
+        return self.current;
+    }
+
+    fn set(&self, val: bool) {
+        self.current = val;
+    }
+
+    fn increment(&self) {
+        !self.current;
+    }
+
+    fn decrement(&self) {
+        !self.current;
+    }
+    
+    fn get_type(&self) -> MenuTypes{
+        return self.item_type;
+    }
+}
+
+pub struct MenuExit {
+    // Default variables shared will all menu types
+    name: String,
+    display_text: String,
+    item_type: MenuTypes = MenuTypes::MENU_EXIT
+}
+
+impl GSI for MenuExit {
+    fn get(&self) -> None {
+        return None
+    }
+
+    fn set(&self, val: bool) {
+
+    }
+
+    fn increment(&self) {
+
+    }
+
+    fn decrement(&self) {
+
+    }
+    
+    fn get_type(&self) -> MenuTypes{
+        return self.item_type;
+    }
+}
