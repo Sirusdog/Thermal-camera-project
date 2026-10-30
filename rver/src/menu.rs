@@ -1,4 +1,4 @@
-//#![feature(default_field_values)]
+#![feature(default_field_values)]
 use std::Vector;
 
 pub enum MenuTypes {
