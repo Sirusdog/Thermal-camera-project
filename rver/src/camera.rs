@@ -25,7 +25,7 @@ pub fn pp_frame(frame_in: &Mat, pallet: u32, visual_mode: VisMode) -> &Mat {
             imgproc::adaptive_threshold(&frame_in, &mut frame, 255, AdaptiveThresholdTypes::ADAPTIVE_THRESH_GAUSSIAN_C, ThresholdTypes::THRES_BINARY, 11, 2);
         }
         else {
-            frame = frame_in;
+            frame = *frame_in;
         }
         let fps: String = (1.0 / now.elapsed()).to_string();
         println!(fps);
