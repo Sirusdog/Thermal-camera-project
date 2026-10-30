@@ -15,15 +15,15 @@ pub fn pp_frame(frame_in: &Mat, pallet: u32, visual_mode: VisMode) -> &Mat {
     let now = SystemTime::now();
     if frame_in.size()?.width > 0 {
         if (visual_mode == VisMode::VIS_OUTLINE) {
-            imgproc::gaussian_blur(&frame_in, frame_i, core::Size{width: 5, height: 5}, 1.0, 1.0, 4);
+            imgproc::gaussian_blur(&frame_in, &mut frame_i, core::Size{width: 5, height: 5}, 1.0, 1.0, 4);
             imgproc::canny(&frame_i, &mut frame, 100.0, 200.0, 3, false);
         
         }
         else if (visual_mode == VisMode::VIS_THRESHOLD) {
-            imgproc::threshold(&frame_in, &mut frame, 127.0, 255.0, imgproc::ThresholdTypes::THRESH_TOZERO);
+            imgproc::threshold(&frame_in, &mut frame, 127.0, 255.0, imgproc::ThresholdTypes::THRESH_TOZERO.into());
         }
         else if (visual_mode == VisMode::VIS_THRESHOLD_ADAPTIVE) {
-            imgproc::adaptive_threshold(&frame_in, &mut frame, 255.0, imgproc::AdaptiveThresholdTypes::ADAPTIVE_THRESH_GAUSSIAN_C, imgproc::ThresholdTypes::THRES_BINARY, 11, 2.0);
+            imgproc::adaptive_threshold(&frame_in, &mut frame, 255.0, imgproc::AdaptiveThresholdTypes::ADAPTIVE_THRESH_GAUSSIAN_C.into(), imgproc::ThresholdTypes::THRESH_BINARY.into(), 11, 2.0);
         }
         else {
             frame = *frame_in;
