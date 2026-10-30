@@ -32,9 +32,9 @@ trait GSI {
 
     fn get(mut self);
 
-    fn set(mut self);
+    fn set(mut self, val: Option<T>);
 
-    fn get_type(mut self);
+    fn get_type(self);
 }
 
 pub struct MenuInt {
@@ -76,7 +76,7 @@ impl GSI for MenuInt {
         }
     }
 
-    fn get_type(mut self) -> MenuTypes{
+    fn get_type(self) -> MenuTypes{
         return self.item_type;
     }
 }
@@ -123,7 +123,7 @@ impl GSI for MenuFloat {
         }
     }
 
-    fn get_type(mut self) -> MenuTypes{
+    fn get_type(self) -> MenuTypes{
         return self.item_type;
     }
 }
@@ -168,7 +168,7 @@ impl GSI for MenuArr {
         }
     }
     
-    fn get_type(mut self) -> MenuTypes{
+    fn get_type(self) -> MenuTypes{
         return self.item_type;
     }
 }
@@ -200,7 +200,7 @@ impl GSI for MenuBool {
         !self.current;
     }
     
-    fn get_type(mut self) -> MenuTypes{
+    fn get_type(self) -> MenuTypes{
         return self.item_type;
     }
 }
@@ -229,7 +229,7 @@ impl GSI for MenuExit {
 
     }
     
-    fn get_type(mut self) -> MenuTypes{
+    fn get_type(self) -> MenuTypes{
         return self.item_type;
     }
 }
