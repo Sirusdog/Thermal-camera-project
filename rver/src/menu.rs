@@ -132,7 +132,7 @@ pub struct MenuArr {
     // Default variables shared will all menu types
     name: String,
     display_text: String,
-    item_type: MenuTypes = MenuTypes::MENU_FLOAT,
+    item_type: MenuTypes = MenuTypes::MENU_ARR,
 
 
     current: u32,
@@ -148,23 +148,23 @@ impl GSI for MenuArr {
         }
     }
 
-    fn set(mut self, val: f32) {
+    fn set(mut self, val:u32) {
         self.current = val;
     }
 
     fn increment(mut self) {
-        self.current = self.current + self.step_size;
+        self.current = self.current + 1;
 
-        if (self.current >= self.maxium) {
+        if (self.current >= self.vals.len() as u32) {
             self.current = self.minimum;
         }
     }
 
     fn decrement(mut self) {
-        self.current = self.current - self.step_size;
+        self.current = self.current - 1;
 
-        if (self.current <= self.minimum) {
-            self.current = self.maximum;
+        if (self.current <= 0) {
+            self.current = self.vals.len() as u32;
         }
     }
     
