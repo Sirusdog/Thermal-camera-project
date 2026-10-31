@@ -31,7 +31,7 @@ pub fn pp_frame(frame_in: &Mat, pallet: u32, visual_mode: VisMode) -> &Mat {
     }
     let fps: String = (1.0 / now.elapsed()).to_string();
     println!(fps);
-    imgproc::put_text(&mut frame, &fps, core::Point{x: 10, y: 10}, 0, 5.0, VecN<f64, 4>([256.0; 4]), 5 as i32, -1);
+    //imgproc::put_text(&mut frame, &fps, core::Point{x: 10, y: 10}, 0, 5.0, VecN<f64, 4>([256.0; 4]), 5 as i32, -1);
     return &frame;
 
 }
