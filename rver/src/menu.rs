@@ -1,4 +1,4 @@
-use std::Vector;
+use std::vec;
 
 pub enum MenuTypes {
     MENU_INT = 0,
@@ -143,7 +143,7 @@ pub struct MenuArr {
 impl GSI for MenuArr {
     fn get(mut self) -> ArbitraryType {
         ArbitraryType{
-            val: self.vals[self.current as usize],
+            val: <String as Clone>::clone(&self.vals[self.current as usize]),
             held_type: ArbitTypes::AT_STRING,
             data_for: self.name
         }
