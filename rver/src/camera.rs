@@ -10,7 +10,7 @@ pub enum VisMode{
     VIS_THRESHOLD_ADAPTIVE = 3
 }
 
-pub fn pp_frame(frame_in: &Mat, pallet: imgproc::ColormapTypes, visual_mode: VisMode) -> &Mat {
+pub fn pp_frame(frame_in: &Mat, pallet: imgproc::ColormapTypes, visual_mode: VisMode) -> Mat {
     let mut frame_i: Mat = Mat::default();
     let mut frame: Mat = Mat::default();
     let now = SystemTime::now();
@@ -31,8 +31,8 @@ pub fn pp_frame(frame_in: &Mat, pallet: imgproc::ColormapTypes, visual_mode: Vis
     }
     //let fps: String = (1.0 / (now.elapsed().ok().as_milis() as f64)/1000).to_string();
     //println!("{}", fps);
-    imgproc::apply_color_map(&frame, &mut frame, pallet.into());
+    imgproc::apply_color_map(frame, &mut frame, pallet.into());
     //imgproc::put_text(&mut frame, &fps, core::Point{x: 10, y: 10}, 0, 5.0, VecN<f64, 4>([256.0; 4]), 5 as i32, -1);
-    return &frame;
+    return frame;
 
 }
