@@ -29,7 +29,7 @@ pub fn pp_frame(frame_in: &Mat, pallet: imgproc::ColormapTypes, visual_mode: Vis
     else {
         frame = *frame_in;
     }
-    let fps: String = (1.0 / now.elapsed().Ok).to_string();
+    let fps: String = (1.0 / now.elapsed().Ok()).to_string();
     println!("{}", fps);
     imgproc::apply_color_map(&frame, &mut frame, pallet.into());
     //imgproc::put_text(&mut frame, &fps, core::Point{x: 10, y: 10}, 0, 5.0, VecN<f64, 4>([256.0; 4]), 5 as i32, -1);
