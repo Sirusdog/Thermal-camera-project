@@ -3,7 +3,7 @@
 use opencv::prelude::*;
 use opencv::{Result, highgui, videoio, imgproc, core};
 
-mod menu;
+//mod menu;
 mod camera;
 
 fn main() -> Result<()> {
