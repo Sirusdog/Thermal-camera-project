@@ -22,8 +22,8 @@ fn main() -> Result<()> {
 	loop {
 		let mut frame: Mat = Mat::default();
 		cam.read(&mut frame);
-		let frame_final: Mat = camera::pp_frame(&frame, imgproc::ColormapTypes::COLORMAP_JET, camera::VisMode::VIS_RAW);
-        highgui::imshow(window, &frame_final);
+		let &frame_final: &Mat = camera::pp_frame(&frame, imgproc::ColormapTypes::COLORMAP_JET, camera::VisMode::VIS_RAW);
+        highgui::imshow(window, frame_final);
 		let key = highgui::wait_key(10)?;
 		if key > 0 && key != 255 {
 			break;
