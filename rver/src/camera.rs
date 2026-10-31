@@ -27,7 +27,7 @@ pub fn pp_frame(frame_in: &Mat, pallet: imgproc::ColormapTypes, visual_mode: Vis
         imgproc::adaptive_threshold(&frame_in, &mut frame, 255.0, imgproc::AdaptiveThresholdTypes::ADAPTIVE_THRESH_GAUSSIAN_C.into(), imgproc::ThresholdTypes::THRESH_BINARY.into(), 11, 2.0);
     }
     else {
-        frame = *frame_in;
+        frame = &mut frame_in;
     }
     //let fps: String = (1.0 / (now.elapsed().ok().as_milis() as f64)/1000).to_string();
     //println!("{}", fps);
