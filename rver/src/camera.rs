@@ -16,7 +16,7 @@ pub fn pp_frame(frame_in: &Mat, pallet: imgproc::ColormapTypes, visual_mode: Vis
     let mut frame: Mat = Mat::default();
     let now = SystemTime::now();
 
-    if (visual_mode == VisMode::VIS_OUTLINE) {
+    if ( true ) {// visual_mode == VisMode::VIS_OUTLINE) {
         imgproc::gaussian_blur(&frame_in, &mut frame_i, core::Size{width: 5, height: 5}, 1.0, 1.0, 4);
         imgproc::canny(&frame_i, &mut frame, 100.0, 200.0, 3, false);
     
